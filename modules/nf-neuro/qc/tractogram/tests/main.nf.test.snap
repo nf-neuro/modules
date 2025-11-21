@@ -1,0 +1,63 @@
+{
+    "qc - tractogram - stub-run": {
+        "content": [
+            [
+                "versions.yml:md5,54c57ab17954f1f7f7c7b98ba8c1f5a9"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-21T21:06:06.644825844"
+    },
+    "qc - tractogram": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test_false__tractogram_mask.nii.gz:md5,4ce57fee196997a972d5c33202eeb74f"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test_false__TDI.nii.gz:md5,f4d9df11957de7b4b77314e07e08afa2"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test_false__dice.txt:md5,e6ee3e6eb91feb775fa0cec3a3715c75"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test",
+                        "single_end": false
+                    },
+                    "test_false__sc.txt:md5,dc815a1f602788e79d9e5dbcc15b05fc"
+                ]
+            ],
+            "test_false__coverage_overlay_mqc.png",
+            [
+                "versions.yml:md5,54c57ab17954f1f7f7c7b98ba8c1f5a9"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-21T21:05:48.486071553"
+    }
+}

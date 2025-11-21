@@ -1,0 +1,141 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-neuro/modules/main/modules/meta-schema.json
+name: qc_tractogram
+description: Extract a couple of QC metric based on a tractogram.
+  - Compute DICE score between the tractogram density mask and WM mask.
+  - Calculate the total number of streamlines from a tractogram.
+  - Produce a QC figure showing the tractogram density image and GM mask.
+keywords:
+  - tractogram
+  - qc
+  - dice
+tools:
+  - scilpy:
+      description: The Sherbrooke Connectivity Imaging Lab (SCIL) Python dMRI
+        processing toolbox.
+      homepage: https://github.com/scilus/scilpy.git
+      identifier: ""
+args:
+  - sh_basis:
+      type: string
+      description: Spherical harmonics basis to use for FODF fitting.
+      default: false
+  - sphere:
+      type: string
+      description: Sphere used for the angular discretization.
+      default: "repulsion724"
+  - sh_order:
+      type: integer
+      description: Spherical harmonics order to use for FODF fitting.
+      default: 8
+  - normalize_per_voxel:
+      type: boolean
+      description: If set, normalize each SF/SH at each voxel.
+      default: false
+  - smooth_todi:
+      type: boolean
+      description: If set, smooth TODI (angular and spatial).
+      default: false
+  - asymmetric:
+      type: boolean
+      description: If set, compute asymmetric TODI. Cannot be used with
+        --smooth_todi.Total readout time from the DICOM metadata.
+      default: false
+  - n_steps:
+      type: integer
+      description: Number of steps for streamline segments subdivision prior to
+        binning.
+      default: 1
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - tractogram:
+        type: file
+        description: Tractogram file in .trk format.
+        pattern: "*.{trk}"
+        ontologies: []
+    - wm:
+        type: file
+        description: White matter mask in NIfTI format.
+        pattern: "*.nii.gz"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI
+    - gm:
+        type: file
+        description: Gray matter mask in NIfTI format.
+        pattern: "*.nii.gz"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI
+output:
+  tractogram_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__tractogram_mask.nii.gz":
+          type: file
+          description: Nifti volume - Tractogram mask.
+          pattern: "*__tractogram_mask.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_3989 # GZIP format
+  TDI:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__TDI.nii.gz":
+          type: file
+          description: Track Density Image (TDI) volume.
+          pattern: "*__TDI.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_3989 # GZIP format
+  dice:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__dice.txt":
+          type: file
+          description: Dice score between tractogram mask and white matter mask.
+          pattern: "*__dice.txt"
+          ontologies: []
+  sc:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__sc.txt":
+          type: file
+          description: Streamline count.
+          pattern: "*__sc.txt"
+          ontologies: []
+  mqc:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__coverage_overlay_mqc.png":
+          type: file
+          description: |
+            .png file containing quality control image for the tractogram coverage
+            overlay. Made for use in MultiQC report.
+          pattern: "*__coverage_overlay_mqc.png"
+          ontologies:
+            - edam: http://edamontology.org/format_3989 # GZIP format
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@gagnonanthony"
+  - "@arnaudbore"

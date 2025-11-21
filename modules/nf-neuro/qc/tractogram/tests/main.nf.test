@@ -1,0 +1,81 @@
+nextflow_process {
+
+    name "Test Process QC_TRACTOGRAM"
+    script "../main.nf"
+    process "QC_TRACTOGRAM"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "qc"
+    tag "qc/tractogram"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    config "./nextflow.config"
+
+    setup {
+            run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+                script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+                process {
+                    """
+                    input[0] = Channel.from( [ "tracking.zip" ] )
+                    input[1] = "test.load-test-data"
+                    """
+                }
+            }
+        }
+
+    test("qc - tractogram") {
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory
+                    .map{ test_data_directory -> [
+                    [ id:'test', single_end:false ], // meta map
+                    file("\${test_data_directory}/local.trk", checkIfExists: true),
+                    file("\${test_data_directory}/seeding_mask.nii.gz", checkIfExists: true),
+                    file("\${test_data_directory}/interface.nii.gz", checkIfExists: true)
+                    ]}
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out.tractogram_mask,
+                    process.out.TDI,
+                    process.out.dice,
+                    process.out.sc,
+                    file(process.out.mqc.get(0).get(1)).name,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("qc - tractogram - stub-run") {
+        tag "stub"
+        options "-stub-run"
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory
+                    .map{ test_data_directory -> [
+                    [ id:'test', single_end:false ], // meta map
+                    file("\${test_data_directory}/local.trk", checkIfExists: true),
+                    file("\${test_data_directory}/seeding_mask.nii.gz", checkIfExists: true),
+                    file("\${test_data_directory}/interface.nii.gz", checkIfExists: true)
+                    ]}
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.versions).match() }
+            )
+        }
+    }
+}

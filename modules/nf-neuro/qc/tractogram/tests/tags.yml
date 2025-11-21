@@ -1,0 +1,2 @@
+preproc/gibbs:
+  - "modules/nf-neuro/qc/tractogram/**"
