@@ -1,0 +1,107 @@
+nextflow_process {
+
+    name "Test Process HARMONIZATION_CLINICALCOMBAT"
+    script "../main.nf"
+    process "HARMONIZATION_CLINICALCOMBAT"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "harmonization"
+    tag "harmonization/clinicalcombat"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    setup {
+            run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+                script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+                process {
+                    """
+                    input[0] = Channel.from( [ "harmonization.zip" ] )
+                    input[1] = "test.load-test-data"
+                    """
+                }
+            }
+        }
+
+    test("harmonization - clinicalcombat_pairwise") {
+        config "./nextflow_pairwise.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        data: it.simpleName == "harmonization"
+                    }
+                input[0] = ch_split_test_data.data.map{
+                    test_data_directory -> [
+                        file("\${test_data_directory}/CamCAN.md.raw.csv.gz"),
+                        file("\${test_data_directory}/ShamCamCAN.md.raw.csv.gz")
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("harmonization - clinicalcombat_clinic") {
+        config "./nextflow_clinic.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        data: it.simpleName == "harmonization"
+                    }
+                input[0] = ch_split_test_data.data.map{
+                    test_data_directory -> [
+                        file("\${test_data_directory}/CamCAN.md.raw.csv.gz"),
+                        file("\${test_data_directory}/ShamCamCAN.md.raw.csv.gz")
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("harmonization - stub-un clinicalcombat") {
+        tag "stub"
+        options "-stub-run"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        data: it.simpleName == "harmonization"
+                    }
+                input[0] = ch_split_test_data.data.map{
+                    test_data_directory -> [
+                        file("\${test_data_directory}/CamCAN.md.raw.csv.gz"),
+                        file("\${test_data_directory}/ShamCamCAN.md.raw.csv.gz")
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.version).match() }
+
+            )
+        }
+    }
+}

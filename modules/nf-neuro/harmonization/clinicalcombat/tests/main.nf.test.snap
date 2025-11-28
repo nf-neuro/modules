@@ -1,0 +1,120 @@
+{
+    "harmonization - clinicalcombat_pairwise": {
+        "content": [
+            {
+                "0": [
+                    "ShamCamCAN-CamCAN.md.pairwise.model.csv:md5,da0493dbd954f38c24360f7879f5ee3c"
+                ],
+                "1": [
+                    "ShamCamCAN.md.pairwise.harmonized.csv.gz:md5,21c7dbaac9acbedf5ac99cfc6499fab2"
+                ],
+                "2": [
+                    [
+                        "ShamCamCAN.md.pairwise.harmonized.bhattacharrya.txt:md5,f68066851bcec341da86852648c83c67",
+                        "ShamCamCAN.md.raw.bhattacharrya.txt:md5,bd9831bc828c6c78ffa6c46c7194e305"
+                    ]
+                ],
+                "3": [
+                    [
+                        "AgeCurve_CamCAN-ShamCamCAN_pairwise_harmonized_md_mniAFL.png:md5,5c698207c2b9e7558761943f76583af4",
+                        "AgeCurve_CamCAN-ShamCamCAN_raw_md_mniAFL.png:md5,c1165a83589c818044f4501e75b99212",
+                        "DataModels_CamCAN-ShamCamCAN_pairwise_harmonized_md_mniAFL.png:md5,05b26787166ea5c23c99d193e9622333"
+                    ]
+                ],
+                "4": [
+                    "versions.yml:md5,cbfeb7dd29c3ed4d900aeb0cff66b8c0"
+                ],
+                "bdqc": [
+                    [
+                        "ShamCamCAN.md.pairwise.harmonized.bhattacharrya.txt:md5,f68066851bcec341da86852648c83c67",
+                        "ShamCamCAN.md.raw.bhattacharrya.txt:md5,bd9831bc828c6c78ffa6c46c7194e305"
+                    ]
+                ],
+                "figures": [
+                    [
+                        "AgeCurve_CamCAN-ShamCamCAN_pairwise_harmonized_md_mniAFL.png:md5,5c698207c2b9e7558761943f76583af4",
+                        "AgeCurve_CamCAN-ShamCamCAN_raw_md_mniAFL.png:md5,c1165a83589c818044f4501e75b99212",
+                        "DataModels_CamCAN-ShamCamCAN_pairwise_harmonized_md_mniAFL.png:md5,05b26787166ea5c23c99d193e9622333"
+                    ]
+                ],
+                "harmonizedsite": [
+                    "ShamCamCAN.md.pairwise.harmonized.csv.gz:md5,21c7dbaac9acbedf5ac99cfc6499fab2"
+                ],
+                "model": [
+                    "ShamCamCAN-CamCAN.md.pairwise.model.csv:md5,da0493dbd954f38c24360f7879f5ee3c"
+                ],
+                "versions": [
+                    "versions.yml:md5,cbfeb7dd29c3ed4d900aeb0cff66b8c0"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-25T20:27:23.551006117"
+    },
+    "harmonization - stub-un clinicalcombat": {
+        "content": null,
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-25T14:04:23.531459594"
+    },
+    "harmonization - clinicalcombat_clinic": {
+        "content": [
+            {
+                "0": [
+                    "ShamCamCAN-CamCAN.md.clinic.model.csv:md5,3fc2648056caf76ea9201aa16e918232"
+                ],
+                "1": [
+                    "ShamCamCAN.md.clinic.harmonized.csv.gz:md5,739b1b8b25265d2245fe5c9419a41ce2"
+                ],
+                "2": [
+                    [
+                        "ShamCamCAN.md.clinic.harmonized.bhattacharrya.txt:md5,fc107f08f85c158d919fe1444f3db6a4",
+                        "ShamCamCAN.md.raw.bhattacharrya.txt:md5,c1ad725d12aa6cd0f3f4e1f358d7b5b4"
+                    ]
+                ],
+                "3": [
+                    [
+                        "AgeCurve_CamCAN-ShamCamCAN_clinic_harmonized_md_mniAFL.png:md5,1fb8548942950fed5b590be74a0c8195",
+                        "AgeCurve_CamCAN-ShamCamCAN_raw_md_mniAFL.png:md5,c1165a83589c818044f4501e75b99212",
+                        "DataModels_CamCAN-ShamCamCAN_clinic_harmonized_md_mniAFL.png:md5,a57f04cf228003c18a960f475fa37cbc"
+                    ]
+                ],
+                "4": [
+                    "versions.yml:md5,cbfeb7dd29c3ed4d900aeb0cff66b8c0"
+                ],
+                "bdqc": [
+                    [
+                        "ShamCamCAN.md.clinic.harmonized.bhattacharrya.txt:md5,fc107f08f85c158d919fe1444f3db6a4",
+                        "ShamCamCAN.md.raw.bhattacharrya.txt:md5,c1ad725d12aa6cd0f3f4e1f358d7b5b4"
+                    ]
+                ],
+                "figures": [
+                    [
+                        "AgeCurve_CamCAN-ShamCamCAN_clinic_harmonized_md_mniAFL.png:md5,1fb8548942950fed5b590be74a0c8195",
+                        "AgeCurve_CamCAN-ShamCamCAN_raw_md_mniAFL.png:md5,c1165a83589c818044f4501e75b99212",
+                        "DataModels_CamCAN-ShamCamCAN_clinic_harmonized_md_mniAFL.png:md5,a57f04cf228003c18a960f475fa37cbc"
+                    ]
+                ],
+                "harmonizedsite": [
+                    "ShamCamCAN.md.clinic.harmonized.csv.gz:md5,739b1b8b25265d2245fe5c9419a41ce2"
+                ],
+                "model": [
+                    "ShamCamCAN-CamCAN.md.clinic.model.csv:md5,3fc2648056caf76ea9201aa16e918232"
+                ],
+                "versions": [
+                    "versions.yml:md5,cbfeb7dd29c3ed4d900aeb0cff66b8c0"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-11-25T20:28:11.66804382"
+    }
+}
