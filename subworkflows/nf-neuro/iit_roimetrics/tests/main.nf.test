@@ -1,0 +1,69 @@
+nextflow_workflow {
+
+    name "Test Subworkflow IIT_ROIMETRICS"
+    script "../main.nf"
+    workflow "IIT_ROIMETRICS"
+
+    config "../nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_nfneuro"
+    tag "subworkflows/atlas_iit"
+    tag "subworkflows/iit_roimetrics"
+
+    tag "stats/metricsinroi"
+    tag "registration/ants"
+    tag "registration/antsapplytransform"
+
+    tag "stub"
+    options "-stub-run"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../load_test_data/main.nf"
+            process {
+                """
+                input[0] = Channel.from( [ "processing.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("iit_roimetrics - process") {
+        when {
+            config "../nextflow.config"
+
+            workflow {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+
+                input[0] = ch_split_test_data
+                    .map{ test_data_directory -> [
+                    [ id:'test', single_end:false ], // meta map
+                    file("\${test_data_directory}/b0.nii.gz")
+                    ]}
+                input[1] = ch_split_test_data
+                    .map{ test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/fa.nii.gz"),
+                        file("\${test_data_directory}/ad.nii.gz"),
+                        file("\${test_data_directory}/rd.nii.gz"),
+                        file("\${test_data_directory}/md.nii.gz")
+                    ]}
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    workflow.out.json,
+                    workflow.out.tab_mean,
+                    workflow.out.tab_std,
+                    workflow.out.versions).match() }
+            )
+        }
+    }
+}

@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "iit_roimetrics"
+description: |
+  This subworkflow will compute the mean and standard deviation of each provided metric map
+  for each bundle mask of the IIT WM atlas. The subworkflow takes as input the b0 image from
+  each subject. The mean B0 from the IIT is registered to the subject's DWI space using their
+  respective B0 as a reference image. The transformation is then applied on the bundle masks
+  for each subject, allowing us to have the bundle masks in the same space as the input metric
+  images (i.e. in the subject's DWI space).
+
+  The bundle masks are genrated from the track density images (TDI) provided by the authors of the atlas,
+  based on the recommended thresholds as found [here](https://www.nitrc.org/frs/download.php/12417/IIT_Atlas_v.5.0_MANUAL.pdf).
+  The Mean B0 maps as well as the bundle density maps used are in 182x218x182 matrix size.
+  The Atlas is in the MNI152NLin6Asym template space (1mm resolution).
+keywords:
+  - atlas
+  - iit
+  - neuroimaging
+  - bundles
+  - template
+components:
+  - atlas_iit
+  - registration/ants
+  - registration/antsapplytransform
+  - stats/metricsinroi
+args:
+  - atlas_iit_b0:
+      type: string
+      description: |
+        Path to a Mean B0 map of the IIT Human Brain Atlas.
+        If provided, this input will be used instead of downloading the Mean B0 map.
+        Structure: path(img)
+      mandatory: false
+      default: null
+  - atlas_iit_bundle_masks_dir:
+      type: string
+      description: |
+        Path to a directory containing IIT bundle masks.
+        If provided, these inputs will be used instead of downloading and processing the bundle masks.
+      Structure: path(dir)
+      mandatory: false
+      default: null
+input:
+  - ch_b0:
+      type: file
+      description: |
+        B0 map from each subject in the subject's DWI space.
+        Structure: [ val(meta), path(b0) ]
+      pattern: "*.nii.gz"
+      ontologies:
+        - edam: http://edamontology.org/format_4001 # NIFTI format
+  - ch_metrics:
+      type: file
+      description: |
+        List of metric maps for each subject in the subject's DWI space.
+        Structure: [ val(meta), [ path(metric1), path(metric2), ... ] ]
+      pattern: "*.nii.gz"
+      ontologies:
+        - edam: http://edamontology.org/format_4001 # NIFTI format
+output:
+  - json:
+      type: file
+      description: |
+        List of IIT binary bundle masks.
+        Structure: [ path(img), path(img), ... ]
+      pattern: "*.nii.gz"
+      ontologies:
+        - edam: http://edamontology.org/format_4001 # NIFTI format
+  - tab_mean:
+      type: file
+      description: |
+        Structured tabular (TSV or CSV) file holding MEAN metrics
+        values for each IIT bundle. The tabular file has the following
+        column structure: (sample, roi, metric1, metric2, ..., metricN).
+        Structure: [ val(meta), path(tab_mean) ]
+      pattern: "*_desc-mean_*.{csv,tsv}"
+      ontologies: []
+  - tab_std:
+      type: file
+      description: |
+        Structured tabular (TSV or CSV) file holding STANDARD
+        DEVIATION metrics values for each IIT bundle. The
+        tabular file has the following column structure:
+        (sample, roi, metric1, metric2, ..., metricN).
+        Structure: [ val(meta), path(tab_std) ]
+      pattern: "*_desc-std_*.{csv,tsv}"
+      ontologies: []
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+authors:
+  - "@levje"
+maintainers:
+  - "@levje"

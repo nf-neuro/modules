@@ -1,0 +1,2 @@
+subworkflows/iit_roimetrics:
+  - subworkflows/nf-neuro/iit_roimetrics/**
