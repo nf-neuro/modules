@@ -69,6 +69,27 @@ input:
         type: float
         description: Maximum perpendicular diffusivity value (diff prior).
         mandatory: false
+
+args:
+  - para_diff:
+      type: float
+      description: Axial diffusivity (AD) in the CC.
+  - iso_diff:
+      type: float
+      description: Mean diffusivity (MD) in ventricles.
+  - perp_diff_min:
+      type: float
+      description: Radial diffusivity (RD) minimum.
+  - perp_diff_max:
+      type: float
+      description: Radial diffusivity (RD) maximum.
+  - fw_lambda1:
+      type: float
+      description: First regularization parameter for freewater fitting.
+  - fw_lambda2:
+      type: float
+      description: Second regularization parameter for freewater fitting.
+
 output:
   dwi_fw_corrected:
     - - meta:
@@ -142,5 +163,6 @@ output:
         pattern: versions.yml
         ontologies:
           - edam: http://edamontology.org/format_3750 # YAML
+
 authors:
   - "@karanphil"

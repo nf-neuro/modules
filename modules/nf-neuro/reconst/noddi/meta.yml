@@ -60,6 +60,28 @@ input:
         type: float
         description: Isotropic diffusivity value (diff prior).
         mandatory: false
+args:
+  - para_diff:
+      type: float
+      description: Axial diffusivity (AD) in the CC.
+  - iso_diff:
+      type: float
+      description: Mean diffusivity (MD) in ventricles.
+  - noddi_lambda1:
+      type: float
+      description: First regularization parameter for NODDI fitting.
+  - noddi_lambda2:
+      type: float
+      description: Second regularization parameter for NODDI fitting.
+  - nb_threads:
+      type: integer
+      description: Number of threads to use.
+  - b_thr:
+      type: float
+      description: Minimum b-value threshold to consider a diffusion-weighted volume.
+  - compute_only:
+      type: boolean
+      description: Whether to only compute the fitting without saving outputs.
 
 output:
   dir:
