@@ -73,8 +73,8 @@ process STATS_METRICSINROI {
             .value |= with_entries(
                 if (.key | test("_desc-[a-zA-Z0-9]+")) then
                     (.key | capture("_desc-(?<desc>[a-zA-Z0-9]+)").desc) as \$d |
-                    .value.extracted_desc = \$d |
-                    .key |= sub("_desc-[a-zA-Z0-9]+"; "")
+                    .key |= sub("_desc-[a-zA-Z0-9]+"; "") |
+                    .key |= if \$d == "fwc" then . + "t" else . + "_" + \$d end
                 else
                     .
                 end
