@@ -261,7 +261,7 @@ workflow TRACTOFLOW {
         // MODULE: Run TRACKING/PFTTRACKING
         //
         ch_pft_tracking = Channel.empty()
-        if ( params.run_pft ) {
+        if ( params.run_pft_tracking ) {
             ch_input_pft_tracking = ANATOMICAL_SEGMENTATION.out.wm_mask
                 .join(ANATOMICAL_SEGMENTATION.out.gm_mask)
                 .join(ANATOMICAL_SEGMENTATION.out.csf_mask)

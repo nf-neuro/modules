@@ -262,7 +262,7 @@ args:
       type: boolean
       description: Use Q-Ball model for tractography instead of fODFs.
       default: false
-  - run_pft:
+  - run_pft_tracking:
       type: boolean
       description: Enable Particle Filtering Tractography.
       default: true
