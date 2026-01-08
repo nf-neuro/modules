@@ -1,0 +1,195 @@
+nextflow_process {
+
+    name "Test Process REGISTRATION_ANTS"
+    script "../main.nf"
+    process "REGISTRATION_ANTS"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "registration"
+    tag "registration/ants"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    setup {
+            run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+                script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+                process {
+                    """
+                    input[0] = Channel.from( [ "T1w.zip", "others.zip" ] )
+                    input[1] = "test.load-test-data"
+                    """
+                }
+            }
+        }
+
+    test("registration - ants - SyN") {
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        T1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                ch_T1w = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_moving = ch_split_test_data.moving.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/t1.nii.gz")
+                    ]
+                }
+                ch_T1w_mask = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
+                input[0] = ch_T1w
+                    .join(ch_moving)
+                    .join(ch_T1w_mask)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - ants - SyN quick") {
+        config "./nextflow_quick.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        T1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                ch_T1w = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_moving = ch_split_test_data.moving.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/t1.nii.gz")
+                    ]
+                }
+                ch_T1w_mask = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
+                input[0] = ch_T1w
+                    .join(ch_moving)
+                    .join(ch_T1w_mask)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - ants - no warps") {
+        config "./nextflow_no_warp.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        T1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                ch_T1w = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_moving = ch_split_test_data.moving.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/t1.nii.gz")
+                    ]
+                }
+                ch_T1w_mask = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
+                input[0] = ch_T1w
+                    .join(ch_moving)
+                    .join(ch_T1w_mask)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - ants - stub") {
+        tag "stub"
+        options "-stub-run"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        T1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                ch_T1w = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_moving = ch_split_test_data.moving.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/t1.nii.gz")
+                    ]
+                }
+                ch_T1w_mask = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
+                input[0] = ch_T1w
+                    .join(ch_moving)
+                    .join(ch_T1w_mask)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.versions).match() }
+            )
+        }
+    }
+}

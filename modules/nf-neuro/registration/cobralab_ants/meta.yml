@@ -1,0 +1,271 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-neuro/modules/main/modules/meta-schema.json
+name: "registration_ants"
+description: |
+  Image registration with antsRegistration_affine_SyN.sh.
+
+  Defaults: 3D images and multi-stage registration (rigid + similarity + affine + deformable)
+
+  Main features:
+  (1) Supports multiple transformation types (see `transform` argument).
+  (2) Supports initial transformations (see `initial_transform` argument).
+  (3) Automatic creation of backward (inverse) transformations matrices.
+  (4) Curated combined output transformations for REGISTRATION_ANTSAPPLYTRANSFORMS and REGISTRATION_TRANSFORMTRACTOGRAM
+      processes : `forward_image_transform`, `forward_tractogram_transform`, and their `backward` versions.
+  (5) Quality control (QC) image generation for MultiQC reports.
+keywords:
+  - nifti
+  - registration
+  - antsRegistrationSyN
+  - antsRegistrationSyNQuick
+  - antsRegistration_affine_SyN
+tools:
+  - ANTs:
+      description: "Advanced Normalization Tools."
+      homepage: "https://github.com/ANTsX/ANTs"
+      documentation: "http://stnava.github.io/ANTsDoc/"
+      doi: "10.1038/s41598-021-87564-6"
+  - ImageMagick:
+      description: "ImageMagick is a software suite to create, edit, compose, or convert bitmap images."
+      homepage: "https://imagemagick.org/"
+      documentation: "https://imagemagick.org/script/command-line-processing.php"
+  - MRtrix3:
+      description: "MRtrix3 is a software package for processing diffusion MRI data."
+      homepage: "https://www.mrtrix3.org/"
+      documentation: "https://mrtrix.readthedocs.io/en/latest/"
+      doi: "10.1016/j.neuroimage.2019.116137"
+  - Scilpy:
+      description: "Scilpy is a Python library for processing diffusion MRI data."
+      homepage: "https://github.com/scilus/scilpy"
+      documentation: "https://scilpy.readthedocs.io/en/latest/"
+args:
+  - fast:
+      type: boolean
+      description: "Use Mattes for deformation registration stages"
+      default: false
+  - histogram_matching:
+      type: boolean
+      description: "Perform histogram matching between images before registration."
+      default: false
+  - transform:
+      type: string
+      description: |
+        Type of transformation to perform :
+          - r  : rigid (1 stage)
+          - a  : rigid + affine (2 stages)
+          - s  : rigid + affine + deformable syn (3 stages)
+          - sr : rigid + deformable syn (2 stages)
+          - so : deformable syn only (1 stage)
+      default: "s"
+      choices:
+        - r
+        - a
+        - s
+        - sr
+        - so
+  - initial_transform:
+      type: string
+      description: Algorithmic initialization by geometric center, intensities, or origin or nothing
+      default: ""
+      choices:
+        - com-masks
+        - com
+        - cov
+        - origin
+        - none
+  - gradient_step:
+      type: float
+      description: "Gradient step size for the optimization of SyN and B-spline SyN."
+      default: 0.1
+  - histogram_bins:
+      type: int
+      description: "Number of histogram bins when using the Mutual Information metric with SyN and B-spline SyN."
+      default: 32
+  - run_qc:
+      type: boolean
+      description: "Run quality control (QC) to generate a MultiQC report."
+      default: false
+  - suffix_qc:
+      type: string
+      description: "Suffix for the QC image file."
+      default: ""
+  - precision:
+      type: string
+      description: "Precision of the output image."
+      default: "float"
+      choices:
+        - float
+        - double
+  - collapse_output:
+      type: boolean
+      description: "Collapse output transformations into a single file."
+      default: false
+  - random_seed:
+      type: int
+      description: "Random seed for reproducibility."
+      default: 1234
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - fixed_image:
+        type: file
+        description: Fixed image(s) or source image(s) or reference image(s)
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - moving_image:
+        type: file
+        description: Moving image(s) or target image(s)
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - mask:
+        type: file
+        description: Mask(s) for the fixed image space
+        pattern: "*.{nii,nii.gz}"
+        mandatory: false
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+output:
+  image_warped:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_warped.nii.gz":
+          type: file
+          description: Nifti volume after registration.
+          pattern: "*_warped.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_3989 # GZIP format
+  forward_affine:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_forward1_affine.mat":
+          type: file
+          description: Affine transformation from moving to fixed
+          pattern: "*_forward1_affine.mat"
+          mandatory: false
+          ontologies: []
+  forward_warp:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_forward0_warp.nii.gz":
+          type: file
+          description: Nifti volume containing warp field from moving to fixed
+          pattern: "*_forward0_warp.nii.gz"
+          mandatory: false
+          ontologies:
+            - edam: http://edamontology.org/format_3989 # GZIP format
+  backward_warp:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_backward1_warp.nii.gz":
+          type: file
+          description: Nifti volume containing warp field from fixed to moving
+          pattern: "*_backward1_warp.nii.gz"
+          mandatory: false
+          ontologies:
+            - edam: http://edamontology.org/format_3989 # GZIP format
+  backward_affine:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_backward0_affine.mat":
+          type: file
+          description: Affine transformation from fixed to moving
+          pattern: "*_backward0_affine.mat"
+          mandatory: false
+          ontologies: []
+  forward_image_transform:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_forward*.{nii.gz,mat}":
+          type: list
+          description: |
+            Tuple, Transformation files to warp images in fixed space, in the correct order
+            for REGISTRATION_TRANSFORMTRACTOGRAM : [ meta, [ forward_warp, forward_affine ] ].
+          pattern: "*_forward*.{nii.gz,mat}"
+          ontologies: []
+  backward_image_transform:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_backward*.{nii.gz,mat}":
+          type: list
+          description: |
+            Tuple, transformation files to warp images in moving space, in the correct order
+            for REGISTRATION_TRANSFORMTRACTOGRAM : [ meta, [ backward_affine, backward_warp ] ].
+          pattern: "*_backward*.{nii.gz,mat}"
+          ontologies: []
+  forward_tractogram_transform:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_backward*.{nii.gz,mat}":
+          type: list
+          description: |
+            Tuple, transformation files to warp tractograms into fixed space, in the correct order
+            for REGISTRATION_TRANSFORMTRACTOGRAM : [ meta, [ backward_affine, backward_warp ] ].
+          pattern: "*_backward*.{nii.gz,mat}"
+          ontologies: []
+  backward_tractogram_transform:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_forward*.{nii.gz,mat}":
+          type: list
+          description: |
+            Tuple, transformation files to warp tractograms into moving space, in the correct order
+            for REGISTRATION_TRANSFORMTRACTOGRAM : [ meta, [ forward_affine, forward_warp ] ].
+          pattern: "*_forward*.{nii.gz,mat}"
+          ontologies: []
+  mqc:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_registration_ants_mqc.gif":
+          type: file
+          description: .gif file containing quality control image for the registration
+            process. Made for use in MultiQC report.
+          pattern: "*_registration_ants_mqc.gif"
+          mandatory: false
+          ontologies: []
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@ThoumyreStanislas"
+  - "@AlexVCaron"
