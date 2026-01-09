@@ -17,12 +17,12 @@ workflow TOPUP_EDDY {
         ch_config_topup // channel: [ 'topup.cnf' ], optional
 
     main:
-        ch_versions = Channel.empty()
-        ch_multiqc_files = Channel.empty()
+        ch_versions = channel.empty()
+        ch_multiqc_files = channel.empty()
 
-        ch_topup_fieldcoeff = Channel.empty()
-        ch_topup_movpart = Channel.empty()
-        ch_b0_corrected = Channel.empty()
+        ch_topup_fieldcoeff = channel.empty()
+        ch_topup_movpart = channel.empty()
+        ch_b0_corrected = channel.empty()
         if (params.topup_eddy_run_topup) {
             // ** Create channel for TOPUP ** //
             // Result : [ meta, dwi, bval, bvec, b0 | [], rev-dwi | [], rev-bval | [], rev-bvec | [], rev-b0 | [] ]

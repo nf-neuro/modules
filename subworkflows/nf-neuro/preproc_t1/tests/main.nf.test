@@ -25,7 +25,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "antsbet.zip" , "T1w.zip" ] )
+                input[0] = channel.from( [ "antsbet.zip" , "T1w.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -47,13 +47,13 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]}
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
-                input[7] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
                 """
             }
         }
@@ -88,11 +88,11 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/t1_brain_probability_map.nii.gz"),
                     ]}
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
-                input[7] = Channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
                 """
             }
         }
@@ -137,13 +137,13 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]}
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
-                input[7] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
                 """
             }
         }
@@ -188,13 +188,13 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]}
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
-                input[7] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
                 """
             }
         }
@@ -242,13 +242,13 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]}
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
-                input[7] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
                 """
             }
         }

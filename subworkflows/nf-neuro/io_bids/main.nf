@@ -9,7 +9,7 @@ workflow IO_BIDS {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     // ** Sanity check to ensure channels are single-item ** //
     bids_folder.collect().map { folders ->

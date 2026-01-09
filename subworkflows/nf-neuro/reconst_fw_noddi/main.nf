@@ -13,7 +13,7 @@ workflow RECONST_FW_NODDI {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     // Make sure that at least one of the two reconstructions is requested
     if (!params.run_noddi && !params.run_freewater) {
@@ -227,32 +227,32 @@ workflow RECONST_FW_NODDI {
 
     emit:
     // NODDI
-    noddi_dir           = params.run_noddi ? RECONST_NODDI.out.dir : Channel.empty()
-    noddi_isovf         = params.run_noddi ? RECONST_NODDI.out.isovf : Channel.empty()
-    noddi_icvf          = params.run_noddi ? RECONST_NODDI.out.icvf : Channel.empty()
-    noddi_ecvf          = params.run_noddi ? RECONST_NODDI.out.ecvf : Channel.empty()
-    noddi_odi           = params.run_noddi ? RECONST_NODDI.out.odi : Channel.empty()
+    noddi_dir           = params.run_noddi ? RECONST_NODDI.out.dir : channel.empty()
+    noddi_isovf         = params.run_noddi ? RECONST_NODDI.out.isovf : channel.empty()
+    noddi_icvf          = params.run_noddi ? RECONST_NODDI.out.icvf : channel.empty()
+    noddi_ecvf          = params.run_noddi ? RECONST_NODDI.out.ecvf : channel.empty()
+    noddi_odi           = params.run_noddi ? RECONST_NODDI.out.odi : channel.empty()
 
     // Freewater Elimination
-    fw_dwi              = params.run_freewater ? RECONST_FREEWATER.out.dwi_fw_corrected : Channel.empty()
-    fw_dir              = params.run_freewater ? RECONST_FREEWATER.out.dir : Channel.empty()
-    fw_fibervolume      = params.run_freewater ? RECONST_FREEWATER.out.fibervolume : Channel.empty()
-    fw_fwf              = params.run_freewater ? RECONST_FREEWATER.out.fwf : Channel.empty()
-    fw_nrmse            = params.run_freewater ? RECONST_FREEWATER.out.nrmse : Channel.empty()
+    fw_dwi              = params.run_freewater ? RECONST_FREEWATER.out.dwi_fw_corrected : channel.empty()
+    fw_dir              = params.run_freewater ? RECONST_FREEWATER.out.dir : channel.empty()
+    fw_fibervolume      = params.run_freewater ? RECONST_FREEWATER.out.fibervolume : channel.empty()
+    fw_fwf              = params.run_freewater ? RECONST_FREEWATER.out.fwf : channel.empty()
+    fw_nrmse            = params.run_freewater ? RECONST_FREEWATER.out.nrmse : channel.empty()
 
-    fw_dti_tensor       = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.tensor : Channel.empty()
-    fw_dti_md           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.md : Channel.empty()
-    fw_dti_rd           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.rd : Channel.empty()
-    fw_dti_ad           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.ad : Channel.empty()
-    fw_dti_fa           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.fa : Channel.empty()
-    fw_dti_rgb          = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.rgb : Channel.empty()
-    fw_dti_peaks        = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.evecs_v1 : Channel.empty()
-    fw_dti_evecs        = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.evecs : Channel.empty()
-    fw_dti_evals        = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.evals : Channel.empty()
-    fw_dti_residual     = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.residual : Channel.empty()
-    fw_dti_ga           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.ga : Channel.empty()
-    fw_dti_mode         = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.mode : Channel.empty()
-    fw_dti_norm         = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.norm : Channel.empty()
+    fw_dti_tensor       = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.tensor : channel.empty()
+    fw_dti_md           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.md : channel.empty()
+    fw_dti_rd           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.rd : channel.empty()
+    fw_dti_ad           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.ad : channel.empty()
+    fw_dti_fa           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.fa : channel.empty()
+    fw_dti_rgb          = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.rgb : channel.empty()
+    fw_dti_peaks        = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.evecs_v1 : channel.empty()
+    fw_dti_evecs        = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.evecs : channel.empty()
+    fw_dti_evals        = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.evals : channel.empty()
+    fw_dti_residual     = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.residual : channel.empty()
+    fw_dti_ga           = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.ga : channel.empty()
+    fw_dti_mode         = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.mode : channel.empty()
+    fw_dti_norm         = params.run_freewater ? FW_CORRECTED_DTIMETRICS.out.norm : channel.empty()
 
     versions = ch_versions
 }

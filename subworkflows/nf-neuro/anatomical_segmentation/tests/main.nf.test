@@ -24,7 +24,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "T1w.zip", "freesurfer_nifti.zip", "freesurfer.zip" ] )
+                input[0] = channel.from( [ "T1w.zip", "freesurfer_nifti.zip", "freesurfer.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -47,9 +47,9 @@ nextflow_workflow {
                         file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true)
                     ]
                 }
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
                 """
             }
         }
@@ -95,7 +95,7 @@ nextflow_workflow {
                         freesurfer_nifti: it.simpleName == "freesurfer_nifti"
                         freesurfer: it.simpleName == "freesurfer"
                     }
-                input[0] = Channel.empty()
+                input[0] = channel.empty()
                 input[1] = ch_split_test_data.freesurfer_nifti.map{
                     test_data_directory -> [
                         [ id:'test' ], // meta map
@@ -103,8 +103,8 @@ nextflow_workflow {
                         file("\${test_data_directory}/wmparc.nii.gz", checkIfExists: true)
                     ]
                 }
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
                 """
             }
         }
@@ -160,8 +160,8 @@ nextflow_workflow {
                         file("\${test_data_directory}/wmparc.nii.gz", checkIfExists: true)
                     ]
                 }
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
                 """
             }
         }
@@ -214,8 +214,8 @@ nextflow_workflow {
                         file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true)
                     ]
                 }
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
                 input[3] = ch_split_test_data.freesurfer.map{
                     test_data_directory -> [
                         file("\${test_data_directory}/license.txt", checkIfExists: true)

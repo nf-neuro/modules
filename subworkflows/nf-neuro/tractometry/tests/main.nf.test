@@ -26,7 +26,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "WB-segmentation.zip" , "WB-diffusion.zip" , "WB-tractogram.zip" ] )
+                input[0] = channel.from( [ "WB-segmentation.zip" , "WB-diffusion.zip" , "WB-tractogram.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -64,8 +64,8 @@ nextflow_workflow {
                         file("\${test_data_directory}/dti/md.nii.gz"),
                         file("\${test_data_directory}/dti/rd.nii.gz")]
                     ]}
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
                 """
             }
         }
@@ -103,7 +103,7 @@ nextflow_workflow {
                         [file("\${test_data_directory}/bundles/AF_L.trk"),
                         file("\${test_data_directory}/bundles/AF_R.trk")]
                     ]}
-                input[1] = Channel.empty()
+                input[1] = channel.empty()
                 input[2] = ch_split_test_data.diffusion.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ],
@@ -112,7 +112,7 @@ nextflow_workflow {
                         file("\${test_data_directory}/dti/md.nii.gz"),
                         file("\${test_data_directory}/dti/rd.nii.gz")]
                     ]}
-                input[3] = Channel.empty()
+                input[3] = channel.empty()
                 input[4] = ch_split_test_data.diffusion.map{
                     test_data_directory -> [
                     [ id:'test', single_end:false ],

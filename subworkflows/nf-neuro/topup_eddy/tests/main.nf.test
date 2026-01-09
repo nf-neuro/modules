@@ -25,7 +25,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "topup_eddy_light.zip" ] )
+                input[0] = channel.from( [ "topup_eddy_light.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -49,9 +49,9 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/sub-01_dir-AP_sbref.nii.gz")
                     ]}
-                input[2] = Channel.from( [] )
-                input[3] = Channel.from( [] )
-                input[4] = Channel.from( [] )
+                input[2] = channel.from( [] )
+                input[3] = channel.from( [] )
+                input[4] = channel.from( [] )
                 """
             }
         }
@@ -103,7 +103,7 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/sub-01_dir-PA_sbref.nii.gz")
                     ]}
-                input[4] = Channel.from( [] )
+                input[4] = channel.from( [] )
                 """
             }
         }
@@ -155,7 +155,7 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/sub-01_dir-PA_sbref.nii.gz")
                     ]}
-                input[4] = Channel.from( [] )
+                input[4] = channel.from( [] )
                 """
             }
         }

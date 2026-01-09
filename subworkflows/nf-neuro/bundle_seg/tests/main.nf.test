@@ -22,7 +22,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "tracking.zip", "freesurfer.zip" ] )
+                input[0] = channel.from( [ "tracking.zip", "freesurfer.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -50,7 +50,7 @@ nextflow_workflow {
                         file("\${test_data_directory}/pft.trk")
                     ]
                 }
-                input[2] = Channel.empty()
+                input[2] = channel.empty()
                 """
             }
         }

@@ -25,7 +25,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "tractometry.zip", "freesurfer.zip" ] )
+                input[0] = channel.from( [ "tractometry.zip", "freesurfer.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -55,7 +55,7 @@ nextflow_workflow {
                         ]
                     ]
                 }
-                input[2] = Channel.empty()
+                input[2] = channel.empty()
                 input[3] = ch_split_test_data.tractometry.map{
                     test_data_directory -> [
                         [ id: 'test' ], // meta map
@@ -74,7 +74,7 @@ nextflow_workflow {
                         ]
                     ]
                 }
-                input[5] = Channel.empty()
+                input[5] = channel.empty()
                 """
             }
         }
@@ -138,7 +138,7 @@ nextflow_workflow {
                         ]
                     ]
                 }
-                input[2] = Channel.empty()
+                input[2] = channel.empty()
                 input[3] = ch_split_test_data.tractometry.map{
                     test_data_directory -> [
                         [ id: 'test' ], // meta map
@@ -157,7 +157,7 @@ nextflow_workflow {
                         ]
                     ]
                 }
-                input[5] = Channel.empty()
+                input[5] = channel.empty()
                 """
             }
         }
@@ -221,7 +221,7 @@ nextflow_workflow {
                         ]
                     ]
                 }
-                input[2] = Channel.empty()
+                input[2] = channel.empty()
                 input[3] = ch_split_test_data.tractometry.map{
                     test_data_directory -> [
                         [ id: 'test' ], // meta map

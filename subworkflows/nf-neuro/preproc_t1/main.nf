@@ -21,16 +21,16 @@ workflow PREPROC_T1 {
         ch_ref_resample     // channel: [ val(meta), ref ]              , optional
         ch_weights          // channel: [ val(meta), weights ]          , optional
     main:
-        ch_versions = Channel.empty()
-        image_nlmeans = Channel.empty()
-        image_N4 = Channel.empty()
-        image_resample = Channel.empty()
-        image_bet = Channel.empty()
-        mask_bet = Channel.empty()
-        image_crop = Channel.empty()
-        mask_crop = Channel.empty()
-        bbox = Channel.empty()
-        ch_mask = Channel.empty()
+        ch_versions = channel.empty()
+        image_nlmeans = channel.empty()
+        image_N4 = channel.empty()
+        image_resample = channel.empty()
+        image_bet = channel.empty()
+        mask_bet = channel.empty()
+        image_crop = channel.empty()
+        mask_crop = channel.empty()
+        bbox = channel.empty()
+        ch_mask = channel.empty()
 
         if ( params.preproc_t1_run_denoising ) {
 

@@ -21,7 +21,7 @@ nextflow_process {
                 script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
                 process {
                     """
-                    input[0] = Channel.from( [ "bids.zip" ] )
+                    input[0] = channel.from( [ "bids.zip" ] )
                     input[1] = "test.load-test-data"
                     """
                 }
@@ -59,7 +59,7 @@ nextflow_process {
                 script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
                 process {
                     """
-                    input[0] = Channel.from( [ "bids.zip" ] )
+                    input[0] = channel.from( [ "bids.zip" ] )
                     input[1] = "test.load-test-data"
                     """
                 }

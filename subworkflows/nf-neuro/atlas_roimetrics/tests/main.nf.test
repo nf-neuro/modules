@@ -25,7 +25,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "processing.zip" ] )
+                input[0] = channel.from( [ "processing.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }

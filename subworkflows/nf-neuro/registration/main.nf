@@ -26,8 +26,8 @@ workflow REGISTRATION {
         ch_moving_segmentation          // channel: [ val(meta), segmentation ], optional
         ch_freesurfer_license           // channel: [ license ], optional
     main:
-        ch_versions = Channel.empty()
-        ch_mqc = Channel.empty()
+        ch_versions = channel.empty()
+        ch_mqc = channel.empty()
 
         if ( params.run_easyreg ) {
             // ** Registration using Easyreg ** //
@@ -48,9 +48,9 @@ workflow REGISTRATION {
 
             // ** Set compulsory outputs ** //
             out_image_warped = REGISTRATION_EASYREG.out.image_warped
-            out_forward_affine = Channel.empty()
+            out_forward_affine = channel.empty()
             out_forward_warp = REGISTRATION_EASYREG.out.forward_warp
-            out_backward_affine = Channel.empty()
+            out_backward_affine = channel.empty()
             out_backward_warp = REGISTRATION_EASYREG.out.backward_warp
             out_forward_image_transform = REGISTRATION_EASYREG.out.forward_warp
             out_backward_image_transform = REGISTRATION_EASYREG.out.backward_warp
@@ -147,9 +147,9 @@ workflow REGISTRATION {
             out_forward_tractogram_transform = out_backward_image_transform
             out_backward_tractogram_transform = out_forward_image_transform
             // ** and optional outputs. ** //
-            out_ref_warped = Channel.empty()
-            out_segmentation = Channel.empty()
-            out_ref_segmentation = Channel.empty()
+            out_ref_warped = channel.empty()
+            out_segmentation = channel.empty()
+            out_ref_segmentation = channel.empty()
         }
         else {
             // ** Classic registration using antsRegistration  ** //
@@ -213,9 +213,9 @@ workflow REGISTRATION {
             out_backward_tractogram_transform = out_backward_tractogram_transform.mix(REGISTRATION_ANTS.out.backward_tractogram_transform)
 
             // **and optional outputs **//
-            out_ref_warped = Channel.empty()
-            out_segmentation = Channel.empty()
-            out_ref_segmentation = Channel.empty()
+            out_ref_warped = channel.empty()
+            out_segmentation = channel.empty()
+            out_ref_segmentation = channel.empty()
         }
     emit:
         image_warped                    = out_image_warped                  // channel: [ val(meta), image ]

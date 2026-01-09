@@ -33,7 +33,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "antsbet.zip", "raw_DWIss1000-dir32.zip", "raw_T1w.zip" ] )
+                input[0] = channel.from( [ "antsbet.zip", "raw_DWIss1000-dir32.zip", "raw_T1w.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -69,12 +69,12 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]}
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
-                input[7] = Channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
                 input[8] = ch_split_test_data.template.map{
                     test_data_directory -> [
                         [ id:'test' ],
@@ -85,7 +85,7 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/t1_brain_probability_map.nii.gz")
                     ]}
-                input[10] = Channel.empty()
+                input[10] = channel.empty()
                 """
             }
         }
@@ -139,12 +139,12 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]}
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
-                input[7] = Channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
                 input[8] = ch_split_test_data.template.map{
                     test_data_directory -> [
                         [ id:'test' ],
@@ -155,7 +155,7 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/t1_brain_probability_map.nii.gz")
                     ]}
-                input[10] = Channel.empty()
+                input[10] = channel.empty()
                 """
             }
         }

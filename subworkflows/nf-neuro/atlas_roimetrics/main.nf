@@ -11,8 +11,8 @@ workflow ATLAS_ROIMETRICS {
 
     main:
     ch_versions = channel.empty()
-    ch_bundle_masks = Channel.empty()
-    ch_template_ref = Channel.empty()
+    ch_bundle_masks = channel.empty()
+    ch_template_ref = channel.empty()
 
     assert [options.use_atlas_iit].count(true) <= 1 :
         "Only one atlas can be selected at a time for ROI metrics extraction." +

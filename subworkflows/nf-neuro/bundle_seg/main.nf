@@ -54,14 +54,14 @@ workflow BUNDLE_SEG {
             ch_freesurfer_license.ifEmpty{ error "Synthmorph registration need a Freesurfer License to run." }
         }
 
-        ch_versions = Channel.empty()
-        ch_mqc = Channel.empty()
+        ch_versions = channel.empty()
+        ch_mqc = channel.empty()
 
         // ** Setting up Atlas reference channels. ** //
         if ( params.atlas_directory ) {
-            ch_atlas_anat = Channel.fromPath("$params.atlas_directory/atlas/mni_masked.nii.gz", checkIfExists: true, relative: true)
-            ch_atlas_config = Channel.fromPath("$params.atlas_directory/config/config_fss_1.json", checkIfExists: true, relative: true)
-            ch_atlas_average = Channel.fromPath("$params.atlas_directory/atlas/atlas/", checkIfExists: true, relative: true)
+            ch_atlas_anat = channel.fromPath("$params.atlas_directory/atlas/mni_masked.nii.gz", checkIfExists: true, relative: true)
+            ch_atlas_config = channel.fromPath("$params.atlas_directory/config/config_fss_1.json", checkIfExists: true, relative: true)
+            ch_atlas_average = channel.fromPath("$params.atlas_directory/atlas/atlas/", checkIfExists: true, relative: true)
         }
         else {
             if ( !file("$workflow.workDir/atlas/mni_masked.nii.gz").exists() ) {
@@ -71,9 +71,9 @@ workflow BUNDLE_SEG {
                     "${workflow.workDir}/"
                 )
             }
-            ch_atlas_anat = Channel.fromPath("$workflow.workDir/atlas/mni_masked.nii.gz")
-            ch_atlas_config = Channel.fromPath("$workflow.workDir/config/config_fss_1.json")
-            ch_atlas_average = Channel.fromPath("$workflow.workDir/atlas/atlas/")
+            ch_atlas_anat = channel.fromPath("$workflow.workDir/atlas/mni_masked.nii.gz")
+            ch_atlas_config = channel.fromPath("$workflow.workDir/config/config_fss_1.json")
+            ch_atlas_average = channel.fromPath("$workflow.workDir/atlas/atlas/")
         }
 
         // ** Register the atlas to subject's space. Set up atlas file as moving image ** //
@@ -85,10 +85,10 @@ workflow BUNDLE_SEG {
         REGISTRATION(
             ch_fa,
             ch_atlas_anat,
-            Channel.empty(),
-            Channel.empty(),
-            Channel.empty(),
-            Channel.empty(),
+            channel.empty(),
+            channel.empty(),
+            channel.empty(),
+            channel.empty(),
             ch_freesurfer_license
         )
         ch_versions = ch_versions.mix(REGISTRATION.out.versions.first())

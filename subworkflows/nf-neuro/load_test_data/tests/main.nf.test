@@ -15,7 +15,7 @@ nextflow_workflow {
         when {
             workflow {
                 """
-                input[0] = Channel.from( ["bids_json.zip", "stats.zip"] )
+                input[0] = channel.from( ["bids_json.zip", "stats.zip"] )
                 input[1] = "test.load_test_data"
                 """
             }

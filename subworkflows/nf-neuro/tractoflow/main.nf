@@ -45,9 +45,9 @@ workflow TRACTOFLOW {
         ch_lesion_mask      // channel : [optional] meta, lesion_mask
     main:
 
-        ch_versions = Channel.empty()
-        ch_mqc_files = Channel.empty()
-        ch_global_mqc_files = Channel.empty()
+        ch_versions = channel.empty()
+        ch_mqc_files = channel.empty()
+        ch_global_mqc_files = channel.empty()
 
         /* PREPROCESSING */
 
@@ -71,11 +71,11 @@ workflow TRACTOFLOW {
             ch_t1,
             ch_bet_template,
             ch_bet_probability,
-            Channel.empty(),
-            Channel.empty(),
-            Channel.empty(),
-            Channel.empty(),
-            Channel.empty()
+            channel.empty(),
+            channel.empty(),
+            channel.empty(),
+            channel.empty(),
+            channel.empty()
         )
         ch_versions = ch_versions.mix(PREPROC_T1.out.versions.first())
 
@@ -100,10 +100,10 @@ workflow TRACTOFLOW {
             PREPROC_DWI.out.b0,
             PREPROC_T1.out.t1_final,
             RECONST_DTIMETRICS.out.fa,
-            Channel.empty(),
-            Channel.empty(),
-            Channel.empty(),
-            Channel.empty()
+            channel.empty(),
+            channel.empty(),
+            channel.empty(),
+            channel.empty()
         )
         ch_versions = ch_versions.mix(T1_REGISTRATION.out.versions.first())
         ch_mqc_files = ch_mqc_files.mix(T1_REGISTRATION.out.mqc)
@@ -150,7 +150,7 @@ workflow TRACTOFLOW {
             TRANSFORM_WMPARC.out.warped_image
                 .join(TRANSFORM_APARC_ASEG.out.warped_image),
             TRANSFORM_LESION_MASK.out.warped_image,
-            Channel.empty()
+            channel.empty()
         )
         ch_versions = ch_versions.mix(ANATOMICAL_SEGMENTATION.out.versions.first())
         ch_global_mqc_files = ch_global_mqc_files.mix(ANATOMICAL_SEGMENTATION.out.qc_score)
@@ -229,12 +229,12 @@ workflow TRACTOFLOW {
         //
         // MODULE: Run RECONST/QBALL
         //
-        ch_qball               = Channel.empty()
-        ch_qball_a_power       = Channel.empty()
-        ch_qball_peaks         = Channel.empty()
-        ch_qball_peak_indices  = Channel.empty()
-        ch_qball_gfa           = Channel.empty()
-        ch_qball_nufo          = Channel.empty()
+        ch_qball               = channel.empty()
+        ch_qball_a_power       = channel.empty()
+        ch_qball_peaks         = channel.empty()
+        ch_qball_peak_indices  = channel.empty()
+        ch_qball_gfa           = channel.empty()
+        ch_qball_nufo          = channel.empty()
         if (params.run_qball) {
             ch_qball_input = PREPROC_DWI.out.dwi
                 .join(PREPROC_DWI.out.bval)
@@ -260,7 +260,7 @@ workflow TRACTOFLOW {
         //
         // MODULE: Run TRACKING/PFTTRACKING
         //
-        ch_pft_tracking = Channel.empty()
+        ch_pft_tracking = channel.empty()
         if ( params.run_pft_tracking ) {
             ch_input_pft_tracking = ANATOMICAL_SEGMENTATION.out.wm_mask
                 .join(ANATOMICAL_SEGMENTATION.out.gm_mask)
@@ -283,7 +283,7 @@ workflow TRACTOFLOW {
         //
         // MODULE: Run TRACKING/LOCALTRACKING
         //
-        ch_local_tracking = Channel.empty()
+        ch_local_tracking = channel.empty()
         if ( params.run_local_tracking ) {
             ch_input_local_tracking = ANATOMICAL_SEGMENTATION.out.wm_mask
                 .join(ch_diffusion_model)

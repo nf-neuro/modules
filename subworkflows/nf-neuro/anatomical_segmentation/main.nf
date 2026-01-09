@@ -18,7 +18,7 @@ workflow ANATOMICAL_SEGMENTATION {
 
     main:
 
-        ch_versions = Channel.empty()
+        ch_versions = channel.empty()
 
         if ( params.run_synthseg ) {
             // ** Freesurfer synthseg segmentation ** //
@@ -60,11 +60,11 @@ workflow ANATOMICAL_SEGMENTATION {
             wm_map = SEGMENTATION_FASTSEG.out.wm_map
             gm_map = SEGMENTATION_FASTSEG.out.gm_map
             csf_map = SEGMENTATION_FASTSEG.out.csf_map
-            seg = Channel.empty()
-            aparc_aseg = Channel.empty()
-            resample = Channel.empty()
-            volume = Channel.empty()
-            qc_score = Channel.empty()
+            seg = channel.empty()
+            aparc_aseg = channel.empty()
+            resample = channel.empty()
+            volume = channel.empty()
+            qc_score = channel.empty()
 
 
             // ** Freesurfer segmentation ** //

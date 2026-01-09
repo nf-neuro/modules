@@ -27,7 +27,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "freesurfer.zip", "T1w.zip", "b0.zip", "dti.zip", "others.zip" ] )
+                input[0] = channel.from( [ "freesurfer.zip", "T1w.zip", "b0.zip", "dti.zip", "others.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -63,10 +63,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/fa.nii.gz")
                     ]
                 }
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
                 """
             }
         }
@@ -118,15 +118,15 @@ nextflow_workflow {
                         [ id:'test' ],
                         file("\${test_data_directory}/t1.nii.gz")
                     ]}
-                input[2] = Channel.empty()
+                input[2] = channel.empty()
                 input[3] = ch_split_test_data.t1w.map{
                     test_data_directory -> [
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w_mask.nii.gz")
                     ]}
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
                 """
             }
         }
@@ -180,11 +180,11 @@ nextflow_workflow {
                         file("\${test_data_directory}/b0.nii.gz")
                     ]
                 }
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
-                input[6] = Channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
                 """
             }
         }
@@ -230,10 +230,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/b0.nii.gz")
                     ]
                 }
-                input[2] = Channel.empty()
-                input[3] = Channel.empty()
-                input[4] = Channel.empty()
-                input[5] = Channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
                 input[6] = ch_split_test_data.freesurfer.map{
                     test_data_directory -> file("\${test_data_directory}/license.txt")
                 }

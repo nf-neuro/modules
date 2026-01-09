@@ -17,7 +17,7 @@ nextflow_process {
             script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [
+                input[0] = channel.from( [
                     "DWIss2000-dir60.zip",
                     "DWIms1000-2000-dir10-10.zip",
                     "segmentation.zip",

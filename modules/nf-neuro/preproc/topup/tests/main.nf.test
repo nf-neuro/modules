@@ -19,7 +19,7 @@ nextflow_process {
                 script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
                 process {
                     """
-                    input[0] = Channel.from( [ "topup_eddy_light.zip" ] )
+                    input[0] = channel.from( [ "topup_eddy_light.zip" ] )
                     input[1] = "test.load-test-data"
                     """
                 }
@@ -41,7 +41,7 @@ nextflow_process {
                     file("\${test_data_directory}/sub-01_dir-PA_dwi.bval", checkIfExists: true),
                     file("\${test_data_directory}/sub-01_dir-PA_dwi.bvec", checkIfExists: true),
                     file("\${test_data_directory}/sub-01_dir-PA_sbref.nii.gz", checkIfExists: true)]}
-                input[1] = Channel.value('')
+                input[1] = channel.value('')
                 """
             }
         }
@@ -93,7 +93,7 @@ nextflow_process {
                             ]
                         ]
                     }
-                input[1] = Channel.value('')
+                input[1] = channel.value('')
                 """
             }
         }
@@ -138,7 +138,7 @@ nextflow_process {
                     file("\${test_data_directory}/sub-01_dir-PA_dwi.bval", checkIfExists: true),
                     file("\${test_data_directory}/sub-01_dir-PA_dwi.bvec", checkIfExists: true),
                     file("\${test_data_directory}/sub-01_dir-PA_sbref.nii.gz", checkIfExists: true)]}
-                input[1] = Channel.value('')
+                input[1] = channel.value('')
                 """
             }
         }

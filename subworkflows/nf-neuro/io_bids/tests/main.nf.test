@@ -23,7 +23,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "bids.zip" ] )
+                input[0] = channel.from( [ "bids.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -40,8 +40,8 @@ nextflow_workflow {
                         file("\${test_data_directory}/i_bids", checkIfExists: true)
                     ]
                 }
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
                 """
             }
         }
@@ -76,7 +76,7 @@ nextflow_workflow {
                         file("\${test_data_directory}/i_bids", checkIfExists: true)
                     ]
                 }
-                input[1] = Channel.empty()
+                input[1] = channel.empty()
                 input[2] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         file("\${test_data_directory}/i_bids/.bidsignore")
@@ -117,8 +117,8 @@ nextflow_workflow {
                         file("\${test_data_directory}/i_bids", checkIfExists: true)
                     ]
                 }
-                input[1] = Channel.empty()
-                input[2] = Channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
                 """
             }
         }

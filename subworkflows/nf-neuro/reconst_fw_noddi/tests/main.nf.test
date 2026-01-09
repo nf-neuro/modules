@@ -22,7 +22,7 @@ nextflow_workflow {
             script "../../load_test_data/main.nf"
             process {
                 """
-                input[0] = Channel.from( [ "processing.zip", "commit_amico.zip" ] )
+                input[0] = channel.from( [ "processing.zip", "commit_amico.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -62,10 +62,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/md.nii.gz")
                     ]}
                 input[3] = [
-                    para_diff: Channel.empty(),
-                    iso_diff: Channel.empty(),
-                    perp_diff_min: Channel.empty(),
-                    perp_diff_max: Channel.empty()
+                    para_diff: channel.empty(),
+                    iso_diff: channel.empty(),
+                    perp_diff_min: channel.empty(),
+                    perp_diff_max: channel.empty()
                 ]
                 """
             }
@@ -128,10 +128,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/md.nii.gz")
                     ]}
                 input[3] = [
-                    para_diff: Channel.empty(),
-                    iso_diff: Channel.empty(),
-                    perp_diff_min: Channel.empty(),
-                    perp_diff_max: Channel.empty()
+                    para_diff: channel.empty(),
+                    iso_diff: channel.empty(),
+                    perp_diff_min: channel.empty(),
+                    perp_diff_max: channel.empty()
                 ]
                 """
             }
@@ -194,10 +194,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/md.nii.gz")
                     ]}
                 input[3] = [
-                    para_diff: Channel.empty(),
-                    iso_diff: Channel.empty(),
-                    perp_diff_min: Channel.empty(),
-                    perp_diff_max: Channel.empty()
+                    para_diff: channel.empty(),
+                    iso_diff: channel.empty(),
+                    perp_diff_min: channel.empty(),
+                    perp_diff_max: channel.empty()
                 ]
                 """
             }
@@ -260,10 +260,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/md.nii.gz")
                     ]}
                 input[3] = [
-                    para_diff: Channel.empty(),
-                    iso_diff: Channel.empty(),
-                    perp_diff_min: Channel.empty(),
-                    perp_diff_max: Channel.empty()
+                    para_diff: channel.empty(),
+                    iso_diff: channel.empty(),
+                    perp_diff_min: channel.empty(),
+                    perp_diff_max: channel.empty()
                 ]
                 """
             }
@@ -351,10 +351,10 @@ nextflow_workflow {
                         ]
                     ]}
                 input[3] = [
-                    para_diff: Channel.value(0.0015),
-                    iso_diff: Channel.value(0.003),
-                    perp_diff_min: Channel.value(0.0001),
-                    perp_diff_max: Channel.value(0.0007)
+                    para_diff: channel.value(0.0015),
+                    iso_diff: channel.value(0.003),
+                    perp_diff_min: channel.value(0.0001),
+                    perp_diff_max: channel.value(0.0007)
                 ]
                 """
             }
@@ -416,10 +416,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/md.nii.gz")
                     ]}
                 input[3] = [
-                    para_diff: Channel.of(tuple([ id:'test', single_end:false ], 0.0015)),
-                    iso_diff: Channel.of(tuple([ id:'test', single_end:false ], 0.003)),
-                    perp_diff_min: Channel.of(tuple([ id:'test', single_end:false ], 0.0001)),
-                    perp_diff_max: Channel.of(tuple([ id:'test', single_end:false ], 0.0007))
+                    para_diff: channel.of(tuple([ id:'test', single_end:false ], 0.0015)),
+                    iso_diff: channel.of(tuple([ id:'test', single_end:false ], 0.003)),
+                    perp_diff_min: channel.of(tuple([ id:'test', single_end:false ], 0.0001)),
+                    perp_diff_max: channel.of(tuple([ id:'test', single_end:false ], 0.0007))
                 ]
                 """
             }
@@ -481,10 +481,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/md.nii.gz")
                     ]}
                 input[3] = [
-                    para_diff: Channel.value(0.0015),
-                    iso_diff: Channel.value(0.003),
-                    perp_diff_min: Channel.value(0.0001),
-                    perp_diff_max: Channel.value(0.0007)
+                    para_diff: channel.value(0.0015),
+                    iso_diff: channel.value(0.003),
+                    perp_diff_min: channel.value(0.0001),
+                    perp_diff_max: channel.value(0.0007)
                 ]
                 """
             }
@@ -546,10 +546,10 @@ nextflow_workflow {
                         file("\${test_data_directory}/md.nii.gz")
                     ]}
                 input[3] = [
-                    para_diff: Channel.value(0.0015),
-                    iso_diff: Channel.value(0.003),
-                    perp_diff_min: Channel.value(0.0001),
-                    perp_diff_max: Channel.value(0.0007)
+                    para_diff: channel.value(0.0015),
+                    iso_diff: channel.value(0.003),
+                    perp_diff_min: channel.value(0.0001),
+                    perp_diff_max: channel.value(0.0007)
                 ]
                 """
             }

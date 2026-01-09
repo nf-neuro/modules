@@ -21,8 +21,8 @@ workflow OUTPUT_TEMPLATE_SPACE {
         ch_freesurfer_license       // channel: [ val(freesurfer_license) ]
     main:
 
-    ch_versions = Channel.empty()
-    ch_mqc = Channel.empty()
+    ch_versions = channel.empty()
+    ch_mqc = channel.empty()
 
     // ** First, let's assess if the desired template exists in      ** //
     // ** the templateflow home directory (user-specified as params. ** //
@@ -59,31 +59,31 @@ workflow OUTPUT_TEMPLATE_SPACE {
         // ** Load the files from the templateflow directory ** //
         def path = "${params.templateflow_home}/tpl-${params.template}/"
         if ( params.templateflow_cohort ) {
-            ch_t1w_tpl = Channel.fromPath(
+            ch_t1w_tpl = channel.fromPath(
                 "${path}/cohort-${params.templateflow_cohort}/*res-*${params.templateflow_res}_T1w.nii.gz",
                 checkIfExists: false
             )
-            ch_t2w_tpl = Channel.fromPath(
+            ch_t2w_tpl = channel.fromPath(
                 "${path}/cohort-${params.templateflow_cohort}/*res-*${params.templateflow_res}_T2w.nii.gz",
                 checkIfExists: false
             )
-            ch_brain_mask = Channel.fromPath(
+            ch_brain_mask = channel.fromPath(
                 "${path}/cohort-${params.templateflow_cohort}/*res-*${params.templateflow_res}_desc-brain_mask.nii.gz",
                 checkIfExists: false
-            ) ?: Channel.empty()
+            ) ?: channel.empty()
         } else {
-            ch_t1w_tpl = Channel.fromPath(
+            ch_t1w_tpl = channel.fromPath(
                 "${path}/*res-*${params.templateflow_res}_T1w.nii.gz",
                 checkIfExists: false
             )
-            ch_t2w_tpl = Channel.fromPath(
+            ch_t2w_tpl = channel.fromPath(
                 "${path}/*res-*${params.templateflow_res}_T2w.nii.gz",
                 checkIfExists: false
             )
-            ch_brain_mask = Channel.fromPath(
+            ch_brain_mask = channel.fromPath(
                 "${path}/*res-*${params.templateflow_res}_desc-brain_mask.nii.gz",
                 checkIfExists: false
-            ) ?: Channel.empty()
+            ) ?: channel.empty()
         }
     }
 
@@ -147,10 +147,10 @@ workflow OUTPUT_TEMPLATE_SPACE {
     REGISTRATION(
         ch_template,
         ch_anat,
-        Channel.empty(),
+        channel.empty(),
         ch_brain_mask,
-        Channel.empty(),
-        Channel.empty(),
+        channel.empty(),
+        channel.empty(),
         ch_freesurfer_license
     )
     ch_versions = ch_versions.mix(REGISTRATION.out.versions)

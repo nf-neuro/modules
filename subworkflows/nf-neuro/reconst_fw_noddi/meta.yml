@@ -50,13 +50,13 @@ input:
         meaning that if one prior is subject-bound, all others must be subject-bound
         as well (same for single-value or empty).
         Structure: [
-          para_diff: Channel.empty(),     // Example of empty to compute automatically
-          iso_diff: Channel.value(0.003), // Example of single-value for all subjects
-          perp_diff_min: Channel.of(      // Example of subject-bound values
+          para_diff: channel.empty(),     // Example of empty to compute automatically
+          iso_diff: channel.value(0.003), // Example of single-value for all subjects
+          perp_diff_min: channel.of(      // Example of subject-bound values
             tuple([ id:'subj1' ], 0.0001),
             tuple([ id:'subj2' ], 0.00015)
           ),
-          perp_diff_max: Channel.of(
+          perp_diff_max: channel.of(
             tuple([ id:'subj1' ], 0.0007),
             tuple([ id:'subj2' ], 0.00065)
           )

@@ -17,7 +17,7 @@ take:
 
 main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     TRACTOGRAM_REMOVEINVALID( ch_bundles )
     ch_versions = ch_versions.mix( TRACTOGRAM_REMOVEINVALID.out.versions.first() )
@@ -73,25 +73,25 @@ main:
     ch_versions = ch_versions.mix(BUNDLE_STATS.out.versions.first())
 
     emit:
-    stat_length                     = BUNDLE_STATS.out.length ?: Channel.empty()
-    stat_endpoints_raw              = BUNDLE_STATS.out.endpoints_raw ?: Channel.empty()
-    stat_endpoints_metric           = BUNDLE_STATS.out.endpoints_metric_stats ?: Channel.empty()
-    stat_mean_std                   = BUNDLE_STATS.out.mean_std ?: Channel.empty()
-    stat_volume                     = BUNDLE_STATS.out.volume ?: Channel.empty()
-    stat_volume_lesions             = BUNDLE_STATS.out.volume_lesions ?: Channel.empty()
-    stat_streamline_count           = BUNDLE_STATS.out.streamline_count ?: Channel.empty()
-    stat_streamline_count_lesions   = BUNDLE_STATS.out.streamline_count_lesions ?: Channel.empty()
-    stat_volume_per_labels          = BUNDLE_STATS.out.volume_per_labels ?: Channel.empty()
-    stat_volume_per_labels_lesions  = BUNDLE_STATS.out.volume_per_labels_lesions ?: Channel.empty()
-    stat_mean_std_per_point         = BUNDLE_STATS.out.mean_std_per_point ?: Channel.empty()
-    stat_lesion_stats               = BUNDLE_STATS.out.lesion_stats ?: Channel.empty()
-    endpoints_head                  = BUNDLE_STATS.out.endpoints_head ?: Channel.empty()
-    endpoints_tail                  = BUNDLE_STATS.out.endpoints_tail ?: Channel.empty()
-    lesion_map                      = BUNDLE_STATS.out.lesion_map ?: Channel.empty()
-    mean_tsv                        = BUNDLE_STATS.out.mean_tsv ?: Channel.empty()
-    mean_per_point_tsv              = BUNDLE_STATS.out.mean_per_point_tsv ?: Channel.empty()
-    mean_lesions_tsv                = BUNDLE_STATS.out.mean_lesions_tsv ?: Channel.empty()
-    mean_per_point_lesions_tsv      = BUNDLE_STATS.out.mean_per_point_lesions_tsv ?: Channel.empty()
+    stat_length                     = BUNDLE_STATS.out.length ?: channel.empty()
+    stat_endpoints_raw              = BUNDLE_STATS.out.endpoints_raw ?: channel.empty()
+    stat_endpoints_metric           = BUNDLE_STATS.out.endpoints_metric_stats ?: channel.empty()
+    stat_mean_std                   = BUNDLE_STATS.out.mean_std ?: channel.empty()
+    stat_volume                     = BUNDLE_STATS.out.volume ?: channel.empty()
+    stat_volume_lesions             = BUNDLE_STATS.out.volume_lesions ?: channel.empty()
+    stat_streamline_count           = BUNDLE_STATS.out.streamline_count ?: channel.empty()
+    stat_streamline_count_lesions   = BUNDLE_STATS.out.streamline_count_lesions ?: channel.empty()
+    stat_volume_per_labels          = BUNDLE_STATS.out.volume_per_labels ?: channel.empty()
+    stat_volume_per_labels_lesions  = BUNDLE_STATS.out.volume_per_labels_lesions ?: channel.empty()
+    stat_mean_std_per_point         = BUNDLE_STATS.out.mean_std_per_point ?: channel.empty()
+    stat_lesion_stats               = BUNDLE_STATS.out.lesion_stats ?: channel.empty()
+    endpoints_head                  = BUNDLE_STATS.out.endpoints_head ?: channel.empty()
+    endpoints_tail                  = BUNDLE_STATS.out.endpoints_tail ?: channel.empty()
+    lesion_map                      = BUNDLE_STATS.out.lesion_map ?: channel.empty()
+    mean_tsv                        = BUNDLE_STATS.out.mean_tsv ?: channel.empty()
+    mean_per_point_tsv              = BUNDLE_STATS.out.mean_per_point_tsv ?: channel.empty()
+    mean_lesions_tsv                = BUNDLE_STATS.out.mean_lesions_tsv ?: channel.empty()
+    mean_per_point_lesions_tsv      = BUNDLE_STATS.out.mean_per_point_lesions_tsv ?: channel.empty()
     versions = ch_versions
 }
 

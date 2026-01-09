@@ -19,7 +19,7 @@ nextflow_process {
                 script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
                 process {
                     """
-                    input[0] = Channel.from( [ "freesurfer.zip" ] )
+                    input[0] = channel.from( [ "freesurfer.zip" ] )
                     input[1] = "test.load-test-data"
                     """
                 }
@@ -54,7 +54,7 @@ nextflow_process {
                 script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
                 process {
                     """
-                    input[0] = Channel.from( [ "freesurfer.zip" ] )
+                    input[0] = channel.from( [ "freesurfer.zip" ] )
                     input[1] = "test.load-test-data"
                     """
                 }

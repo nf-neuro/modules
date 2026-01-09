@@ -22,8 +22,8 @@ workflow PREPROC_DWI {
 
     main:
 
-        ch_versions = Channel.empty()
-        ch_multiqc_files = Channel.empty()
+        ch_versions = channel.empty()
+        ch_multiqc_files = channel.empty()
 
         // ** Denoise DWI ** //
         if (params.preproc_dwi_run_denoising) {
@@ -111,7 +111,7 @@ workflow PREPROC_DWI {
         ch_versions = ch_versions.mix(BETCROP_FSLBETCROP.out.versions.first())
 
         ch_dwi_preproc = BETCROP_FSLBETCROP.out.image
-        ch_dwi_n4 = Channel.empty()
+        ch_dwi_n4 = channel.empty()
         if (params.preproc_dwi_run_N4) {
             // ** N4 DWI ** //
             ch_N4 = ch_dwi_preproc
