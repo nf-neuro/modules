@@ -8,7 +8,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_T1w_warped.nii.gz:md5,39c30c6251cba224989bc74a31540121"
+                        "test_T1w_warped.nii.gz:md5,9f2eda1485017da83b5fcd6871cdcb74"
                     ]
                 ],
                 "1": [
@@ -17,7 +17,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_forward1_affine.mat:md5,18d03f6c1fd587b00b3bc9363eb8ed4f"
+                        "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                     ]
                 ],
                 "10": [
@@ -29,7 +29,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_forward0_warp.nii.gz:md5,aa42d4dd6f227d986cd99df45425d5c5"
+                        "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693"
                     ]
                 ],
                 "3": [
@@ -38,7 +38,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_backward1_warp.nii.gz:md5,6a04d7c100075b4ba7a276a55a4094bd"
+                        "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
                     ]
                 ],
                 "4": [
@@ -47,7 +47,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_backward0_affine.mat:md5,13ea200e4b163f8a47038ff61524cb1b"
+                        "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9"
                     ]
                 ],
                 "5": [
@@ -57,8 +57,8 @@
                             "single_end": false
                         },
                         [
-                            "test_forward0_warp.nii.gz:md5,aa42d4dd6f227d986cd99df45425d5c5",
-                            "test_forward1_affine.mat:md5,18d03f6c1fd587b00b3bc9363eb8ed4f"
+                            "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
+                            "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                         ]
                     ]
                 ],
@@ -69,8 +69,8 @@
                             "single_end": false
                         },
                         [
-                            "test_backward0_affine.mat:md5,13ea200e4b163f8a47038ff61524cb1b",
-                            "test_backward1_warp.nii.gz:md5,6a04d7c100075b4ba7a276a55a4094bd"
+                            "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
+                            "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
                         ]
                     ]
                 ],
@@ -81,8 +81,8 @@
                             "single_end": false
                         },
                         [
-                            "test_backward0_affine.mat:md5,13ea200e4b163f8a47038ff61524cb1b",
-                            "test_backward1_warp.nii.gz:md5,6a04d7c100075b4ba7a276a55a4094bd"
+                            "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
+                            "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
                         ]
                     ]
                 ],
@@ -93,8 +93,8 @@
                             "single_end": false
                         },
                         [
-                            "test_forward0_warp.nii.gz:md5,aa42d4dd6f227d986cd99df45425d5c5",
-                            "test_forward1_affine.mat:md5,18d03f6c1fd587b00b3bc9363eb8ed4f"
+                            "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
+                            "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                         ]
                     ]
                 ],
@@ -113,7 +113,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_T1w_warped.nii.gz:md5,39c30c6251cba224989bc74a31540121"
+                        "test_T1w_warped.nii.gz:md5,9f2eda1485017da83b5fcd6871cdcb74"
                     ]
                 ],
                 "backward_affine": [
@@ -122,7 +122,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_backward0_affine.mat:md5,13ea200e4b163f8a47038ff61524cb1b"
+                        "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9"
                     ]
                 ],
                 "backward_image_transform": [
@@ -132,8 +132,8 @@
                             "single_end": false
                         },
                         [
-                            "test_backward0_affine.mat:md5,13ea200e4b163f8a47038ff61524cb1b",
-                            "test_backward1_warp.nii.gz:md5,6a04d7c100075b4ba7a276a55a4094bd"
+                            "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
+                            "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
                         ]
                     ]
                 ],
@@ -144,8 +144,8 @@
                             "single_end": false
                         },
                         [
-                            "test_forward0_warp.nii.gz:md5,aa42d4dd6f227d986cd99df45425d5c5",
-                            "test_forward1_affine.mat:md5,18d03f6c1fd587b00b3bc9363eb8ed4f"
+                            "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
+                            "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                         ]
                     ]
                 ],
@@ -155,7 +155,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_backward1_warp.nii.gz:md5,6a04d7c100075b4ba7a276a55a4094bd"
+                        "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
                     ]
                 ],
                 "forward_affine": [
@@ -164,7 +164,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_forward1_affine.mat:md5,18d03f6c1fd587b00b3bc9363eb8ed4f"
+                        "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                     ]
                 ],
                 "forward_image_transform": [
@@ -174,8 +174,8 @@
                             "single_end": false
                         },
                         [
-                            "test_forward0_warp.nii.gz:md5,aa42d4dd6f227d986cd99df45425d5c5",
-                            "test_forward1_affine.mat:md5,18d03f6c1fd587b00b3bc9363eb8ed4f"
+                            "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
+                            "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                         ]
                     ]
                 ],
@@ -186,8 +186,8 @@
                             "single_end": false
                         },
                         [
-                            "test_backward0_affine.mat:md5,13ea200e4b163f8a47038ff61524cb1b",
-                            "test_backward1_warp.nii.gz:md5,6a04d7c100075b4ba7a276a55a4094bd"
+                            "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
+                            "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
                         ]
                     ]
                 ],
@@ -197,7 +197,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_forward0_warp.nii.gz:md5,aa42d4dd6f227d986cd99df45425d5c5"
+                        "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693"
                     ]
                 ],
                 "mqc": [
@@ -216,9 +216,9 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.10.0"
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-28T12:57:20.84201822"
+        "timestamp": "2026-01-16T14:13:01.100817732"
     },
     "registration - anattodwi -stub-run": {
         "content": [
