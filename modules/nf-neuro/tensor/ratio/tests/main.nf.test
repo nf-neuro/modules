@@ -1,0 +1,78 @@
+// TODO nf-core: Once you have added the required tests, please run the following command to build this file:
+// nf-core modules test tensor/ratio
+nextflow_process {
+
+    name "Test Process TENSOR_RATIO"
+    script "../main.nf"
+    process "TENSOR_RATIO"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "tensor"
+    tag "tensor/ratio"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+            process {
+                """
+                input[0] = Channel.from( [ "dti.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+    test("tensorratio - classic") {
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/dti/tensor.nii.gz")
+                    ]
+                }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+    // TODO nf-core: Change the test name preferably indicating the test-data and file-format used but keep the " - stub" suffix.
+    test("tensorratio - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/dti/tensor.nii.gz")
+                    ]
+                }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+
+    }
+
+}
