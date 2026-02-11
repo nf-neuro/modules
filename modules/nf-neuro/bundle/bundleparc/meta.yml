@@ -1,0 +1,92 @@
+name: "bundle_bundleparc"
+description: |
+  BundleParc performs bundle segmentation and parcellation directly from fODFs
+  for a specified number of points/segments/labels.
+
+  Bundle definitions follow TractSeg's, without the whole corpus callosum.
+  However it is still represented in 7 subparts which should be coherent
+  between their parcellations.
+
+  If you use this subworkflow, please cite:
+  [1] Théberge, Antoine, Descoteaux, Maxime, Jodoin, P-M.
+      "BundleParc: off-the-shelf bundle parcellation without tractography."
+      Submitted to Medical Image Analysis (2025).
+keywords:
+  - BundleParc
+  - Bundle
+  - Parcellation
+tools:
+  - "bundleparc":
+      description: |
+        BundleParc: off-the-shelf bundle parcellation without tractography.
+      homepage: "https://github.com/scil-vital/BundleParc"
+      tool_dev_url: "https://github.com/scil-vital/BundleParc-flow"
+      identifier: ""
+  - scilpy:
+      description: The Sherbrooke Connectivity Imaging Lab (SCIL) Python dMRI
+        processing toolbox.
+      homepage: https://github.com/scilus/scilpy.git
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1', single_end:false ]`
+    - fodf:
+        type: file
+        description: |
+          The fODF image in the descoteaux_legacy and order 8 format (very
+          important).
+        pattern: "*.{nii,nii.gz}"
+        ontologies: []
+    - checkpoint:
+        type: file
+        description: |
+          Since BundleParc relies on deep learning, the checkpoint represents
+          the learned weights of BundleParc's underlying model, which is
+          essential for its operation. The checkpoint file should be
+          downloaded automatically when using the subworkflow, otherwise it
+          can be found at:
+          https://zenodo.org/records/15579498/files/123_4_5_bundleparc.ckpt
+        pattern: "123_4_5_bundleparc.ckpt"
+        ontologies: []
+args:
+  - nb_points:
+      type: int
+      description: |
+        Number of regions/points to parcellate the bundles into.
+      default: 10
+output:
+  labels:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1', single_end:false ]`
+      - "*.nii.gz":
+          type: file
+          description: |
+            The output parcellated bundles.
+          pattern: "*.{nii.gz}"
+          ontologies: []
+  config:
+    - "*__bundleparc_config.json":
+        type: file
+        description: Parameters used to obtain the output parcellation files.
+        pattern: "*__bundleparc_config.json"
+        ontologies:
+          - edam: "http://edamontology.org/format_3464" # JSON
+  versions:
+    - "versions.yml":
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: "http://edamontology.org/format_3750" # YAML
+
+authors:
+  - "@AntoineTheb"
+maintainers:
+  - "@levje"
