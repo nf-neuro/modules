@@ -15,6 +15,7 @@ include { IMAGE_RESAMPLE as RESAMPLE_DWI } from '../../../modules/nf-neuro/image
 include { IMAGE_RESAMPLE as RESAMPLE_MASK } from '../../../modules/nf-neuro/image/resample/main'
 include { UTILS_EXTRACTB0 } from '../../../modules/nf-neuro/utils/extractb0/main'
 include { TOPUP_EDDY } from '../topup_eddy/main'
+include { getOptionsWithDefaults } from '../utils_options/main'
 
 
 workflow PREPROC_DWI {
@@ -30,8 +31,11 @@ workflow PREPROC_DWI {
 
     main:
 
-        // Check to ensure options is a list of options,
+        // Check to ensure options is a Map
         assert options instanceof Map : "Options must be a Map, got ${options.getClass().getName()}"
+
+        // Merge options with defaults from meta.yml
+        options = getOptionsWithDefaults(options, "${moduleDir}/meta.yml")
 
         ch_versions = channel.empty()
         ch_multiqc_files = channel.empty()

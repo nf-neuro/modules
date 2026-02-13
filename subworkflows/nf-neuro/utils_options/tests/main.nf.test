@@ -1,0 +1,141 @@
+nextflow_workflow {
+
+    name "Test Subworkflow UTILS_OPTIONS"
+    script "../main.nf"
+    workflow "UTILS_OPTIONS"
+
+    tag "subworkflows"
+    tag "subworkflows_nfneuro"
+    tag "subworkflows/utils_options"
+
+    test("utils_options - compare with defaults") {
+
+        when {
+            workflow {
+                """
+                // Create a test meta.yml file content
+                def test_meta_content = '''
+name: "test_workflow"
+input:
+  - options:
+      type: map
+      description: |
+        Test options:
+        - option_a (bool): Enable feature A
+        - option_b (bool): Enable feature B
+        - option_c (bool): Enable feature C
+      mandatory: true
+      default: {}
+'''
+                // Write test meta file
+                def test_meta_file = file("\${workDir}/test_meta.yml")
+                test_meta_file.text = test_meta_content
+
+                input[0] = Channel.of(test_meta_file)
+                input[1] = Channel.of(
+                    [
+                        [ id: 'test_subject' ],
+                        [
+                            "option_a": true,
+                            "option_b": false,
+                            "option_d": true  // Not in defaults
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.options }
+            )
+        }
+    }
+
+    test("utils_options - with partial options") {
+
+        when {
+            workflow {
+                """
+                // Create a test meta.yml file content
+                def test_meta_content = '''
+name: "test_workflow"
+input:
+  - options:
+      type: map
+      description: |
+        Test options:
+        - option_a (bool): Enable feature A
+        - option_b (bool): Enable feature B
+      mandatory: true
+      default: {}
+'''
+                // Write test meta file
+                def test_meta_file = file("\${workDir}/test_meta_partial.yml")
+                test_meta_file.text = test_meta_content
+
+                input[0] = Channel.of(test_meta_file)
+                input[1] = Channel.of(
+                    [
+                        [ id: 'test_subject' ],
+                        [
+                            "option_a": true,
+                            "option_unknown": false
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.options }
+            )
+        }
+    }
+
+    test("utils_options - all defaults") {
+
+        when {
+            workflow {
+                """
+                // Create a test meta.yml file content
+                def test_meta_content = '''
+name: "test_workflow"
+input:
+  - options:
+      type: map
+      description: |
+        Test options:
+        - option_a (bool): Enable feature A
+        - option_b (bool): Enable feature B
+      mandatory: true
+      default: {}
+'''
+                // Write test meta file
+                def test_meta_file = file("\${workDir}/test_meta_defaults.yml")
+                test_meta_file.text = test_meta_content
+
+                input[0] = Channel.of(test_meta_file)
+                input[1] = Channel.of(
+                    [
+                        [ id: 'test_subject' ],
+                        [:]  // Empty options, should use all defaults
+                    ]
+                )
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.options }
+            )
+        }
+    }
+}

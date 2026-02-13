@@ -22,6 +22,7 @@ nextflow_workflow {
     tag "preproc/normalize"
     tag "utils/extractb0"
     tag "topup_eddy"
+    tag "subworkflows/utils_options"
 
     tag "load_test_data"
 
@@ -41,7 +42,6 @@ nextflow_workflow {
     }
 
     test("preproc_dwi - AP DWI | skip steps") {
-        config "./nextflow_skipsteps.config"
         when {
             workflow {
                 """
@@ -62,15 +62,12 @@ nextflow_workflow {
                     "topup_eddy_run_eddy": false,
                     "preproc_dwi_run_denoising": false,
                     "preproc_dwi_run_degibbs": false,
-                    "preproc_dwi_run_N4": true,
                     "preproc_dwi_run_normalize": false,
-                    "preproc_dwi_run_resampling": true,
                     "preproc_dwi_keep_dwi_with_skull": true
                 ]
                 """
             }
         }
-
         then {
             assertAll(
                 { assert workflow.success },
@@ -92,7 +89,6 @@ nextflow_workflow {
     }
 
     test("preproc_dwi - AP DWI | PA sbref") {
-        config "./nextflow_synthstrip.config"
         when {
             workflow {
                 """
@@ -113,20 +109,11 @@ nextflow_workflow {
                 input[4] = channel.empty()
                 input[5] = channel.from( [] )
                 input[6] = [
-                    "topup_eddy_run_topup": true,
-                    "topup_eddy_run_eddy": true,
-                    "preproc_dwi_run_denoising": true,
-                    "preproc_dwi_run_degibbs": true,
-                    "preproc_dwi_run_N4": true,
-                    "preproc_dwi_run_normalize": true,
-                    "preproc_dwi_run_resampling": true,
-                    "preproc_dwi_run_synthstrip": true,
-                    "preproc_dwi_keep_dwi_with_skull": false
+                    "preproc_dwi_run_synthstrip": true
                 ]
                 """
             }
         }
-
         then {
             assertAll(
                 { assert workflow.success },
@@ -148,7 +135,6 @@ nextflow_workflow {
     }
 
     test("preproc_dwi - AP DWI | PA DWI") {
-        config "./nextflow_synthstrip.config"
         when {
             workflow {
                 """
@@ -171,20 +157,11 @@ nextflow_workflow {
                 input[4] = channel.from("https://surfer.nmr.mgh.harvard.edu/docs/synthstrip/requirements/synthstrip.1.pt")
                 input[5] = channel.from( [] )
                 input[6] = [
-                    "topup_eddy_run_topup": true,
-                    "topup_eddy_run_eddy": true,
-                    "preproc_dwi_run_denoising": true,
-                    "preproc_dwi_run_degibbs": true,
-                    "preproc_dwi_run_N4": true,
-                    "preproc_dwi_run_normalize": true,
-                    "preproc_dwi_run_resampling": true,
-                    "preproc_dwi_run_synthstrip": true,
-                    "preproc_dwi_keep_dwi_with_skull": false
+                    "preproc_dwi_run_synthstrip": true
                 ]
                 """
             }
         }
-
         then {
             assertAll(
                 { assert workflow.success },
@@ -206,7 +183,6 @@ nextflow_workflow {
     }
 
     test("preproc_dwi - AP DWI+sbref | PA DWI+sbref") {
-        config "./nextflow_synthstrip.config"
         when {
             workflow {
                 """
@@ -237,21 +213,10 @@ nextflow_workflow {
                 input[4] = channel.from("https://surfer.nmr.mgh.harvard.edu/docs/synthstrip/requirements/synthstrip.1.pt")
                     .map{ weights -> [ [ id:'test' ], weights ] }
                 input[5] = channel.from( [] )
-                input[6] = [
-                    "topup_eddy_run_topup": true,
-                    "topup_eddy_run_eddy": true,
-                    "preproc_dwi_run_denoising": true,
-                    "preproc_dwi_run_degibbs": true,
-                    "preproc_dwi_run_N4": true,
-                    "preproc_dwi_run_normalize": true,
-                    "preproc_dwi_run_resampling": true,
-                    "preproc_dwi_run_synthstrip": true,
-                    "preproc_dwi_keep_dwi_with_skull": false
-                ]
+                input[6] = [:]
                 """
             }
         }
-
         then {
             assertAll(
                 { assert workflow.success },
@@ -273,7 +238,6 @@ nextflow_workflow {
     }
 
     test("preproc_dwi - wrong options format - should fail") {
-        config "./nextflow_skipsteps.config"
         when {
             workflow {
                 """
@@ -302,7 +266,6 @@ nextflow_workflow {
                 """
             }
         }
-
         then {
             assertAll(
                 { assert workflow.failed },

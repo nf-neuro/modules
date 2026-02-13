@@ -90,6 +90,8 @@ components:
   - utils/extractb0
   - preproc/gibbs
   - topup_eddy
+  - getoptionswithdefaults
+
 input:
   - ch_dwi:
       type: file
@@ -147,7 +149,16 @@ input:
           - preproc_dwi_run_normalize (bool): If 'true', the DWI will be normalized to have a mean value in the WM of approximately 1000 using MRtrix3's dwinormalise.
           - preproc_dwi_run_resampling (bool): If 'true', the DWI will be resampled to 1 mm isotropic spatial resolution using DIPY's resample.
       mandatory: true
-      default: {}
+      default:
+        preproc_dwi_run_denoising: true
+        preproc_dwi_run_degibbs: true
+        topup_eddy_run_topup: true
+        topup_eddy_run_eddy: true
+        preproc_dwi_run_synthstrip: false
+        preproc_dwi_keep_dwi_with_skull: false
+        preproc_dwi_run_N4: true
+        preproc_dwi_run_normalize: true
+        preproc_dwi_run_resampling: true
 output:
   - dwi_resample:
       type: file

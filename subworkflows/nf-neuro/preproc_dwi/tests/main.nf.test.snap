@@ -47,7 +47,7 @@
                         {
                             "id": "test"
                         },
-                        "test_dwi_cropped_bbox.pkl"
+                        "test__image_boundingBox.pkl"
                     ]
                 ],
                 "mqc": [
@@ -77,29 +77,16 @@
                         "test__rev_dwi_eddy_mqc.gif"
                     ]
                 ],
-                "pwd_avg": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "test_pwd_avg.nii.gz"
-                    ]
-                ],
                 "versions": [
-                    "versions.yml:md5,00c3e8560e74fb87cacb736eb5658fcb",
                     "versions.yml:md5,034b6d262d1e0e45c673d3ac1756e22f",
                     "versions.yml:md5,218c08543fae3d1e7dd9b1527aa67a21",
-                    "versions.yml:md5,2b1e0ce850286655d4510ff462e0f57b",
+                    "versions.yml:md5,3efc92963bc72284def5a9aeff469919",
                     "versions.yml:md5,4f645295735c7f79182fd589063e11a5",
                     "versions.yml:md5,6775dffbd2264e526ccdfde32db655b9",
-                    "versions.yml:md5,73b36e0fa7fa782add714cca892bf09c",
-                    "versions.yml:md5,76b89b06b38b2148b5af5d388d333763",
                     "versions.yml:md5,83bb1f168d146ca8d303c24584044f9f",
                     "versions.yml:md5,a585ae0f02b31e59f3f641836f5cb608",
                     "versions.yml:md5,c6674ec69abd660014fba145790ec070",
                     "versions.yml:md5,c7da6834a9868efe7d6878ae023a6782",
-                    "versions.yml:md5,c9f89e6a31f3d2add46a0350e9ff799b",
-                    "versions.yml:md5,d1da6ec93d46e17eff56d0e7f9dc085d",
                     "versions.yml:md5,dd4515fa7d32a40e94927fddf215ef18",
                     "versions.yml:md5,fcf20744f2d2ea2b1a57d549d53c8ee6"
                 ]
@@ -109,7 +96,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-05T22:18:20.502502877"
+        "timestamp": "2026-02-13T11:04:27.678692921"
     },
     "preproc_dwi - AP DWI | PA sbref": {
         "content": [
@@ -217,9 +204,9 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-11T13:35:27.137234"
+        "timestamp": "2026-02-12T23:28:25.597720297"
     },
     "preproc_dwi - AP DWI | PA DWI": {
         "content": [
@@ -331,7 +318,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-05T22:16:59.844303539"
+        "timestamp": "2026-02-12T23:29:35.247048959"
     },
     "preproc_dwi - AP DWI | skip steps": {
         "content": [
@@ -397,6 +384,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-05T23:33:51.782441298"
+        "timestamp": "2026-02-13T10:59:51.74610525"
     }
 }

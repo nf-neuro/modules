@@ -1,0 +1,59 @@
+name: "utils_options"
+description: |
+  Utility subworkflow for managing and comparing workflow options with defaults defined in meta.yml files.
+  This subworkflow provides functionality to:
+  - Parse default option values from a subworkflow's meta.yml file (from the 'default' field)
+  - Compare provided options with defaults
+  - Merge provided options with defaults (with optional strict mode)
+  - Report differences between provided and default options
+  - Validate required options
+
+  The subworkflow extracts default option values from the 'default' field of the 'options' input
+  in the meta.yml file and compares them with user-provided options. It can operate in two modes:
+  1. Standard mode: Accepts all provided options and fills in missing ones with defaults
+  2. Strict mode: Only allows options that are defined in the defaults (rejects unknown options)
+
+  This is particularly useful for subworkflows like preproc_dwi that have many configurable boolean
+  options controlling which processing steps to run.
+
+keywords:
+  - options
+  - configuration
+  - validation
+  - defaults
+  - comparison
+
+components: []
+
+input:
+  - ch_meta_file:
+      type: file
+      description: |
+        Channel containing the path to a meta.yml file from which to extract default options.
+        Structure: [ path(meta.yml) ]
+      pattern: "*.yml"
+      mandatory: true
+  - ch_options:
+      type: map
+      description: |
+        Channel containing the metadata and user-provided options to compare with defaults.
+        Structure: [ val(meta), val(options) ]
+        where options is a Map of option key-value pairs
+      mandatory: true
+
+output:
+  - options:
+      type: map
+      description: |
+        Channel containing the final merged options (provided options + defaults for missing keys).
+        Structure: [ val(merged_options) ]
+        where merged_options is a Map of option key-value pairs
+  - versions:
+      type: file
+      description: |
+        File containing software versions (empty for this utility subworkflow)
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+
+authors:
+  - "@arnaudbore"
