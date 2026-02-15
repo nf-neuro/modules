@@ -1,0 +1,49 @@
+name: "bundleparc"
+description: |
+  BundleParc performs bundle segmentation and parcellation directly from fODFs
+  for a specified number of points/segments/labels.
+
+  Bundle definitions follow TractSeg's, without the whole corpus callosum.
+  However it is still represented in 7 subparts which should be coherent
+  between their parcellations.
+
+  If you use this subworkflow, please cite:
+  [1] Théberge, Antoine, Descoteaux, Maxime, Jodoin, P-M.
+      "BundleParc: off-the-shelf bundle parcellation without tractography."
+      Submitted to Medical Image Analysis (2025).
+keywords:
+  - BundleParc
+  - Bundle
+  - Parcellation
+components:
+  - bundle/bundleparc
+input:
+  - ch_fodf:
+      type: file
+      description: |
+        The input channel containing the fODF image in descoteaux07_legacy
+        format (very important).
+      pattern: "*.{nii,nii.gz}"
+output:
+  - bundles:
+      type: file
+      description: |
+        Channel containing all the parcellated bundle files.
+        Structure: [ val(meta), path(bundles) ]
+      pattern: "*.nii.gz"
+  - mqc:
+      type: file
+      description: |
+        Channel containing mosaics of a subset of bundles for QC purposes.
+        Structure: [ val(meta), path(mqc) ]
+      pattern: "*mqc.png"
+  - versions:
+      type: file
+      description: |
+        File containing software versions
+        Structure: [ path(versions.yml) ]
+      pattern: "versions.yml"
+authors:
+  - "@AntoineTheb"
+maintainers:
+  - "@levje"
