@@ -1,0 +1,569 @@
+{
+    "registration - ants - stub": {
+        "content": [
+            [
+                "versions.yml:md5,78610891ed0adf1a5fe5f0de034d7555"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-10-28T13:00:52.757761907"
+    },
+    "registration - ants - SyN quick": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_warped.nii.gz:md5,5534f8cb21fcc44f577d520e6083bb83"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,dde4de8a1ca4ff1647e55dc1fece402c"
+                    ]
+                ],
+                "10": [
+                    "versions.yml:md5,78610891ed0adf1a5fe5f0de034d7555"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,96b2d18c7537db76366e4557b44f24fe"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,28f58437d878a6ea0c81c0e780e2333f"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,8cc894275b42e3b78efca499caf22e30"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,96b2d18c7537db76366e4557b44f24fe",
+                            "test_forward1_affine.mat:md5,dde4de8a1ca4ff1647e55dc1fece402c"
+                        ]
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,8cc894275b42e3b78efca499caf22e30",
+                            "test_backward1_warp.nii.gz:md5,28f58437d878a6ea0c81c0e780e2333f"
+                        ]
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,8cc894275b42e3b78efca499caf22e30",
+                            "test_backward1_warp.nii.gz:md5,28f58437d878a6ea0c81c0e780e2333f"
+                        ]
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,96b2d18c7537db76366e4557b44f24fe",
+                            "test_forward1_affine.mat:md5,dde4de8a1ca4ff1647e55dc1fece402c"
+                        ]
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1_to_T1_slab_registration_ants_mqc.gif:md5,e5730d99d11edfc9802776c782edbf17"
+                    ]
+                ],
+                "backward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,8cc894275b42e3b78efca499caf22e30"
+                    ]
+                ],
+                "backward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,8cc894275b42e3b78efca499caf22e30",
+                            "test_backward1_warp.nii.gz:md5,28f58437d878a6ea0c81c0e780e2333f"
+                        ]
+                    ]
+                ],
+                "backward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,96b2d18c7537db76366e4557b44f24fe",
+                            "test_forward1_affine.mat:md5,dde4de8a1ca4ff1647e55dc1fece402c"
+                        ]
+                    ]
+                ],
+                "backward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,28f58437d878a6ea0c81c0e780e2333f"
+                    ]
+                ],
+                "forward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,dde4de8a1ca4ff1647e55dc1fece402c"
+                    ]
+                ],
+                "forward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,96b2d18c7537db76366e4557b44f24fe",
+                            "test_forward1_affine.mat:md5,dde4de8a1ca4ff1647e55dc1fece402c"
+                        ]
+                    ]
+                ],
+                "forward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,8cc894275b42e3b78efca499caf22e30",
+                            "test_backward1_warp.nii.gz:md5,28f58437d878a6ea0c81c0e780e2333f"
+                        ]
+                    ]
+                ],
+                "forward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,96b2d18c7537db76366e4557b44f24fe"
+                    ]
+                ],
+                "image_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_warped.nii.gz:md5,5534f8cb21fcc44f577d520e6083bb83"
+                    ]
+                ],
+                "mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1_to_T1_slab_registration_ants_mqc.gif:md5,e5730d99d11edfc9802776c782edbf17"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,78610891ed0adf1a5fe5f0de034d7555"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-10-28T13:00:13.19463937"
+    },
+    "registration - ants - SyN": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_warped.nii.gz:md5,8d9c289924c4d2c8edab3feae669d1c3"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,16a42a74c35c9fda7786250b333bef86"
+                    ]
+                ],
+                "10": [
+                    "versions.yml:md5,78610891ed0adf1a5fe5f0de034d7555"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,9a3b969b74ac82ab0940b8b94677c7b9"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,3f2d23cce4fbcf970099eecd629d4019"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,317e067757768c8e75de9d12f84563c9"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9a3b969b74ac82ab0940b8b94677c7b9",
+                            "test_forward1_affine.mat:md5,16a42a74c35c9fda7786250b333bef86"
+                        ]
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,317e067757768c8e75de9d12f84563c9",
+                            "test_backward1_warp.nii.gz:md5,3f2d23cce4fbcf970099eecd629d4019"
+                        ]
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,317e067757768c8e75de9d12f84563c9",
+                            "test_backward1_warp.nii.gz:md5,3f2d23cce4fbcf970099eecd629d4019"
+                        ]
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9a3b969b74ac82ab0940b8b94677c7b9",
+                            "test_forward1_affine.mat:md5,16a42a74c35c9fda7786250b333bef86"
+                        ]
+                    ]
+                ],
+                "9": [
+                    
+                ],
+                "backward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,317e067757768c8e75de9d12f84563c9"
+                    ]
+                ],
+                "backward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,317e067757768c8e75de9d12f84563c9",
+                            "test_backward1_warp.nii.gz:md5,3f2d23cce4fbcf970099eecd629d4019"
+                        ]
+                    ]
+                ],
+                "backward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9a3b969b74ac82ab0940b8b94677c7b9",
+                            "test_forward1_affine.mat:md5,16a42a74c35c9fda7786250b333bef86"
+                        ]
+                    ]
+                ],
+                "backward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,3f2d23cce4fbcf970099eecd629d4019"
+                    ]
+                ],
+                "forward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,16a42a74c35c9fda7786250b333bef86"
+                    ]
+                ],
+                "forward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9a3b969b74ac82ab0940b8b94677c7b9",
+                            "test_forward1_affine.mat:md5,16a42a74c35c9fda7786250b333bef86"
+                        ]
+                    ]
+                ],
+                "forward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,317e067757768c8e75de9d12f84563c9",
+                            "test_backward1_warp.nii.gz:md5,3f2d23cce4fbcf970099eecd629d4019"
+                        ]
+                    ]
+                ],
+                "forward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,9a3b969b74ac82ab0940b8b94677c7b9"
+                    ]
+                ],
+                "image_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_warped.nii.gz:md5,8d9c289924c4d2c8edab3feae669d1c3"
+                    ]
+                ],
+                "mqc": [
+                    
+                ],
+                "versions": [
+                    "versions.yml:md5,78610891ed0adf1a5fe5f0de034d7555"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-10-28T12:58:47.595933738"
+    },
+    "registration - ants - no warps": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_warped.nii.gz:md5,c13330e3f71c57f2517dcd6f59f64ff1"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,7387bc8f93dd29d2a0aadb9d5dc06d5b"
+                    ]
+                ],
+                "10": [
+                    "versions.yml:md5,78610891ed0adf1a5fe5f0de034d7555"
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,733babe33e1656d0f85064caf24d6f82"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward1_affine.mat:md5,7387bc8f93dd29d2a0aadb9d5dc06d5b"
+                        ]
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,733babe33e1656d0f85064caf24d6f82"
+                        ]
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,733babe33e1656d0f85064caf24d6f82"
+                        ]
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward1_affine.mat:md5,7387bc8f93dd29d2a0aadb9d5dc06d5b"
+                        ]
+                    ]
+                ],
+                "9": [
+                    
+                ],
+                "backward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,733babe33e1656d0f85064caf24d6f82"
+                    ]
+                ],
+                "backward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,733babe33e1656d0f85064caf24d6f82"
+                        ]
+                    ]
+                ],
+                "backward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward1_affine.mat:md5,7387bc8f93dd29d2a0aadb9d5dc06d5b"
+                        ]
+                    ]
+                ],
+                "backward_warp": [
+                    
+                ],
+                "forward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,7387bc8f93dd29d2a0aadb9d5dc06d5b"
+                    ]
+                ],
+                "forward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward1_affine.mat:md5,7387bc8f93dd29d2a0aadb9d5dc06d5b"
+                        ]
+                    ]
+                ],
+                "forward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,733babe33e1656d0f85064caf24d6f82"
+                        ]
+                    ]
+                ],
+                "forward_warp": [
+                    
+                ],
+                "image_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_warped.nii.gz:md5,c13330e3f71c57f2517dcd6f59f64ff1"
+                    ]
+                ],
+                "mqc": [
+                    
+                ],
+                "versions": [
+                    "versions.yml:md5,78610891ed0adf1a5fe5f0de034d7555"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.0"
+        },
+        "timestamp": "2025-10-28T13:00:29.996790917"
+    }
+}
