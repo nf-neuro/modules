@@ -2,7 +2,7 @@ process RECONST_SHSIGNAL {
     tag "$meta.id"
     label 'process_single'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
         tuple val(meta), path(dwi), path(bval), path(bvec), path(mask) /* optional, value = [] */

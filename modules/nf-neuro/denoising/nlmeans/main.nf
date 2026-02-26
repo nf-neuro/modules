@@ -3,7 +3,7 @@ process DENOISING_NLMEANS {
     tag "$meta.id"
     label 'process_medium'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
     tuple val(meta), path(image), path(mask), path(mask_sigma)

@@ -1,7 +1,7 @@
 process HARMONIZATION_STATS2COMBAT {
     label 'process_single'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
     path(stats_files, arity: '1..*')

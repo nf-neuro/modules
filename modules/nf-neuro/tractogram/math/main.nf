@@ -3,7 +3,7 @@ process TRACTOGRAM_MATH {
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
         tuple val(meta), path(trks), path(reference)

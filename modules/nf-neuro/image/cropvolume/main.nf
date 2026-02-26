@@ -3,7 +3,7 @@ process IMAGE_CROPVOLUME {
     tag "$meta.id"
     label 'process_single'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
     tuple val(meta), path(image), path(bounding_box)

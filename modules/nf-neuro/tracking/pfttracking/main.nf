@@ -3,7 +3,7 @@ process TRACKING_PFTTRACKING {
     tag "$meta.id"
     label 'process_high_memory'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
         tuple val(meta), path(wm), path(gm), path(csf), path(fodf), path(fa)

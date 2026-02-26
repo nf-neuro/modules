@@ -2,7 +2,7 @@ process BUNDLE_RECOGNIZE {
     tag "$meta.id"
     label 'process_high'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
         tuple val(meta), path(tractograms), path(transform), path(config), path(directory)

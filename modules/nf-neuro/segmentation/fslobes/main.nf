@@ -2,7 +2,7 @@ process SEGMENTATION_FSLOBES {
     tag "$meta.id"
     label 'process_single'
 
-    container 'scilus/scilus:2.2.0'
+    container "scilus/scilus:2.2.1"
 
     input:
         tuple val(meta), path(fs_folder)

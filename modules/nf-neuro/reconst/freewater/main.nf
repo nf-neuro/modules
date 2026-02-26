@@ -3,7 +3,7 @@ process RECONST_FREEWATER {
     tag "$meta.id"
     label 'process_low'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
         tuple val(meta), path(dwi), path(bval), path(bvec), path(mask), path(kernels), val(para_diff), val(iso_diff), val(perp_diff_min), val(perp_diff_max)

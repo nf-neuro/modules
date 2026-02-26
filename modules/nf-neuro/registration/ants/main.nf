@@ -3,7 +3,7 @@ process REGISTRATION_ANTS {
     tag "$meta.id"
     label 'process_medium'
 
-    container "scilus/scilus:2.2.0"
+    container "scilus/scilus:2.2.1"
 
     input:
         tuple val(meta), path(fixed_image), path(moving_image), path(mask) //** optional, input = [] **//

@@ -2,7 +2,7 @@ process STATS_METRICSINROI {
     tag "$meta.id"
     label 'process_single'
 
-    container "scilus/scilpy:dev"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
     tuple val(meta), path(metrics), path(rois), path(rois_lut)  /* optional, input = [] */

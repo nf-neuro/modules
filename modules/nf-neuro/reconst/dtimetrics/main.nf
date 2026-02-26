@@ -3,7 +3,7 @@ process RECONST_DTIMETRICS {
     tag "$meta.id"
     label 'process_single'
 
-    container "scilus/scilus:2.2.0"
+    container "scilus/scilus:2.2.1"
 
     input:
         tuple val(meta), path(dwi), path(bval), path(bvec), path(b0mask)

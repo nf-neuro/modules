@@ -2,7 +2,7 @@ process SEGMENTATION_FREESURFERSEG {
     tag "$meta.id"
     label 'process_single'
 
-    container 'scilus/scilus:2.2.0'
+    container "scilus/scilus:2.2.1"
 
     input:
         tuple val(meta), path(aparc_aseg), path(wmparc), path(lesion)

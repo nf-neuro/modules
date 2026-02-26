@@ -2,7 +2,7 @@ process PREPROC_TOPUP {
     tag "$meta.id"
     label 'process_medium'
 
-    container "scilus/scilus:2.2.0"
+    container "scilus/scilus:2.2.1"
 
     input:
         tuple val(meta), path(dwi), path(bval), path(bvec), path(b0), path(rev_dwi), path(rev_bval), path(rev_bvec), path(rev_b0)

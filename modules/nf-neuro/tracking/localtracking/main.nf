@@ -2,7 +2,7 @@ process TRACKING_LOCALTRACKING {
     tag "$meta.id"
     label 'process_high_memory'
 
-    container "scilus/scilpy:2.2.0_gpu"
+    container "scilus/scilpy:2.2.1_gpu"
 
     input:
     tuple val(meta), path(wm), path(fodf), path(fa)

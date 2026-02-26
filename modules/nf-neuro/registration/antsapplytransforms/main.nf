@@ -2,7 +2,7 @@ process REGISTRATION_ANTSAPPLYTRANSFORMS {
     tag "$meta.id"
     label 'process_low'
 
-    container "scilus/scilus:2.2.0"
+    container "scilus/scilus:2.2.1"
 
     input:
     tuple val(meta), path(images, arity: '1..*'), path(reference), path(transformations, arity: '1..*')

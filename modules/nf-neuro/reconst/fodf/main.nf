@@ -3,7 +3,7 @@ process RECONST_FODF {
     tag "$meta.id"
     label 'process_high'
 
-    container 'scilus/scilpy:2.2.0_cpu'
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
         tuple val(meta), path(dwi), path(bval), path(bvec), path(mask), path(fa), path(md), path(wm_frf), path(gm_frf), path(csf_frf)

@@ -3,7 +3,7 @@ process RECONST_IHMT {
     tag "$meta.id"
     label 'process_single'
 
-    container "scilus/scilpy:2.2.0_cpu"
+    container "scilus/scilpy:2.2.1_cpu"
 
     input:
     tuple val(meta), path(altpn), path(altnp), path(pos), path(neg), path(mtoff_pd),
