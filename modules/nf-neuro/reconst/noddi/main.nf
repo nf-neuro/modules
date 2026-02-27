@@ -31,8 +31,14 @@ process RECONST_NODDI {
     def set_kernels = kernels ? "--load_kernels $kernels" : "--save_kernels kernels/"
     def set_mask = mask ? "--mask $mask" : ""
     def compute_only = task.ext.compute_only && !kernels ? "--compute_only" : ""
+    def ignore_single_shell = task.ext.ignore_single_shell ?: false
 
     """
+    # Set home directory. This is problematic if the container is run
+    # with non-root user which does not create a home directory, whilst
+    # AMICO attempts to write in the home directory, raising an error.
+    export HOME=/tmp
+
     # Check if data are multi-shell based on b-values and set number of clusters accordingly
     # Set tolerance threshold (default 40 if not specified)
     b_threshold=${task.ext.b_thr ?: 40}
@@ -52,29 +58,27 @@ process RECONST_NODDI {
 
     if [ \$clusters -lt 3 ]; then
         echo "Error: NODDI reconstruction requires multi-shell data (at least 2 non-zero b-value shells). Detected only \$clusters shell(s) with b-values: \${uniq_bvals[@]}"
-        exit 1
+        if [ "$ignore_single_shell" = "false" ]; then
+            exit 1
+        fi
     else
         echo "Detected \$clusters unique b-value shells: \${uniq_bvals[@]}"
-    fi
 
-    # Set home directory. This is problematic if the container is run
-    # with non-root user which does not create a home directory, whilst
-    # AMICO attempts to write in the home directory, raising an error.
-    export HOME=/tmp
 
-    scil_NODDI_maps $dwi $bval $bvec $para_diff_str $iso_diff_str $lambda1 \
-        $lambda2 $nb_threads $b_thr $set_mask $set_kernels --skip_b0_check $compute_only
+        scil_NODDI_maps $dwi $bval $bvec $para_diff_str $iso_diff_str $lambda1 \
+            $lambda2 $nb_threads $b_thr $set_mask $set_kernels --skip_b0_check $compute_only
 
-    if [ -z "${compute_only}" ];
-    then
-        mv results/fit_dir.nii.gz ${prefix}__dir.nii.gz
-        mv results/fit_NDI.nii.gz ${prefix}__icvf.nii.gz    # ICVF -> NDI
-        mv results/fit_FWF.nii.gz ${prefix}__isovf.nii.gz   # ISOVF -> FWF
-        mv results/fit_ODI.nii.gz ${prefix}__odi.nii.gz     # ODI -> OD
+        if [ -z "${compute_only}" ];
+        then
+            mv results/fit_dir.nii.gz ${prefix}__dir.nii.gz
+            mv results/fit_NDI.nii.gz ${prefix}__icvf.nii.gz    # ICVF -> NDI
+            mv results/fit_FWF.nii.gz ${prefix}__isovf.nii.gz   # ISOVF -> FWF
+            mv results/fit_ODI.nii.gz ${prefix}__odi.nii.gz     # ODI -> OD
 
-        scil_volume_math subtraction 1 ${prefix}__isovf.nii.gz ${prefix}__ecvf.nii.gz
+            scil_volume_math subtraction 1 ${prefix}__isovf.nii.gz ${prefix}__ecvf.nii.gz
 
-        rm -rf results
+            rm -rf results
+        fi
     fi
 
     cat <<-END_VERSIONS > versions.yml
