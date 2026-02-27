@@ -197,6 +197,13 @@ workflow RECONST_FW_NODDI {
             ch_noddi_input = ch_noddi_custom_subj
                 .mix( ch_noddi_custom )
                 .mix( ch_noddi_computed )
+                .filter{ _meta, _dwi, bval, _bvec, _b0_mask, _para, _iso ->
+                    def is_multi_shell = bval.text.tokenize().unique().size() > 2
+                    if (!is_multi_shell && !options.silence_single_shell_warnings){
+                        log.warn "Subject ${_meta.id} has single-shell data. Skipping NODDI reconstruction."
+                    }
+                    return is_multi_shell
+                }
                 .map{ meta, dwi, bval, bvec, b0_mask, para, iso ->
                     [meta, dwi, bval, bvec, b0_mask, [], para, iso] }
 
