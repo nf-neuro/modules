@@ -79,9 +79,7 @@ args:
   - compute_only:
       type: boolean
       description: Compute kernels only.
-  - ignore_single_shell:
-      type: boolean
-      description: Ignore single shell data instead of raising an error. With this flag enabled, simply no output will be produced for single shell data.
+
 output:
   dir:
     - - meta:
