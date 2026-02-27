@@ -113,6 +113,10 @@ input:
           type: boolean
           description: If 'true', the diffusivity priors computed from the RECONST/DIFFUSIVITYPRIORS module will be averaged across all subjects. (Recommended)
           default: false
+        silence_single_shell_warnings:
+          type: boolean
+          description: If 'true', the workflow will silence warnings about single-shell data (e.g. when filtering subjects for NODDI).
+          default: false
       mandatory: false
 output:
   - noddi_dir:
