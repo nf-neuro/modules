@@ -26,7 +26,7 @@ process STATS_METRICSINROI {
     def value_substrs_to_remove = task.ext.value_substrs_to_remove ?: []
 
     def meta_columns = task.ext.meta_columns ?: []
-    def meta_columns_values  = meta_columns.collect { col -> meta.containsKey(col) ? meta[col] : "null" }
+    def meta_columns_values  = meta_columns.collect { col -> meta.containsKey(col) && meta[col] ? meta[col] : "null" }
 
     def output_format = task.ext.output_format ?: 'tsv'  // 'csv' or 'tsv'
 
