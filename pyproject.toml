@@ -38,18 +38,24 @@ include = ["docs/astro/templates/*.jinja2"]
 
 [tool.poetry.dependencies]
 
-python = "<3.13,>=3.9"
+python = "<3.13,>=3.10"
 nf-core = "^3.3.2"
-black = "^24.1.1"
+
+black = ">=26.3.1"
+cryptography = ">=46.0.5"
+filelock = ">=3.20.3"
 isort = "^5.13.2"
-pdiff = "^1.1.4"
-setuptools = ">=78.1.1"
-virtualenv = ">=20.26.6"
-urllib3 = ">=2.5.0"
-requests = ">=2.32.4"
+pynacl = ">=1.6.2"
 jinja2 = ">=3.1.6"
-pyyaml = {version = ">=6.0", optional = true}
+pdiff = "^1.1.4"
+pillow = ">=12.1.1"
 pyflakes = "^3.4.0"
+pyjwt = ">=2.12.0"
+pyyaml = {version = ">=6.0", optional = true}
+setuptools = ">=78.1.1"
+requests = ">=2.32.4"
+urllib3 = ">=2.6.3"
+virtualenv = ">=20.36.1"
 
 [tool.poetry.extras]
 docs = ["pyyaml"]
