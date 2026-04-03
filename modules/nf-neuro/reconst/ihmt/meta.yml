@@ -77,6 +77,11 @@ input:
         type: list
         description: List of files for the model based B1 correction method.
         pattern: "*fitValues*.mat"
+args:
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   ihmt_maps:
     - - meta:

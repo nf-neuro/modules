@@ -45,7 +45,6 @@ process TRACKING_LOCALTRACKING {
 
     def gpu_batch_size = task.ext.gpu_batch_size ? "--batch_size " + task.ext.gpu_batch_size : ""
     def enable_gpu = task.ext.enable_gpu ? "--use_gpu $gpu_batch_size" : ""
-
     def run_qc = task.ext.run_qc ? task.ext.run_qc : false
 
     if (local_step && local_step_pct) {
@@ -60,9 +59,7 @@ process TRACKING_LOCALTRACKING {
     mkdir -p /tmp
     export HOME=/tmp
 
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     local_step_size="$local_step"
     if [[ -z "$local_step" ]] && [[ -n "$local_step_pct" ]]; then

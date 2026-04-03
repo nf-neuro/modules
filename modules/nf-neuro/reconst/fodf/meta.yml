@@ -142,6 +142,10 @@ args:
       description: If set, will output the ventricle mask estimated from an MD and
         FA threshold.
       default: false
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 input:
   - - meta:
         type: map

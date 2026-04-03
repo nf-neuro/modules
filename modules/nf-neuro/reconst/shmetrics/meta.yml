@@ -41,6 +41,37 @@ input:
         pattern: "*.{nii,nii.gz}"
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
+args:
+  - sh_basis:
+      type: string
+      description: SH basis of the input SH/FODF map.
+      choices: ["tournier07", "descoteaux07", "csa", "fibernav"]
+      default: "tournier07"
+  - relative_threshold:
+      type: float
+      description: Relative threshold to apply to the FODF peaks when computing the metrics. This is a value between 0 and 1 that represents the percentage of the maximum FODF value to use as a threshold for peak detection. For example, if the maximum FODF value in a voxel is 1 and the relative threshold is 0.5, then only peaks with a value greater than 0.5 will be considered for metric computation.
+      default: 0.1
+  - fodf_metrics_a_factor:
+      type: float
+      description: A-factor for the AFD metrics. This is a parameter that controls the sensitivity of the AFD metrics to the FODF values. A higher A-factor will make the AFD metrics more sensitive to higher FODF values, while a lower A-factor will make them more sensitive to lower FODF values. The default value is 8, which is a commonly used value in the literature.
+      default: 8.0
+  - fa_threshold:
+      type: float
+      description: FA threshold to apply to the FA map when computing the metrics. This is a value between 0 and 1 that represents the minimum FA value for a voxel to be included in the metric computation. For example, if the FA threshold is set to 0.2, then only voxels with an FA value greater than 0.2 will be included in the metric computation.
+      default: 0.2
+  - md_threshold:
+      type: float
+      description: MD threshold to apply to the MD map when computing the metrics. This is a
+        value in mm^2/s that represents the maximum MD value for a voxel to be included in the metric computation. For example, if the MD threshold is set to 0.001, then only voxels with an MD value less than 0.001 mm^2/s will be included in the metric computation.
+      default: 0.001
+  - absolute_peaks:
+      type: boolean
+      description: If true, the absolute values of the FODF peaks will be used to compute the metrics instead of the relative values. This means that the metrics will be computed based on the actual FODF values at the peaks rather than their values relative to the maximum FODF value in the voxel. This can be useful in cases where the FODF values are not normalized or when comparing across subjects with different FODF scaling.
+      default: false
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   peaks:
     - - meta:

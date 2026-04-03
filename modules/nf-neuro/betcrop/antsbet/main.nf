@@ -23,10 +23,9 @@ process BETCROP_ANTSBET {
     if (initial_affine) args += ["-r $initial_affine"]
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=$task.cpus
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
-    export ANTS_RANDOM_SEED=1234
+    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export ANTS_RANDOM_SEED=${task.ext.ants_rng_seed ?: "1234"}
 
     antsBrainExtraction.sh -d 3 -a $t1 -o bet/ -u 0 \
         -e $template -m $tissues_probabilities ${args.join(' ')}

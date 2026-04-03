@@ -145,7 +145,7 @@ jobs:
 
           mkdir -p ${{ env.TMPDIR }}
           nf-test test \
-            --profile=$PROFILE \
+            --profile=${PROFILE},stub_run \
             --tap=test.tap \
             --verbose \
             --debug \

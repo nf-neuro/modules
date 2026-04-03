@@ -30,8 +30,8 @@ process RECONST_SHMETRICS {
     def fodf_metrics_a_factor = task.ext.fodf_metrics_a_factor ? task.ext.fodf_metrics_a_factor : 2.0
     def fa_threshold = task.ext.fa_threshold ? "--fa_t " + task.ext.fa_threshold : ""
     def md_threshold = task.ext.md_threshold ? "--md_t " + task.ext.md_threshold : ""
-    def processes = task.cpus ? "--processes " + task.cpus : ""
     def absolute_peaks = task.ext.absolute_peaks ? "--abs_peaks_and_values" : ""
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
     def set_mask = mask ? "--mask $mask" : ""
 
     if ( task.ext.peaks ) peaks = "--peaks ${prefix}__peaks.nii.gz" else peaks = ""
@@ -44,9 +44,7 @@ process RECONST_SHMETRICS {
     if ( task.ext.ventricles_mask ) vent_mask = "--out_mask ${prefix}__ventricles_mask.nii.gz" else vent_mask = ""
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     scil_fodf_max_in_ventricles $sh $fa $md \
         --max_value_output ventricles_fodf_max_value.txt $sh_basis \
@@ -72,7 +70,7 @@ process RECONST_SHMETRICS {
         $afd_max $afd_total \
         $afd_sum $nufo \
         $relative_threshold --not_all --at \${a_threshold} \
-        $processes
+        --processes $nthreads
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -26,13 +26,15 @@ process RECONST_NODDI {
     def iso_diff_str = task.ext.iso_diff ? "--iso_diff " + task.ext.iso_diff : iso_diff ? "--iso_diff " + iso_diff : ""
     def lambda1 = task.ext.noddi_lambda1 ? "--lambda1 " + task.ext.noddi_lambda1 : ""
     def lambda2 = task.ext.noddi_lambda2 ? "--lambda2 " + task.ext.noddi_lambda2 : ""
-    def nb_threads = "--processes $task.cpus"
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
     def b_thr = task.ext.b_thr ? "--tolerance " + task.ext.b_thr : ""
     def set_kernels = kernels ? "--load_kernels $kernels" : "--save_kernels kernels/"
     def set_mask = mask ? "--mask $mask" : ""
     def compute_only = task.ext.compute_only && !kernels ? "--compute_only" : ""
 
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+
     # Check if data are multi-shell based on b-values and set number of clusters accordingly
     # Set tolerance threshold (default 40 if not specified)
     b_threshold=${task.ext.b_thr ?: 40}
@@ -63,7 +65,7 @@ process RECONST_NODDI {
     export HOME=/tmp
 
     scil_NODDI_maps $dwi $bval $bvec $para_diff_str $iso_diff_str $lambda1 \
-        $lambda2 $nb_threads $b_thr $set_mask $set_kernels --skip_b0_check $compute_only
+        $lambda2 --processes $nthreads $b_thr $set_mask $set_kernels --skip_b0_check $compute_only
 
     if [ -z "${compute_only}" ];
     then

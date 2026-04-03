@@ -28,9 +28,7 @@ process RECONST_SHSIGNAL {
 
     if ( mask ) args += " --mask $mask"
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     scil_dwi_extract_shell $dwi $bval $bvec $shell_to_fit \
         dwi_sh_shells.nii.gz bval_sh_shells bvec_sh_shells -f

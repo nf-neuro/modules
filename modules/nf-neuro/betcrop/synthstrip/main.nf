@@ -24,14 +24,16 @@ process BETCROP_SYNTHSTRIP {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     def gpu = task.ext.gpu ? "--gpu" : ""
-    def cpu = "--threads $task.cpus"
+    def nthreads_freesurfer = task.ext.single_thread ? "--threads 1" : "--threads $task.cpus"
     def border = task.ext.border ? "-b " + task.ext.border : ""
     def nocsf = task.ext.nocsf ? "--no-csf" : ""
     def model = "$weights" ? "--model $weights" : ""
 
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+
     unset PYTHONNOUSERSITE
-    mri_synthstrip -i $image --out ${prefix}__bet_image.nii.gz --mask ${prefix}__brain_mask.nii.gz $gpu $cpu $border $nocsf $model
+    mri_synthstrip -i $image --out ${prefix}__bet_image.nii.gz --mask ${prefix}__brain_mask.nii.gz $gpu $nthreads_freesurfer $border $nocsf $model
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -25,7 +25,7 @@ args:
       type: boolean
       description: Make sure to never upsample a tractogram. Useful when downsampling a batch of files at once.
       default:
-  - seed:
+  - scilpy_rng_seed:
       type: integer
       description: Use a specific random seed for the resampling.
       default: None

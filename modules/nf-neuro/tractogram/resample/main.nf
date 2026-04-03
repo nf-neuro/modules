@@ -20,7 +20,7 @@ process TRACTOGRAM_RESAMPLE {
     def nb_points = task.ext.nb_points ?: 1
     def nb_streamlines = task.ext.nb_streamlines ?: 1000
     def never_upsample = task.ext.never_upsample ? "--never_upsample " : ""
-    def seed = task.ext.seed ? "--seed ${task.ext.seed} " : ""
+    def seed = task.ext.scilpy_rng_seed ? "--seed ${task.ext.scilpy_rng_seed} " : ""
     def point_wise_std = task.ext.point_wise_std ? "--point_wise_std ${task.ext.point_wise_std} " : ""
     def tube_radius = task.ext.tube_radius ? "--tube_radius ${task.ext.tube_radius} " : ""
     def gaussian = task.ext.gaussian ? "--gaussian ${task.ext.gaussian} " : ""

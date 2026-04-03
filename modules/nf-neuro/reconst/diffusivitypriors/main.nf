@@ -39,7 +39,6 @@ process RECONST_DIFFUSIVITYPRIORS {
     def roi_radius = task.ext.roi_radius ? "--roi_radius " + task.ext.roi_radius : ""
 
     """
-
     scil_NODDI_priors $fa $ad $rd $md $fa_min $fa_max $md_min $roi_radius \
         --out_txt_1fiber_para ${prefix}_para_diff.txt \
         --out_txt_1fiber_perp ${prefix}_perp_diff.txt \

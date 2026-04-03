@@ -33,6 +33,8 @@ process RECONST_IHMT {
     def b1_smooth = task.ext.b1_smooth ? "--B1_smooth_dims " + task.ext.b1_smooth : ""
 
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+
     scil_mti_maps_ihMT . --in_altpn $altpn --in_altnp $altnp --in_positive $pos \
         --in_negative $neg --in_mtoff_pd $mtoff_pd $set_mtoff_t1 --out_prefix $prefix \
         $set_mask $set_jsons $set_acq_params $set_b1 $set_b1_method \
@@ -45,8 +47,6 @@ process RECONST_IHMT {
     """
 
     stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
-
     """
     scil_mti_maps_ihMT -h
     mkdir ihMT_native_maps

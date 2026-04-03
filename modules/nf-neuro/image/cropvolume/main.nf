@@ -18,7 +18,6 @@ process IMAGE_CROPVOLUME {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-
     def input_bbox = bounding_box ? "--input_bbox $bounding_box" : ""
     def suffix = task.ext.first_suffix ? "${task.ext.first_suffix}_cropped" : "cropped"
     def output_bbox = task.ext.output_bbox ? "--output_bbox ${prefix}_${suffix}_bbox.pkl" : ""

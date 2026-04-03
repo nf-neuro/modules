@@ -31,15 +31,18 @@ process PREPROC_EDDY {
     def dilate_b0_mask_prelim_brain_extraction = task.ext.dilate_b0_mask_prelim_brain_extraction ? task.ext.dilate_b0_mask_prelim_brain_extraction : ""
     def eddy_cmd = task.ext.eddy_cmd ? task.ext.eddy_cmd : "eddy_cpu"
     def bet_prelim_f = task.ext.bet_prelim_f ? task.ext.bet_prelim_f : ""
-    def extra_args = task.ext.extra_args ?: ""
     def run_qc = task.ext.run_qc ? task.ext.run_qc : false
-    def nthreads = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
+    def nthreads_mrtrix = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
+    def extra_args = task.ext.extra_args ?: ""
+    if (eddy_cmd == "eddy_cpu") {
+        extra_args += " --nthr=${nthreads} "
+    }
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=$task.cpus
-    export OMP_NUM_THREADS=$task.cpus
-    export OPENBLAS_NUM_THREADS=1
-    export ANTS_RANDOM_SEED=7468
+    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export ANTS_RANDOM_SEED=${task.ext.ants_rng_seed ? task.ext.ants_rng_seed : "1234"}
     export MRTRIX_RNG_SEED=${task.ext.mrtrix_rng_seed ? task.ext.mrtrix_rng_seed : "1234"}
 
     orig_bval=$bval
@@ -65,7 +68,7 @@ process PREPROC_EDDY {
     # If topup has been run before
     if [[ -f "$topup_fieldcoef" ]]
     then
-        mrconvert $corrected_b0s b0_corrected.nii.gz -coord 3 0 -axes 0,1,2 ${nthreads}
+        mrconvert $corrected_b0s b0_corrected.nii.gz -coord 3 0 -axes 0,1,2 ${nthreads_mrtrix}
         bet b0_corrected.nii.gz ${prefix}__b0_bet.nii.gz -m -R\
             -f $bet_topup_before_eddy_f
 
@@ -83,7 +86,7 @@ process PREPROC_EDDY {
         bet ${prefix}__b0.nii.gz ${prefix}__b0_bet.nii.gz -m -R -f $bet_prelim_f
         scil_volume_math convert ${prefix}__b0_bet_mask.nii.gz ${prefix}__b0_bet_mask.nii.gz --data_type uint8 -f
         maskfilter ${prefix}__b0_bet_mask.nii.gz dilate ${prefix}__b0_bet_mask_dilated.nii.gz\
-            --npass $dilate_b0_mask_prelim_brain_extraction ${nthreads}
+            --npass $dilate_b0_mask_prelim_brain_extraction ${nthreads_mrtrix}
         scil_volume_math multiplication ${prefix}__b0.nii.gz ${prefix}__b0_bet_mask_dilated.nii.gz\
             ${prefix}__b0_bet.nii.gz --data_type float32 -f
 
@@ -94,7 +97,7 @@ process PREPROC_EDDY {
             $slice_drop_flag
     fi
 
-    echo "--very_verbose $extra_args --nthr=$task.cpus" >> eddy.sh
+    echo "--very_verbose $extra_args" >> eddy.sh
     sh eddy.sh
     scil_volume_math lower_clip dwi_eddy_corrected.nii.gz 0 ${prefix}__dwi_corrected.nii.gz
 
@@ -134,7 +137,7 @@ process PREPROC_EDDY {
 
         for image in dwi_corrected dwi \${rev_dwi}
         do
-            mrconvert ${prefix}__\${image}_powder_average_norm.nii.gz ${prefix}__\${image}_powder_average_norm_viz.nii.gz -stride -1,2,3 ${nthreads}
+            mrconvert ${prefix}__\${image}_powder_average_norm.nii.gz ${prefix}__\${image}_powder_average_norm_viz.nii.gz -stride -1,2,3 ${nthreads_mrtrix}
             scil_viz_volume_screenshot ${prefix}__\${image}_powder_average_norm_viz.nii.gz ${prefix}__\${image}_coronal.png \${viz_params} --slices \${coronal_dim} --axis coronal
             scil_viz_volume_screenshot ${prefix}__\${image}_powder_average_norm_viz.nii.gz ${prefix}__\${image}_axial.png \${viz_params} --slices \${axial_dim} --axis axial
             scil_viz_volume_screenshot ${prefix}__\${image}_powder_average_norm_viz.nii.gz ${prefix}__\${image}_sagittal.png \${viz_params} --slices \${sagittal_dim} --axis sagittal

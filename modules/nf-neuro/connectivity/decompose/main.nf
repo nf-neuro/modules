@@ -27,16 +27,17 @@ process CONNECTIVITY_DECOMPOSE {
     def outlier_threshold = task.ext.outlier_threshold ? "--outlier_threshold " + task.ext.outlier_threshold : ""
     def max_angle = task.ext.max_angle ? "--loop_max_angle " + task.ext.max_angle : ""
     def max_curv = task.ext.max_curv ? "--curv_qb_distance " + task.ext.max_curv : ""
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
 
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     scil_tractogram_segment_connections_from_labels $trk  $labels \
-        "${prefix}__decomposed.h5" --processes $task.cpus \
+        "${prefix}__decomposed.h5" --processes $nthreads \
         --out_labels_list "${prefix}__labels_list.txt" \
         $no_pruning $no_remove_loops $no_remove_outliers \
         $no_remove_curv $min_len $max_len $outlier_threshold \
         $max_angle $max_curv
-
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

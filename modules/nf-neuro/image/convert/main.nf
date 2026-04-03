@@ -16,12 +16,11 @@ process IMAGE_CONVERT {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-
     def datatype = task.ext.datatype ? "-datatype ${task.ext.datatype}" : '' // REQUIRED.
     def suffix = task.ext.first_suffix ? "${task.ext.first_suffix}_${task.ext.datatype}_converted" : "${task.ext.datatype}_converted"
 
     """
-    mrconvert $image ${prefix}_${suffix}.nii.gz $datatype -nthreads $task.cpus
+    mrconvert $image ${prefix}_${suffix}.nii.gz $datatype
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -31,7 +30,6 @@ process IMAGE_CONVERT {
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-
     def suffix = task.ext.first_suffix ? "${task.ext.first_suffix}_${task.ext.datatype}_converted" : "${task.ext.datatype}_converted"
 
     """

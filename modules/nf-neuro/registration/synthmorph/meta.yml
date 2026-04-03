@@ -26,6 +26,26 @@ tools:
       homepage: "https://martinos.org/malte/synthmorph/"
       doi: 10.1109/TMI.2021.3116879
       identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - fixed_image:
+        type: file
+        description: Nifti volume fixed for registration
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001
+    - moving_image:
+        type: file
+        description: Nifti volume moving for registration
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001
 args:
   - models:
       type: list
@@ -66,26 +86,10 @@ args:
       type: boolean
       description: Update image header instead of performing resampling of the image grid.
       default: false
-input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'test', single_end:false ]`
-    - fixed_image:
-        type: file
-        description: Nifti volume fixed for registration
-        pattern: "*.{nii,nii.gz}"
-        mandatory: true
-        ontologies:
-          - edam: http://edamontology.org/format_4001
-    - moving_image:
-        type: file
-        description: Nifti volume moving for registration
-        pattern: "*.{nii,nii.gz}"
-        mandatory: true
-        ontologies:
-          - edam: http://edamontology.org/format_4001
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   image_warped:
     - - meta:

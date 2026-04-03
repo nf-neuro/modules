@@ -25,9 +25,7 @@ process SEGMENTATION_SYNTHSEG {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-
     def gpu = task.ext.gpu ? "" : "--cpu"
     def gm_parc = task.ext.gm_parc ? "--parc" : ""
     def robust = task.ext.robust ? "--robust" : ""
@@ -37,15 +35,14 @@ process SEGMENTATION_SYNTHSEG {
     def output_volume = task.ext.output_volume ?  "--vol ${prefix}__volume.csv" : ""
     def output_qc_score = task.ext.output_qc_score ?  "--qc ${prefix}__qc_score.csv" : ""
     def crop = task.ext.crop ? "--crop " + task.ext.crop: ""
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     cp $fs_license \$FREESURFER_HOME/license.txt
 
-    mri_synthseg --i $image --o seg.nii.gz --threads $task.cpus --post posteriors.nii.gz $gpu $robust $fast $ct $output_resample $output_volume $output_qc_score $crop
+    mri_synthseg --i $image --o seg.nii.gz --threads $nthreads --post posteriors.nii.gz $gpu $robust $fast $ct $output_resample $output_volume $output_qc_score $crop
 
     if [[ -n "$gm_parc" ]];
     then
@@ -140,7 +137,6 @@ process SEGMENTATION_SYNTHSEG {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """

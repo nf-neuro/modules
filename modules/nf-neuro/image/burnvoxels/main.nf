@@ -16,10 +16,10 @@ process IMAGE_BURNVOXELS {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     String masks_list = masks.join(", ").replace(',', '')
     Integer nb_masks = masks.size()
+
     """
     # Normalize the anatomy between 0 and 300
     scil_volume_math convert ${anat} anat_f32.nii.gz --data_type float32 -f
@@ -61,8 +61,8 @@ process IMAGE_BURNVOXELS {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+
     """
     touch ${prefix}__all.nii.gz
     touch ${prefix}__AF_L_25.nii.gz

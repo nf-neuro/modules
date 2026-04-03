@@ -15,27 +15,6 @@ tools:
       homepage: https://surfer.nmr.mgh.harvard.edu/
       doi: 10.1016/j.neuroimage.2012.01.021
       identifier: ""
-args:
-  - invert:
-      type: boolean
-      description: FOR AFFINE CONVERSION ONLY. Invert the transformation.
-      default: false
-  - conform:
-      type: boolean
-      description: FOR AFFINE CONVERSION ONLY. Conform target geometry before conversion (see freesurfer documentation).
-      default: false
-  - output_space:
-      type: string
-      description: FOR AFFINE CONVERSION ONLY. Reference space to convert to. Default is ras2ras.
-      default: "ras2ras"
-      choices:
-        - ras2ras
-        - vox2vox
-        - register_dat
-  - downsample:
-      type: boolean
-      description: FOR WARP CONVERSION ONLY. Downsample the input warp to 2mm isotropic resolution.
-      default: false
 input:
   - - meta:
         type: map
@@ -114,6 +93,31 @@ input:
         pattern: "*.txt"
         mandatory: true
         ontologies: []
+args:
+  - invert:
+      type: boolean
+      description: FOR AFFINE CONVERSION ONLY. Invert the transformation.
+      default: false
+  - conform:
+      type: boolean
+      description: FOR AFFINE CONVERSION ONLY. Conform target geometry before conversion (see freesurfer documentation).
+      default: false
+  - output_space:
+      type: string
+      description: FOR AFFINE CONVERSION ONLY. Reference space to convert to. Default is ras2ras.
+      default: "ras2ras"
+      choices:
+        - ras2ras
+        - vox2vox
+        - register_dat
+  - downsample:
+      type: boolean
+      description: FOR WARP CONVERSION ONLY. Downsample the input warp to 2mm isotropic resolution.
+      default: false
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   transformation:
     - - meta:

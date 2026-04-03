@@ -23,9 +23,7 @@ process SEGMENTATION_FASTSEG {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     fast -t 1 -n 3\
         -H 0.1 -I 4 -l 20.0 -g -o t1.nii.gz $image

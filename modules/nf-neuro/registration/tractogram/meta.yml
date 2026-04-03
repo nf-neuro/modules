@@ -19,6 +19,41 @@ tools:
         toolbox.
       homepage: https://github.com/scilus/scilpy.git
       identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - tractograms:
+        type: file
+        description: Tractogram or list of tractograms to register
+        pattern: "*.{trk,tck,h5}"
+        mandatory: true
+        ontologies: []
+    - trk_reference:
+        type: file
+        description: Reference anatomy for tck/vtk/fib/dpy file support (.nii or .nii.gz)
+          (optional)
+        pattern: "*.{tck,vtk,fib,dpy}"
+        mandatory: false
+        ontologies: []
+    - reference:
+        type: file
+        description: Reference anatomy for registration (.nii or .nii.gz)
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - transformations:
+        type: list
+        description: |
+          Transformation file(s) - can be one or two files. Deformation field must be
+          .nii.gz format. Affine transform must be .mat or .txt format.
+        pattern: "*.{mat,txt,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
 args:
   - inverse:
       type: boolean
@@ -61,41 +96,10 @@ args:
       description: |
         Maximum distance between two points to be considered overlapping, in mm.
       default: 0.001
-input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'test', single_end:false ]`
-    - tractograms:
-        type: file
-        description: Tractogram or list of tractograms to register
-        pattern: "*.{trk,tck,h5}"
-        mandatory: true
-        ontologies: []
-    - trk_reference:
-        type: file
-        description: Reference anatomy for tck/vtk/fib/dpy file support (.nii or .nii.gz)
-          (optional)
-        pattern: "*.{tck,vtk,fib,dpy}"
-        mandatory: false
-        ontologies: []
-    - reference:
-        type: file
-        description: Reference anatomy for registration (.nii or .nii.gz)
-        pattern: "*.{nii,nii.gz}"
-        mandatory: true
-        ontologies:
-          - edam: http://edamontology.org/format_4001 # NIFTI format
-    - transformations:
-        type: list
-        description: |
-          Transformation file(s) - can be one or two files. Deformation field must be
-          .nii.gz format. Affine transform must be .mat or .txt format.
-        pattern: "*.{mat,txt,nii.gz}"
-        mandatory: true
-        ontologies:
-          - edam: http://edamontology.org/format_4001 # NIFTI format
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   tractogram:
     - - meta:

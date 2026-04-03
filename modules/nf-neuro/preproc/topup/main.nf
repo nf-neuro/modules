@@ -30,12 +30,12 @@ process PREPROC_TOPUP {
     def readout = task.ext.readout ?: ""
     def b0_thr_extract_b0 = task.ext.b0_thr_extract_b0 ?: ""
     def run_qc = task.ext.run_qc
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
-    export ANTS_RANDOM_SEED=7468
+    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export ANTS_RANDOM_SEED=${task.ext.ants_random_seed ?: 1234}
 
     if [[ -f "$b0" ]];
     then
@@ -60,7 +60,7 @@ process PREPROC_TOPUP {
         --encoding_direction $encoding\
         --readout $readout --out_prefix $prefix_topup\
         --out_script \
-        --topup_options=\"--nthr=$task.cpus\" -f
+        --topup_options=\"--nthr=$nthreads\" -f
     sh topup.sh
     cp corrected_b0s.nii.gz ${prefix}__corrected_b0s.nii.gz
 

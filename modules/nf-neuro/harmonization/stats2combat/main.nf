@@ -69,9 +69,6 @@ process HARMONIZATION_STATS2COMBAT {
     """
 
     stub:
-    def covariates = task.ext.covariates ?: ["sample", "roi", "site", "age", "sex", "handedness", "disease"]
-    def covariatespy = "[" + covariates.collect { "\"${it}\"" }.join(", ") + "]"
-    def file_list = stats_files.collect { "\"${it}\"" }.join(", ")
     def suffix = task.ext.suffix ?: "raw"
 
     // Extract the sitename from the input files

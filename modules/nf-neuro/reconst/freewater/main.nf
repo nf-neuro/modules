@@ -29,20 +29,21 @@ process RECONST_FREEWATER {
     def perp_diff_max_str = task.ext.perp_diff_max ? "--perp_diff_max " + task.ext.perp_diff_max : perp_diff_max ? "--perp_diff_max " + perp_diff_max : ""
     def lambda1 = task.ext.fw_lambda1 ? "--lambda1 " + task.ext.fw_lambda1 : ""
     def lambda2 = task.ext.fw_lambda2 ? "--lambda2 " + task.ext.fw_lambda2 : ""
-    def nb_threads = "--processes $task.cpus"
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
     def b_thr = task.ext.b_thr ? "--b_thr " + task.ext.b_thr : ""
     def set_kernels = kernels ? "--load_kernels $kernels" : "--save_kernels kernels/"
     def set_mask = mask ? "--mask $mask" : ""
     def compute_only = task.ext.compute_only && !kernels ? "--compute_only" : ""
 
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
     # Set home directory. This is problematic if the container is run
     # with non-root user which does not create a home directory, whilst
     # AMICO attempts to write in the home directory, raising an error.
     export HOME=/tmp
 
     scil_freewater_maps $dwi $bval $bvec $para_diff_str $perp_diff_min_str \
-        $perp_diff_max_str $iso_diff_str $lambda1 $lambda2 $nb_threads $b_thr \
+        $perp_diff_max_str $iso_diff_str $lambda1 $lambda2 --processes $nthreads $b_thr \
         $set_mask $set_kernels $compute_only
 
     if [ -z "${compute_only}" ]; then

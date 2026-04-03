@@ -15,7 +15,6 @@ process CONNECTIVITY_VISUALIZE {
     task.ext.when == null || task.ext.when
 
     script:
-
     String matrices_list = matrices.join(", ").replace(',', '')
     def name_axis = task.ext.name_axis ? "--name_axis " : ""
     def display_legend = task.ext.display_legend ? "--display_legend " : ""
@@ -42,6 +41,7 @@ process CONNECTIVITY_VISUALIZE {
 
     stub:
     String  matrices_list = matrices.join(", ").replace(',', '')
+
     """
     for metric in $matrices_list; do
         base_name=\$(basename "\${metric}" .npy)

@@ -3,9 +3,7 @@ process SEGMENTATION_FASTSURFER {
     label 'process_single'
 
     container "${ 'deepmi/fastsurfer:cpu-v2.4.2' }"
-    containerOptions {
-        (workflow.containerEngine == 'docker') ? '--entrypoint "" --user $(id -u):$(id -g)' : ''
-    }
+    containerOptions((workflow.containerEngine == 'docker') ? '--entrypoint "" --user $(id -u):$(id -g)' : '')
 
     input:
         tuple val(meta), path(anat), path(fs_license)
@@ -23,19 +21,20 @@ process SEGMENTATION_FASTSURFER {
     def cerebnet = task.ext.cerebnet ? "" : "--no_cereb"
     def hypvinn = task.ext.hypvinn ? "" : "--no_hypothal"
     def seg_only = task.ext.seg_only ? "--seg_only" : ""
-
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
     def FASTSURFER_HOME = "/fastsurfer"
     def SUBJECTS_DIR = "${prefix}_fastsurfer"
 
-
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+
     mkdir ${prefix}_fastsurfer/
     $FASTSURFER_HOME/run_fastsurfer.sh  --allow_root \
                                         --sd \$(realpath ${SUBJECTS_DIR}) \
                                         --fs_license \$(realpath $fs_license) \
                                         --t1 \$(realpath ${anat}) \
                                         --sid ${prefix} \
-                                        --threads $task.cpus \
+                                        --threads $nthreads \
                                         --py python3 \
                                         $cerebnet \
                                         $hypvinn \

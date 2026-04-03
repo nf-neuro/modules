@@ -64,10 +64,6 @@ process HARMONIZATION_COMBAT2STATS {
     """
 
     stub:
-    def covariates = task.ext.covariates ?: ["sample", "roi", "site", "age", "sex", "handedness", "disease"]
-    def file_list = harmonized_stats.collect { "\"${it}\"" }.join(", ")
-    def covariatespy = "[" + covariates.collect { "\"${it}\"" }.join(", ") + "]"
-
     // Extract the sitename from the input files
     // this is to avoid file name collisions when stubbing
     def sitename = harmonized_stats[0].getName().split("\\.")[0]

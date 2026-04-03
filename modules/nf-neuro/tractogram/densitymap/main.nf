@@ -15,7 +15,6 @@ process TRACTOGRAM_DENSITYMAP {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def binary = task.ext.is_binary ? "--binary" : ""
     def endpoints_only = task.ext.endpoint_only ? "--endpoints_only" : ""
@@ -31,8 +30,8 @@ process TRACTOGRAM_DENSITYMAP {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+
     """
     scil_tractogram_compute_density_map -h
 

@@ -19,13 +19,14 @@ process CONNECTIVITY_AFDFIXEL {
 
     def length_weighting = task.ext.length_weighting ? "--length_weighting ": ""
     def sh_basis = task.ext.sh_basis ? "--sh_basis $task.ext.sh_basis": ""
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
 
     """
     scil_bundle_mean_fixel_afd_from_hdf5 $hdf5 $fodf \
         "${prefix}__afd_fixel.h5" \
         $length_weighting \
         $sh_basis \
-        --processes $task.cpus
+        --processes $nthreads
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

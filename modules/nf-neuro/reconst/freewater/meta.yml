@@ -69,7 +69,6 @@ input:
         type: float
         description: Maximum perpendicular diffusivity value (diff prior).
         mandatory: false
-
 args:
   - para_diff:
       type: float
@@ -95,7 +94,10 @@ args:
   - compute_only:
       type: boolean
       description: Compute kernels only.
-
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   dwi_fw_corrected:
     - - meta:

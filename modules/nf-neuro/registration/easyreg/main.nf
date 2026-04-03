@@ -24,12 +24,11 @@ process REGISTRATION_EASYREG {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def affine_only = task.ext.affine_only ? "--affine_only " : ""
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
     fixed_segmentation = "--ref_seg ${fixed_segmentation ?: "${prefix}_warped_segmentation.nii.gz" }"
     moving_segmentation = "--flo_seg ${moving_segmentation ?: "${prefix}_warped_reference_segmentation.nii.gz" }"
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     mri_easyreg --ref $fixed_image \
         --flo $moving_image \
@@ -38,7 +37,7 @@ process REGISTRATION_EASYREG {
         --fwd_field ${prefix}_forward0_warp.nii.gz \
         --bak_field ${prefix}_backward0_warp.nii.gz \
         $fixed_segmentation $moving_segmentation \
-        --threads $task.cpus $affine_only
+        --threads $nthreads $affine_only
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

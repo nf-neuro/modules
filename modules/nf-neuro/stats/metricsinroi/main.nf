@@ -34,9 +34,7 @@ process STATS_METRICSINROI {
 
     def sep = output_format == 'tsv' ? '\t' : ','
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     if $use_label;
     then

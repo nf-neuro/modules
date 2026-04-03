@@ -3,9 +3,7 @@ process REGISTRATION_SYNTHMORPH {
     label 'process_high'
 
     container "freesurfer/synthmorph:4"
-    containerOptions {
-        (workflow.containerEngine == 'docker') ? '--entrypoint ""' : ""
-    }
+    containerOptions((workflow.containerEngine == 'docker') ? '--entrypoint ""' : "")
 
     input:
     tuple val(meta), path(fixed_image), path(moving_image)
@@ -35,11 +33,10 @@ process REGISTRATION_SYNTHMORPH {
     def steps = "-n ${task.ext.steps ?: 7 }"
     def extent = "-e ${task.ext.extent ?: 256}"
     def update_header = task.ext.disable_resampling ? "-H" : ""
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
     export CUDA_VISIBLE_DEVICES="-1"
 
     echo "Available memory : ${task.memory}"
@@ -94,7 +91,7 @@ process REGISTRATION_SYNTHMORPH {
         mri_synthmorph register \$moving fixed.nii.gz -v -m \$model \$weight \$args \
             -t ${prefix}_forward\${j}_\$model.\${extension[\$model]} \
             -T ${prefix}_backward\${i}_\$model.\${extension[\$model]} \
-            -o warped.nii.gz -j $task.cpus $extent $use_gpu
+            -o warped.nii.gz -j ${nthreads} $extent $use_gpu
 
         if [ \$initializer ]; then
             # Retag initializer file to standalone using sed

@@ -15,7 +15,7 @@ process IO_NII2DCM {
     task.ext.when == null || task.ext.when
 
     script:
-    def nthreads = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
+    def nthreads_mrtrix = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
     String nifti_list = niftis.join(", ").replace(',', '')
 
     if ( task.ext.study_description ) args += " --study_description " + task.ext.study_description
@@ -26,7 +26,7 @@ process IO_NII2DCM {
 
     for n in ${nifti_list};
     do
-        mrconvert \${n} \${n} -stride -2,-1,3 -force ${nthreads}
+        mrconvert \${n} \${n} -stride -2,-1,3 -force ${nthreads_mrtrix}
     done
     convert_nii2dcm.py *.nii.gz DICOM/ -d MR --series_description ${nifti_list}
 

@@ -77,6 +77,10 @@ args:
       type: boolean
       description: If enabled, divide the weighted volumes by the b0 before fitting.
       default: false
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   sh_signal:
     - - meta:

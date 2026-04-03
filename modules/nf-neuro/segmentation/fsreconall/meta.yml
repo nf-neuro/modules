@@ -35,6 +35,11 @@ input:
           (copied to a .license file in your $FREESURFER_HOME), this is not required.
         pattern: "*.txt"
         ontologies: []
+args:
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   recon_all_out_folder:
     - - meta:

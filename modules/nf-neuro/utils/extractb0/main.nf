@@ -19,10 +19,9 @@ process UTILS_EXTRACTB0 {
     def extraction_strategy = task.ext.b0_extraction_strategy ? "--$task.ext.b0_extraction_strategy" : "--mean"
     def b0_threshold = task.ext.b0_threshold ? "--b0_threshold $task.ext.b0_threshold" : ""
     def output_series = task.ext.output_series ? "" : "--single-image"
+
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     scil_dwi_extract_b0 $dwi $bval $bvec ${prefix}_b0.nii.gz \
         $output_series $extraction_strategy $b0_threshold --skip_b0_check
@@ -34,7 +33,6 @@ process UTILS_EXTRACTB0 {
     """
 
     stub:
-    def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """

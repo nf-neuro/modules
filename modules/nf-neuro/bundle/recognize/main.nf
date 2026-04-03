@@ -21,11 +21,13 @@ process BUNDLE_RECOGNIZE {
 
     // additional script arguments
     def minimal_vote_ratio = task.ext.minimal_vote_ratio ? "--minimal_vote_ratio " + task.ext.minimal_vote_ratio : ""
-    def seed = task.ext.seed ? "--seed " + task.ext.seed : ""
-    def rbx_processes = task.cpus ? "--processes " + task.cpus : "--processes 1"
+    def seed = task.ext.scilpy_rng_seed ? "--seed " + task.ext.scilpy_rng_seed : "--seed 1234"
+    def nthreads = task.single_thread ? 1 : task.cpus
     def outlier_alpha = task.ext.outlier_alpha ? "--alpha " + task.ext.outlier_alpha : ""
     def run_qc = task.ext.run_qc ?: false
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+
     if [[ "$transform" == *.txt ]]; then
         ConvertTransformFile 3 $transform transform.mat --convertToAffineType \
             && transform="transform.mat" \
@@ -34,7 +36,7 @@ process BUNDLE_RECOGNIZE {
 
     mkdir recobundles/
     scil_tractogram_segment_with_bundleseg ${tractograms} ${config} ${directory}/ ${transform} --inverse --out_dir recobundles/ \
-        -v DEBUG $minimal_vote_ratio $seed $rbx_processes
+        -v DEBUG $minimal_vote_ratio $seed --processes $nthreads
 
     for bundle_file in recobundles/*.trk; do
         bname=\$(basename \${bundle_file} .trk | sed 's/${prefix}_\\+//')
@@ -43,9 +45,9 @@ process BUNDLE_RECOGNIZE {
     done
 
     if command -v parallel > /dev/null 2>&1; then
-        parallel -j ${task.cpus} --no-notice < commands.txt
+        parallel -j $nthreads --no-notice < commands.txt
     else
-        xargs -P ${task.cpus} -L 1 -I {} sh -c "{}" < commands.txt
+        xargs -P $nthreads -L 1 -I {} sh -c "{}" < commands.txt
     fi
 
     if $run_qc; then

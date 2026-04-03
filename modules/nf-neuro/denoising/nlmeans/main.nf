@@ -25,14 +25,13 @@ process DENOISING_NLMEANS {
     def ncoils = task.ext.number_of_coils ? "--number_coils $task.ext.number_of_coils" : ""
     def sigma_from_all_voxels = task.ext.sigma_from_all_voxels ? "--sigma_from_all_voxels" : ""
     def save_piesno_mask = task.ext.save_piesno_mask ? "--save_piesno_mask ${prefix}__piesno_mask.nii.gz" : ""
-    def args = ["--processes $task.cpus"]
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
+    def args = ["--processes $nthreads"]
     if (mask) args += ["--mask_denoise $mask"]
     if (mask_sigma) args += ["--mask_sigma $mask_sigma"]
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     scil_denoising_nlmeans $image ${prefix}__denoised.nii.gz \
         $gaussian $sigma $basic_sigma $piesno $ncoils $save_piesno_mask $sigma_from_all_voxels ${args.join(" ")}

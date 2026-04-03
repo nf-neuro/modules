@@ -28,7 +28,7 @@ process TRACKING_PFTTRACKING {
     def pft_wm_threshold = task.ext.pft_wm_seeding_mask_threshold ?: 0.5
     def pft_seeding_mask = task.ext.pft_seeding_mask_type ?: "wm"
 
-    def pft_random_seed = task.ext.pft_random_seed ? "--seed " + task.ext.pft_random_seed : "--seed 0"
+    def pft_random_seed = task.ext.pft_random_seed ? "--seed " + task.ext.pft_random_seed : ""
     def compress = task.ext.pft_compress_value ? "--compress " + task.ext.pft_compress_value : ""
     def pft_algo = task.ext.pft_algo ? "--algo " + task.ext.pft_algo: ""
     def pft_seeding_type = task.ext.pft_seeding ? "--"  + task.ext.pft_seeding : "--npv"
@@ -44,7 +44,6 @@ process TRACKING_PFTTRACKING {
     def pft_back = task.ext.pft_back ? "--back "  + task.ext.pft_back : ""
     def pft_front = task.ext.pft_front ? "--forward "  + task.ext.pft_front : ""
     def basis = task.ext.basis ? "--sh_basis "  + task.ext.basis : ""
-
     def run_qc = task.ext.run_qc ? task.ext.run_qc : false
 
     if (pft_step && pft_step_pct) {
@@ -52,9 +51,7 @@ process TRACKING_PFTTRACKING {
     }
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     scil_tracking_pft_maps $wm $gm $csf \
         --include ${prefix}__map_include.nii.gz \

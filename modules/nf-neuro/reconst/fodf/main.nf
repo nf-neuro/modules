@@ -38,7 +38,7 @@ process RECONST_FODF {
     def sh_order = task.ext.sh_order ? "--sh_order " + task.ext.sh_order : ""
     def sh_basis = task.ext.sh_basis ? "--sh_basis " + task.ext.sh_basis : ""
     def set_method = task.ext.method ? task.ext.method : "ssst"
-    def processes = task.cpus > 1 ? "--processes " + task.cpus : ""
+    def nthreads = task.ext.single_thread ? 1 : task.cpus
     def set_mask = mask ? "--mask $mask" : ""
     def relative_threshold = task.ext.relative_threshold ? "--rt " + task.ext.relative_threshold : ""
     def fodf_metrics_a_factor = task.ext.fodf_metrics_a_factor ? task.ext.fodf_metrics_a_factor : 2.0
@@ -68,9 +68,7 @@ process RECONST_FODF {
     ].any()
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     scil_dwi_extract_shell $dwi $bval $bvec $fodf_shells \
         dwi_fodf_shells.nii.gz bval_fodf_shells bvec_fodf_shells \
@@ -81,14 +79,14 @@ process RECONST_FODF {
 
         scil_fodf_ssst dwi_fodf_shells.nii.gz bval_fodf_shells bvec_fodf_shells $wm_frf ${prefix}__fodf.nii.gz \
             $sh_order $sh_basis --b0_threshold $b0_thr_extract_b0 \
-            $set_mask $processes
+            $set_mask --processes $nthreads
 
     elif [ "$set_method" = "msmt" ]
     then
 
         scil_fodf_msmt dwi_fodf_shells.nii.gz bval_fodf_shells bvec_fodf_shells \
             $wm_frf $gm_frf $csf_frf \
-            $sh_order $sh_basis $set_mask $processes $dwi_shell_tolerance \
+            $sh_order $sh_basis $set_mask --processes $nthreads $dwi_shell_tolerance \
             --not_all $wm_fodf $gm_fodf $csf_fodf $vf $vf_rgb
 
         cp ${prefix}__wm_fodf.nii.gz ${prefix}__fodf.nii.gz
@@ -117,7 +115,7 @@ process RECONST_FODF {
             $set_mask $sh_basis $absolute_peaks \
             $peaks $peak_values $peak_indices \
             $afd_max $afd_total \
-            $afd_sum $nufo $processes \
+            $afd_sum $nufo --processes $nthreads \
             $relative_threshold --not_all --at \${a_threshold}
     fi
 

@@ -19,7 +19,7 @@ process QC_GIF {
     def title_image1 = task.ext.title_image1 ? task.ext.title_image1 : "image1"
     def title_image2 = task.ext.title_image2 ? task.ext.title_image2 : "image2"
     def suffix_qc = task.ext.suffix_qc ? "${task.ext.suffix_qc}" : ""
-    def nthreads = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
+    def nthreads_mrtrix = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
 
     """
     if [[ -f "$image2" ]]; then
@@ -40,7 +40,7 @@ process QC_GIF {
             axial_dim=\$((\$axial_dim / 2))
 
             basename=\$(basename \$image .nii.gz)
-            mrconvert \${image} \${basename}_for_viz.nii.gz -stride -1,2,3 -force ${nthreads}
+            mrconvert \${image} \${basename}_for_viz.nii.gz -stride -1,2,3 -force ${nthreads_mrtrix}
 
             # Set viz params.
             viz_params="--display_slice_number --display_lr --size 256 256"
@@ -81,7 +81,7 @@ process QC_GIF {
         echo "Dimension de l'image : \$dim"
         echo "Tailles des dimensions : \$extract_dim"
 
-        mrconvert $image1 base_image_viz.nii.gz -stride -1,2,3 -force ${nthreads}
+        mrconvert $image1 base_image_viz.nii.gz -stride -1,2,3 -force ${nthreads_mrtrix}
 
         if [ "\$dim" == 3 ]; then
             echo "Error: If you only use one input, it must be in 4D to create the gif." >&2
@@ -97,7 +97,7 @@ process QC_GIF {
 
             for ((slice=0; slice<\$forth_dim; slice++)); do
                 echo "Slice : \$slice"
-                mrconvert base_image_viz.nii.gz -coord 3 \${slice} -axes 0,1,2 image.nii.gz -force ${nthreads}
+                mrconvert base_image_viz.nii.gz -coord 3 \${slice} -axes 0,1,2 image.nii.gz -force ${nthreads_mrtrix}
 
                 scil_viz_volume_screenshot image.nii.gz \${basename}_coronal.png \
                     --slices \$coronal_dim --axis coronal \$viz_params

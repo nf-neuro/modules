@@ -94,7 +94,10 @@ args:
         to add covariates such as the age, laterality, diagnosis, etc. of each subject.
         If the key is not found in the meta map, an empty value will be used.
       default: []
-
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   stats_json:
     - - meta:

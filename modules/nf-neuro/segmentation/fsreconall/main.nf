@@ -22,6 +22,8 @@ process SEGMENTATION_FSRECONALL {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def dev_debug_test = task.ext.debug ? task.ext.debug : ""  // If true, we will only run the help (for unit tests )
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+
     # Manage the license. (Save old one if existed.)
     if [[ ! -f "$fs_license" ]]
     then

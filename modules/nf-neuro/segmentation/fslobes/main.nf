@@ -17,14 +17,16 @@ process SEGMENTATION_FSLOBES {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def nthreads = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
+    def nthreads_mrtrix = task.ext.single_thread ? "-nthreads 0" : "-nthreads ${task.cpus}"
 
     """
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export MRTRIX_RNG_SEED=${task.ext.mrtrix_rng_seed ? task.ext.mrtrix_rng_seed : "1234"}
     export MPLCONFIGDIR=./
 
-    mrconvert ${fs_folder}/mri/rawavg.mgz rawavg.nii.gz ${nthreads}
-    mrconvert ${fs_folder}/mri/wmparc.mgz wmparc.nii.gz ${nthreads}
-    mrconvert ${fs_folder}/mri/brainmask.mgz brain_mask.nii.gz ${nthreads}
+    mrconvert ${fs_folder}/mri/rawavg.mgz rawavg.nii.gz ${nthreads_mrtrix}
+    mrconvert ${fs_folder}/mri/wmparc.mgz wmparc.nii.gz ${nthreads_mrtrix}
+    mrconvert ${fs_folder}/mri/brainmask.mgz brain_mask.nii.gz ${nthreads_mrtrix}
 
     scil_volume_reslice_to_reference wmparc.nii.gz rawavg.nii.gz \
         wmparc.nii.gz --interpolation nearest -f

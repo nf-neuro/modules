@@ -11,6 +11,30 @@ tools:
         toolbox."
       homepage: "https://github.com/scilus/scilpy.git"
       identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - wm:
+        type: file
+        description: Nifti image white matter probability map or mask.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - fodf:
+        type: file
+        description: Nifti image of spherical harmonic file (fodf)
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - fa:
+        type: file
+        description: NIfti image binary mask for fa mask
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
 args:
   - local_fa_tracking_mask_threshold:
       type: float
@@ -118,30 +142,10 @@ args:
       type: boolean
       default: true
       description: Enable quality control image generation for tracking.
-input:
-  - - meta:
-        type: map
-        description: |
-          Groovy Map containing sample information
-          e.g. `[ id:'test', single_end:false ]`
-    - wm:
-        type: file
-        description: Nifti image white matter probability map or mask.
-        pattern: "*.{nii,nii.gz}"
-        ontologies:
-          - edam: http://edamontology.org/format_4001 # NIFTI format
-    - fodf:
-        type: file
-        description: Nifti image of spherical harmonic file (fodf)
-        pattern: "*.{nii,nii.gz}"
-        ontologies:
-          - edam: http://edamontology.org/format_4001 # NIFTI format
-    - fa:
-        type: file
-        description: NIfti image binary mask for fa mask
-        pattern: "*.{nii,nii.gz}"
-        ontologies:
-          - edam: http://edamontology.org/format_4001 # NIFTI format
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   trk:
     - - meta:

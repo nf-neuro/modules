@@ -53,6 +53,10 @@ args:
         Use this flag to only run the segmentation part of FastSurfer. If false, will also
         run the surface reconstruction part (recon-surf).
       default: true
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 output:
   fastsurferdirectory:
     - - meta:

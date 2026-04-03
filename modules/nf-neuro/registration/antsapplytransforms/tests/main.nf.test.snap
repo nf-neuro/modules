@@ -187,13 +187,25 @@
                     ]
                 ],
                 "1": [
-                    
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_b0_2template_registration_antsapplytransforms_mqc.gif:md5,a03fb2d2bc43f533144a8633947d3601"
+                    ]
                 ],
                 "2": [
                     "versions.yml:md5,4d59ddbe3d87c2399a11ca8b4008f369"
                 ],
                 "mqc": [
-                    
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_b0_2template_registration_antsapplytransforms_mqc.gif:md5,a03fb2d2bc43f533144a8633947d3601"
+                    ]
                 ],
                 "versions": [
                     "versions.yml:md5,4d59ddbe3d87c2399a11ca8b4008f369"
@@ -213,6 +225,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:31:51.746342266"
+        "timestamp": "2026-04-02T16:03:34.401612574"
     }
 }

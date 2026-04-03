@@ -121,6 +121,10 @@ args:
       type: int
       description: "Random seed for reproducibility."
       default: 1234
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
 input:
   - - meta:
         type: map

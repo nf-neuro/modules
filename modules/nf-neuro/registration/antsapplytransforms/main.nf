@@ -28,9 +28,8 @@ process REGISTRATION_ANTSAPPLYTRANSFORMS {
     def run_qc = task.ext.run_qc as Boolean || false
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=$task.cpus
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     for image in $images; do
         ext=\${image#*.}

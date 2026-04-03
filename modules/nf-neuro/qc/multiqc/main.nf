@@ -4,9 +4,7 @@ process QC_MULTIQC {
 
     conda "${moduleDir}/environment.yml"
     container "gagnonanthony/multiqc-neuroimaging:0.1.0"
-    containerOptions {
-        (workflow.containerEngine == 'docker') ? '--entrypoint "" --user $(id -u):$(id -g)' : ''
-    }
+        containerOptions((workflow.containerEngine == 'docker') ? '--entrypoint "" --user $(id -u):$(id -g)' : '')
 
     input:
     tuple val(meta), path(qc_images)
@@ -59,6 +57,7 @@ process QC_MULTIQC {
 
     stub:
     def prefix = "${meta.id}" // No timestamp in stub, otherwise tests will fail.
+
     """
     multiqc --help
 

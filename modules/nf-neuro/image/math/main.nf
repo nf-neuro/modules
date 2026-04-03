@@ -74,6 +74,7 @@ process IMAGE_MATH {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def suffix = task.ext.suffix ?: "output"
+
     """
     scil_volume_math -h
     touch ${prefix}__${suffix}.nii.gz

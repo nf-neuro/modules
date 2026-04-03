@@ -32,7 +32,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:33:48.0202885"
+        "timestamp": "2026-04-02T23:03:44.377834718"
     },
     "registration - tractogram_bundles": {
         "content": [
@@ -83,7 +83,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:33:35.342109456"
+        "timestamp": "2026-04-02T23:03:14.070002387"
     },
     "registration - tractogram - stub-run": {
         "content": [
@@ -130,7 +130,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:33:53.800773061"
+        "timestamp": "2026-04-02T23:03:58.663039818"
     },
     "registration - tractogram - custom suffix": {
         "content": [
@@ -165,6 +165,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:33:42.506181525"
+        "timestamp": "2026-04-02T23:03:30.880095571"
     }
 }
