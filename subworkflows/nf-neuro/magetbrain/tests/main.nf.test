@@ -1,0 +1,95 @@
+nextflow_workflow {
+
+    name "Test Subworkflow MAGETBRAIN"
+    script "../main.nf"
+    workflow "MAGETBRAIN"
+    config "../nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_nfneuro"
+    tag "subworkflows/magetbrain"
+
+    tag "registration"
+    tag "registration/ants"
+    tag "registration/antsapplytransforms"
+    tag "segmentation"
+    tag "segmentation/majorityvote"
+
+    tag "subworkflows/utils_options"
+
+    tag "load_test_data"
+
+    tag "stub"
+    options "-stub-run"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "T1w.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("magetbrain - stub-run") {
+        when {
+            workflow {
+                """
+                // Create distinct copies of the same image for atlas, template, subject
+                // to avoid file name collisions during staging
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'atlas1' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                            "\${test_data_directory}/atlas1_T1w.nii.gz"
+                        )
+                    ]
+                }
+                input[1] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'atlas1', label_tag:'_label_test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz", checkIfExists: true)
+                    ]
+                }
+                input[2] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'template1' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                            "\${test_data_directory}/template1_T1w.nii.gz"
+                        )
+                    ]
+                }
+                input[3] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'subject1' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                            "\${test_data_directory}/subject1_T1w.nii.gz"
+                        )
+                    ]
+                }
+                input[4] = [:]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out
+                        .findAll{ channel -> !channel.key.isInteger() && channel.value }
+                        .collectEntries{ channel ->
+                            [(channel.key): ["versions"].contains(channel.key)
+                                ? channel.value
+                                : channel.value.collect{ subject ->
+                                    [ subject[0] ] + subject[1..-1].collect{ entry -> entry ? file(entry).name : "" }
+                            } ]
+                        }
+                ).match() }
+            )
+        }
+    }
+}
