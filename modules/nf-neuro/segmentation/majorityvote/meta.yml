@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-neuro/modules/main/modules/meta-schema.json
+name: "segmentation_majorityvote"
+description: |
+  Perform majority voting label fusion on multiple candidate segmentation labels
+  using ANTs ImageMath MajorityVoting. At each voxel, the most frequently
+  occurring label value across all candidate images is selected.
+keywords:
+  - segmentation
+  - label fusion
+  - majority voting
+  - multi-atlas
+tools:
+  - ANTs:
+      description: "Advanced Normalization Tools."
+      homepage: "https://github.com/ANTsX/ANTs"
+      documentation: "http://stnava.github.io/ANTsDoc/"
+      doi: "10.1038/s41598-021-87564-6"
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - candidate_labels:
+        type: file
+        description: |
+          Two or more candidate label NIfTI volumes to fuse via majority voting.
+          Each voxel in the output receives the most frequent label value across
+          all candidate images.
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+output:
+  label:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_majorityvote.nii.gz":
+          type: file
+          description: Majority-voted label segmentation volume.
+          pattern: "*_majorityvote.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@CMonnin"

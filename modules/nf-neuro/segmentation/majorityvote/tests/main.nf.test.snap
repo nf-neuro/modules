@@ -1,0 +1,14 @@
+{
+    "segmentation - majorityvote - stub-run": {
+        "content": [
+            [
+                "versions.yml:md5,6e7871589afc2f36ffdb2af990360321"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2026-03-21T15:11:34.911601939"
+    }
+}
