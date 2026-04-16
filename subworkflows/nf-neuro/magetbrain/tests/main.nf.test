@@ -38,36 +38,78 @@ nextflow_workflow {
         when {
             workflow {
                 """
-                // Create distinct copies of the same image for atlas, template, subject
-                // to avoid file name collisions during staging
-                input[0] = LOAD_DATA.out.test_data_directory.map{
+                // Create distinct copies of the same image for each atlas, template, subject
+                // to avoid file name collisions during staging.
+                // 2 atlases x 3 templates x 2 subjects exercises combinatorial pairing,
+                // transform chaining, and groupTuple with multiple candidates.
+                input[0] = LOAD_DATA.out.test_data_directory.flatMap{
                     test_data_directory -> [
-                        [ id:'atlas1' ],
-                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
-                            "\${test_data_directory}/atlas1_T1w.nii.gz"
-                        )
+                        [
+                            [ id:'atlas1' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas1_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'atlas2' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas2_T1w.nii.gz"
+                            )
+                        ]
                     ]
                 }
-                input[1] = LOAD_DATA.out.test_data_directory.map{
+                input[1] = LOAD_DATA.out.test_data_directory.flatMap{
                     test_data_directory -> [
-                        [ id:'atlas1', label_tag:'_label_test' ],
-                        file("\${test_data_directory}/T1w_mask.nii.gz", checkIfExists: true)
+                        [
+                            [ id:'atlas1', label_tag:'_label_test' ],
+                            file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas1_label_test.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'atlas2', label_tag:'_label_test' ],
+                            file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas2_label_test.nii.gz"
+                            )
+                        ]
                     ]
                 }
-                input[2] = LOAD_DATA.out.test_data_directory.map{
+                input[2] = LOAD_DATA.out.test_data_directory.flatMap{
                     test_data_directory -> [
-                        [ id:'template1' ],
-                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
-                            "\${test_data_directory}/template1_T1w.nii.gz"
-                        )
+                        [
+                            [ id:'template1' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/template1_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'template2' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/template2_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'template3' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/template3_T1w.nii.gz"
+                            )
+                        ]
                     ]
                 }
-                input[3] = LOAD_DATA.out.test_data_directory.map{
+                input[3] = LOAD_DATA.out.test_data_directory.flatMap{
                     test_data_directory -> [
-                        [ id:'subject1' ],
-                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
-                            "\${test_data_directory}/subject1_T1w.nii.gz"
-                        )
+                        [
+                            [ id:'subject1' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/subject1_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'subject2' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/subject2_T1w.nii.gz"
+                            )
+                        ]
                     ]
                 }
                 input[4] = [:]
