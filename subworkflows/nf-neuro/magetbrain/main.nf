@@ -127,7 +127,7 @@ workflow MAGETBRAIN {
                     subject_id: subjectId,
                     label_tag: label_tag
                 ]
-                // antsApplyTransforms applies left to right
+                // antsApplyTransforms applies transforms right-to-left (the last -t is applied first)
                 def chained_transforms = ts_xfm + at_xfm
                 // ANTSAPPLYTRANSFORMS input: [meta, images, reference, transformations]
                 [meta, label_file, subject_image, chained_transforms]
