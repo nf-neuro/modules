@@ -5,6 +5,8 @@ import datetime
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from keywords import DEFAULT_MODEL, extract_keywords
+
 
 TYPE_TO_NTYPE = {
     "map": "val",
@@ -58,6 +60,14 @@ def _create_parser():
     p.add_argument('module_path', help='Path to the module')
     p.add_argument('current_commit_sha', help='Current commit sha')
     p.add_argument('output', help='Name of the output markdown file')
+    p.add_argument(
+        '--enhance-keywords', action='store_true', default=False,
+        help='Use an LLM via Ollama to extract additional SEO keywords'
+    )
+    p.add_argument(
+        '--llm-model', default=DEFAULT_MODEL, metavar='MODEL',
+        help=f'Ollama model used for keyword extraction (default: {DEFAULT_MODEL})'
+    )
 
     return p
 
@@ -82,6 +92,9 @@ def main():
 
     data["currentcommit"] = args.current_commit_sha
     data["currentdate"] = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    if args.enhance_keywords:
+        data["keywords"] = extract_keywords(data, model=args.llm_model)
 
     template = env.get_template('module.md.jinja2')
     output_path = Path(args.output)
