@@ -1,5 +1,5 @@
 name: bundle_bundleparc
-description: process bundleparc
+description: Extract label maps of bundles using the bundleparc machine learning model.
 keywords:
   - Tractography
   - Bundleparc
