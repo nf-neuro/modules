@@ -1,10 +1,12 @@
 import argparse
+import sys
 from pathlib import Path
 import yaml
 import datetime
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+sys.path.insert(0, str(Path(__file__).parent))
 from keywords import DEFAULT_MODEL, extract_keywords
 
 

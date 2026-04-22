@@ -8,7 +8,6 @@ engines.
 
 import json
 import logging
-import re
 
 log = logging.getLogger(__name__)
 
@@ -95,19 +94,30 @@ def extract_keywords(data, model=DEFAULT_MODEL):
         )
         content = response.message.content.strip()
 
-        # The model may wrap the array in markdown fences or add thinking text;
-        # extract the first JSON array found in the response.
-        match = re.search(r"\[.*?\]", content, re.DOTALL)
-        if match:
-            new_keywords = json.loads(match.group())
-            if isinstance(new_keywords, list):
-                existing_lower = {k.lower() for k in existing_keywords}
-                additional = [
-                    k
-                    for k in new_keywords
-                    if isinstance(k, str) and k.lower() not in existing_lower
-                ]
-                return existing_keywords + additional
+        # Locate the first JSON array in the response using bracket matching
+        # to handle nested arrays and avoid capturing partial results.
+        start = content.find("[")
+        if start != -1:
+            depth = 0
+            end = -1
+            for i, ch in enumerate(content[start:], start):
+                if ch == "[":
+                    depth += 1
+                elif ch == "]":
+                    depth -= 1
+                    if depth == 0:
+                        end = i + 1
+                        break
+            if end != -1:
+                new_keywords = json.loads(content[start:end])
+                if isinstance(new_keywords, list):
+                    existing_lower = {k.lower() for k in existing_keywords}
+                    additional = [
+                        k
+                        for k in new_keywords
+                        if isinstance(k, str) and k.lower() not in existing_lower
+                    ]
+                    return existing_keywords + additional
 
         log.warning(
             "LLM response did not contain a parseable JSON keyword array; "
