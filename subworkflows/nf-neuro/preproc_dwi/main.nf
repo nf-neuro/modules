@@ -206,10 +206,7 @@ workflow PREPROC_DWI {
             BETCROP_FSLBETCROP ( ch_dwi )
             ch_versions = ch_versions.mix(BETCROP_FSLBETCROP.out.versions.first())
 
-            if ( !options.preproc_dwi_keep_dwi_with_skull) {
-                ch_dwi = BETCROP_FSLBETCROP.out.image
-                            .join(ch_bvals_bvecs)
-            }
+            ch_dwi = BETCROP_FSLBETCROP.out.image.join(ch_bvals_bvecs)
             ch_mask = BETCROP_FSLBETCROP.out.mask
             ch_bbox = BETCROP_FSLBETCROP.out.bbox
         } // No else, we just use ch_dwi
