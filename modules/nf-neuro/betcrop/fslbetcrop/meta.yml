@@ -85,6 +85,12 @@ args:
       type: integer
       description: Random seed for ANTs registration. Setting a fixed seed can help with reproducibility of results.
       default: 1234
+  - keep_image_with_skull:
+      type: boolean
+      description: |
+        If true, the output image will keep the original image with the skull while still generating the
+        brain-extracted version for the mask and bounding box. Only works with DWI data.
+      default: false
 output:
   image:
     - - meta:

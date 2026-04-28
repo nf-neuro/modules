@@ -17,10 +17,11 @@ process IMAGE_CONVERT {
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def datatype = task.ext.datatype ? "-datatype ${task.ext.datatype}" : '' // REQUIRED.
+    def strides = task.ext.strides ? "-strides \"${task.ext.strides}\"" : ''
     def suffix = task.ext.first_suffix ? "${task.ext.first_suffix}_${task.ext.datatype}_converted" : "${task.ext.datatype}_converted"
 
     """
-    mrconvert $image ${prefix}_${suffix}.nii.gz $datatype -nthreads 0
+    mrconvert $image ${prefix}_${suffix}.nii.gz $datatype $strides -nthreads 0
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

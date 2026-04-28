@@ -20,7 +20,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test__image_bet.nii.gz:md5,6a3960fdbf0f4dc6e52e1a240aab3e77"
+                        "test__image_bet.nii.gz:md5,781908d0bdb99f4f969f558e8f13cfe5"
                     ]
                 ],
                 "1": [
@@ -29,7 +29,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test__image_bet_mask.nii.gz:md5,aad98ede91402c7f8494d5af1900ac93"
+                        "test__image_bet_mask.nii.gz:md5,8b1720364571f0337359eeeced23e49d"
                     ]
                 ],
                 "2": [
@@ -38,7 +38,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test__image_boundingBox.pkl:md5,0f0659fcc6ea1796e19558ba16a682c4"
+                        "test__image_boundingBox.pkl:md5,872d862115dcf4aa265152da6480e529"
                     ]
                 ],
                 "3": [
@@ -50,7 +50,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test__image_boundingBox.pkl:md5,0f0659fcc6ea1796e19558ba16a682c4"
+                        "test__image_boundingBox.pkl:md5,872d862115dcf4aa265152da6480e529"
                     ]
                 ],
                 "image": [
@@ -59,7 +59,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test__image_bet.nii.gz:md5,6a3960fdbf0f4dc6e52e1a240aab3e77"
+                        "test__image_bet.nii.gz:md5,781908d0bdb99f4f969f558e8f13cfe5"
                     ]
                 ],
                 "mask": [
@@ -68,7 +68,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test__image_bet_mask.nii.gz:md5,aad98ede91402c7f8494d5af1900ac93"
+                        "test__image_bet_mask.nii.gz:md5,8b1720364571f0337359eeeced23e49d"
                     ]
                 ],
                 "versions": [
@@ -80,7 +80,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:27:25.39706749"
+        "timestamp": "2026-04-24T11:07:50.184247919"
     },
     "betcrop - fslbetcrop - t1": {
         "content": [

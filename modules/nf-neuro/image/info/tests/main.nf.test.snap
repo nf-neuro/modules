@@ -1,0 +1,119 @@
+{
+    "Image property - datatype": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "Float32LE\n"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,b20079fce9818e04663fbd45ec302a8d"
+                ],
+                "property": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "Float32LE\n"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,b20079fce9818e04663fbd45ec302a8d"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T20:40:12.024299548"
+    },
+    "Image property - strides": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "-1 2 3\n"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,b20079fce9818e04663fbd45ec302a8d"
+                ],
+                "property": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "-1 2 3\n"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,b20079fce9818e04663fbd45ec302a8d"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T20:39:57.9131707"
+    },
+    "Image property - all": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "************************************************\nImage name:          \"T1w.nii.gz\"\n************************************************\n  Dimensions:        124 x 162 x 20\n  Voxel size:        1 x 1 x 1\n  Data strides:      [ -1 2 3 ]\n  Format:            NIfTI-1.1 (GZip compressed)\n  Data type:         32 bit float (little endian)\n  Intensity scaling: offset = 0, multiplier = 1\n  Transform:               0.9951    -0.09821     0.01148      -53.51\n                          0.09885      0.9907    -0.09338      -100.1\n                        -0.002201     0.09406      0.9956       16.81\n"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,b20079fce9818e04663fbd45ec302a8d"
+                ],
+                "property": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "************************************************\nImage name:          \"T1w.nii.gz\"\n************************************************\n  Dimensions:        124 x 162 x 20\n  Voxel size:        1 x 1 x 1\n  Data strides:      [ -1 2 3 ]\n  Format:            NIfTI-1.1 (GZip compressed)\n  Data type:         32 bit float (little endian)\n  Intensity scaling: offset = 0, multiplier = 1\n  Transform:               0.9951    -0.09821     0.01148      -53.51\n                          0.09885      0.9907    -0.09338      -100.1\n                        -0.002201     0.09406      0.9956       16.81\n"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,b20079fce9818e04663fbd45ec302a8d"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T20:40:05.377536406"
+    },
+    "Image property - stub": {
+        "content": [
+            [
+                "versions.yml:md5,b20079fce9818e04663fbd45ec302a8d"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T18:34:38.9793571"
+    }
+}

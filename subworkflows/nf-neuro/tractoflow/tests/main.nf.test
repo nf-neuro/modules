@@ -16,6 +16,9 @@ nextflow_workflow {
     tag "subworkflows/preproc_t1"
     tag "subworkflows/registration"
 
+    tag "image/convert"
+    tag "image/convertdwi"
+    tag "image/math"
     tag "reconst/dtimetrics"
     tag "reconst/frf"
     tag "reconst/fodf"
@@ -98,6 +101,7 @@ nextflow_workflow {
                     "preproc_dwi_run_resampling": true,
                     "preproc_dwi_run_normalize": true,
                     "preproc_dwi_run_synthstrip": true,
+                    "preproc_dwi_keep_dwi_with_skull": false,
                     "frf_average_from_data": false,
                     "run_local_tracking": true,
                     "run_pft_tracking": true
@@ -171,6 +175,7 @@ nextflow_workflow {
                 input[10] = channel.empty()
                 input[11] = channel.empty()
                 input[12] = [
+                    "run_bundleparc": true,
                     "preproc_dwi_run_denoising": true,
                     "preproc_dwi_run_degibbs": false,
                     "topup_eddy_run_topup": true,
@@ -179,6 +184,7 @@ nextflow_workflow {
                     "preproc_dwi_run_resampling": true,
                     "preproc_dwi_run_normalize": true,
                     "preproc_dwi_run_synthstrip": false,
+                    "preproc_dwi_keep_dwi_with_skull": true,
                     "frf_average_from_data": false,
                     "run_qball": true,
                     "use_qball_for_tracking": true,

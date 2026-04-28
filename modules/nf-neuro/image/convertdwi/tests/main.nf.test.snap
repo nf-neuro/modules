@@ -1,0 +1,85 @@
+{
+    "Image convert - stub": {
+        "content": [
+            [
+                "versions.yml:md5,ef0f4617e627c6b15d8c6d52d46802b4"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T19:47:20.978535736"
+    },
+    "Image convert - float32 datatype with strides": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_converted.nii.gz:md5,478a4c899c86bd4a9839ee9fe30250f4"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_converted.bval:md5,170bfc9c94b4328d0a64525e48c268c0"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_converted.bvec:md5,7bfcccaa736485dbebd44d498709e8fb"
+                    ]
+                ],
+                "3": [
+                    "versions.yml:md5,ef0f4617e627c6b15d8c6d52d46802b4"
+                ],
+                "bval": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_converted.bval:md5,170bfc9c94b4328d0a64525e48c268c0"
+                    ]
+                ],
+                "bvec": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_converted.bvec:md5,7bfcccaa736485dbebd44d498709e8fb"
+                    ]
+                ],
+                "image": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_converted.nii.gz:md5,478a4c899c86bd4a9839ee9fe30250f4"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,ef0f4617e627c6b15d8c6d52d46802b4"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T20:50:40.369430177"
+    }
+}

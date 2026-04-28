@@ -55,7 +55,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_float32_converted.nii.gz:md5,6e94cba9013988eec16a8a5ae8e808ae"
+                        "test_float32_converted.nii.gz:md5,ff17eba4a7cc26abdccfbab1d389c783"
                     ]
                 ],
                 "1": [
@@ -67,7 +67,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_float32_converted.nii.gz:md5,6e94cba9013988eec16a8a5ae8e808ae"
+                        "test_float32_converted.nii.gz:md5,ff17eba4a7cc26abdccfbab1d389c783"
                     ]
                 ],
                 "versions": [
@@ -76,9 +76,9 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "25.04.7"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-09-17T20:02:50.477023739"
+        "timestamp": "2026-04-22T15:13:04.210464013"
     }
 }

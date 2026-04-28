@@ -1,0 +1,2 @@
+bundle/bundleparc:
+  - "modules/nf-neuro/bundle/bundleparc/**"

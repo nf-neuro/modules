@@ -54,7 +54,7 @@ process REGISTRATION_ANTS {
     $ants $dimension -f $fixed_image -m $moving_image -o output -t $transform $args -e \$ANTS_RANDOM_SEED
 
     moving_id=\$(basename $moving_image .nii.gz)
-    moving_id=\${moving_id#${meta.id}_*}
+    moving_id=\${moving_id#${prefix}_*}
 
     mv outputWarped.nii.gz ${prefix}_\${moving_id}_warped.nii.gz
 

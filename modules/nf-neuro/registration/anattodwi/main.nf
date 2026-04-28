@@ -52,7 +52,7 @@ process REGISTRATION_ANATTODWI {
         --smoothing-sigmas 3x2x1
 
     moving_id=\$(basename $moving_anat .nii.gz)
-    moving_id=\${moving_id#${meta.id}_*}
+    moving_id=\${moving_id#${prefix}_*}
 
     mv warped.nii.gz ${prefix}_\${moving_id}_warped.nii.gz
     mv forward0GenericAffine.mat ${prefix}_forward1_affine.mat

@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: image_info
+description: |
+  Small utility module to extract some information from an image.
+  You need to specify the info you want to extract as an argument,
+  and the module will return the requested information in a text file.
+keywords:
+  - image
+  - info
+  - datatype
+tools:
+  - MRtrix3:
+      description: |
+        MRtrix3 is a software package for various types of diffusion imaging
+        data, including diffusion-weighted, diffusion-tensor, and q-ball imaging.
+      homepage: https://www.mrtrix.org/
+      doi: 10.1016/j.neuroimage.2019.116137
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1', single_end:false ]`
+    - image:
+        type: file
+        description: Image to extract information from.
+        pattern: "*.nii.gz"
+        ontologies:
+          - edam: http://edamontology.org/format_3989 # GZIP format
+args:
+  - property:
+      type: string
+      default: "all"
+      choices:
+        - all
+        - name
+        - format
+        - ndim
+        - size
+        - spacing
+        - datatype
+        - strides
+        - offset
+        - multiplier
+        - transform
+      description: Key to extract from the image.
+output:
+  property:
+    - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1', single_end:false ]`# txt format
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@arnaudbore"
+maintainers:
+  - "@arnaudbore"

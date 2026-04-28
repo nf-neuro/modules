@@ -42,6 +42,9 @@ keywords:
   - fodf
   - dti
 components:
+  - image/convertdwi
+  - image/convert
+  - image/math
   - anatomical_segmentation
   - preproc_dwi
   - preproc_t1
@@ -531,6 +534,10 @@ input:
       description: |
         Map of options for the subworkflow.
       entries:
+        run_bundleparc:
+          type: boolean
+          description: If 'true', we need to stride every single image to "-1 2 3 4" so it work with subworkflow bundleparc.
+          default: false
         preproc_dwi_run_denoising:
           type: boolean
           description: If 'true', the DWI will be denoised using the MPPCA method from MRtrix3.

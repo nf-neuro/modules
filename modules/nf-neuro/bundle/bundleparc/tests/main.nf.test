@@ -1,0 +1,97 @@
+nextflow_process {
+
+    name "Test Process BUNDLE_BUNDLEPARC"
+    script "../main.nf"
+    process "BUNDLE_BUNDLEPARC"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "bundle"
+    tag "bundle/bundleparc"
+
+    tag "subworkflows/load_test_data"
+
+    config "./nextflow.config"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "processing.zip", "bundleparc.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("bundleparc") {
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        processing: it.simpleName == "processing"
+                        bundleparc: it.simpleName == "bundleparc"
+                    }
+                fodf = ch_split_test_data.processing.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/fodf_crop_1000_stride_-1234_descoteaux07.nii.gz")
+                    ]
+                }
+                checkpoint = ch_split_test_data.bundleparc.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/123_4_5.ckpt")
+                    ]
+                }
+                input[0] = fodf
+                    .join(checkpoint)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("bundleparc - stub-run") {
+        tag "stub"
+        options "-stub-run"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        processing: it.simpleName == "processing"
+                        bundleparc: it.simpleName == "bundleparc"
+                    }
+                fodf = ch_split_test_data.processing.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/fodf_crop_1000_stride_-1234_descoteaux07.nii.gz")
+                    ]
+                }
+                checkpoint = ch_split_test_data.bundleparc.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/123_4_5.ckpt")
+                    ]
+                }
+                input[0] = fodf
+                    .join(checkpoint)
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.versions).match() }
+            )
+        }
+    }
+}

@@ -1,0 +1,64 @@
+nextflow_workflow {
+
+    name "Test Subworkflow BUNDLE_BUNDLEPARC"
+    script "../main.nf"
+    workflow "BUNDLEPARC"
+    config "./nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_nfneuro"
+    tag "subworkflows/bundleparc"
+
+    tag "bundle/bundleparc"
+    tag "image/info"
+
+    tag "load_test_data"
+
+    tag "stub"
+    options "-stub-run"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "processing.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("bundleparc - download checkpoint - stubrun") {
+        when {
+            workflow {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/fodf_crop_1000_stride_-1234_descoteaux07.nii.gz", checkIfExists: true)
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out
+                        .findAll{ channel -> !channel.key.isInteger() && channel.value  }
+                        .collectEntries{ channel ->
+                            [(channel.key): ["versions"].contains(channel.key)
+                                ? channel.value
+                                : channel.value.collect{ subject ->
+                                    [ subject[0] ] + subject[1..-1].flatten().collect{ entry -> entry
+                                        ? file(entry).name
+                                        : "" }
+                            } ]
+                        }
+                ).match() }
+            )
+        }
+    }
+}

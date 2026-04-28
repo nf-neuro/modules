@@ -1,0 +1,2 @@
+image/property:
+  - "modules/nf-neuro/image/property/**"

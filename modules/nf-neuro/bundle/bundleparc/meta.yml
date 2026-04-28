@@ -1,0 +1,90 @@
+name: bundle_bundleparc
+description: process bundleparc
+keywords:
+  - Tractography
+  - Bundleparc
+  - Diffusion MRI
+tools:
+  - scilpy:
+      description: "The Sherbrooke Connectivity Imaging Lab (SCIL) Python dMRI processing
+        toolbox."
+      homepage: "https://github.com/scilus/scilpy.git"
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - fodf:
+        type: file
+        description: Nifti image of spherical harmonic file (fodf) - Stride -1234,
+          with sh basis Descoteaux07
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001
+    - checkpoint:
+        type: file
+        description: Checkpoint file for bundleparc
+        pattern: "*.{ckpt}"
+        ontologies: []
+output:
+  labels:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__*.nii.gz":
+          type: file
+          description: Label maps
+          pattern: "*.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_3989
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+authors:
+  - "@AntoineTheb"
+args:
+  - nb_pts:
+      type: int
+      default: 10
+      description: "Number of divisions per bundle."
+  - mm:
+      type: int
+      default: 0
+      description: "If set, bundles will be split in sections roughly X mm wide."
+  - continuous:
+      type: bool
+      default: false
+      description: "If set, the output label maps will be continuous ∈ [0, 1]."
+  - keep_biggest:
+      type: bool
+      default: false
+      description: "Only keep the biggest blob predicted."
+  - min_blob_size:
+      type: int
+      default: 50
+      description: "Minimum blob size (in voxels) to keep. Smaller blobs will be removed."
+  - bundles:
+      type: string
+      default: ""
+      description: |
+        "Bundles to predict, space separated. Default is every bundle (71 bundles). Check the scilpy API."
+        "https://scilpy.readthedocs.io/en/latest/scripts/scil_fodf_bundleparc.html"
+  - half:
+      type: bool
+      default: false
+      description: "Use half precision (float16) for inference. This reduces memory usage but may lead to reduced accuracy."
+  - sh_basis:
+      type: string
+      default: ""
+      description: |
+        "Spherical harmonics basis used in the input fodf. This is required to determine the number of coefficients per voxel."
+        "Only 'descoteaux07' is currently supported. but needs to be specified for the module to run."
+        " You need to link this parameter with params.fodf_sh_basis from tractoflow subworkflow and/or params.sh_basis from fodf module"

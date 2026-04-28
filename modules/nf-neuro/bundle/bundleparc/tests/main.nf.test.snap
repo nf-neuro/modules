@@ -1,0 +1,47 @@
+{
+    "bundleparc - stub-run": {
+        "content": [
+            [
+                "versions.yml:md5,f51bf9d33d58c59c112774d2c8f993f3"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T13:46:28.580280786"
+    },
+    "bundleparc": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test__AF_left.nii.gz:md5,33e01130b2dd06849ecbbf718d6f797a"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,f51bf9d33d58c59c112774d2c8f993f3"
+                ],
+                "labels": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test__AF_left.nii.gz:md5,33e01130b2dd06849ecbbf718d6f797a"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f51bf9d33d58c59c112774d2c8f993f3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-04-21T13:39:22.512585348"
+    }
+}

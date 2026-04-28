@@ -1,0 +1,88 @@
+nextflow_process {
+
+    name "Test Process IMAGE_CONVERTDWI"
+    script "../main.nf"
+    process "IMAGE_CONVERTDWI"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "image"
+    tag "image/convertdwi"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    config "./nextflow_datatype_strides.config"
+
+    test("Image convert - float32 datatype with strides") {
+        setup {
+            run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+                script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+                process {
+                    """
+                    input[0] = channel.from( [ "processing.zip" ] )
+                    input[1] = "test.load-test-data"
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/dwi_crop_1000.nii.gz"),
+                        file("\${test_data_directory}/1000.bval"),
+                        file("\${test_data_directory}/1000.bvec")
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("Image convert - stub") {
+
+        tag "stub"
+        options "-stub-run"
+
+        setup {
+            run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+                script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+                process {
+                    """
+                    input[0] = channel.from( [ "processing.zip" ] )
+                    input[1] = "test.load-test-data"
+                    """
+                }
+            }
+        }
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/dwi_crop_1000.nii.gz"),
+                        file("\${test_data_directory}/1000.bval"),
+                        file("\${test_data_directory}/1000.bvec")
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.versions).match() }
+            )
+        }
+    }
+}
