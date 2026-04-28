@@ -11,12 +11,23 @@ description: |
     1. Register every atlas to every template (REGISTER_ATLAS_TEMPLATE)
     2. Register every template to every subject (REGISTER_TEMPLATE_SUBJECT)
     3. Chain transforms to resample atlas labels into subject space via every
-       possible atlas-template-subject path (RESAMPLE_LABELS)
+        possible atlas-template-subject path (RESAMPLE_LABELS)
     4. Majority vote across all candidate labels per subject (SEGMENTATION_MAJORITYVOTE)
 
   Computational note: With A atlases, T templates, S subjects, and L labels per
   atlas, the subworkflow produces A*T + T*S registrations and A*T*S*L label
   resamplings.
+
+  References:
+    - Pipitone J, Park MT, Winterburn J, et al. Multi-atlas segmentation of the
+      whole hippocampus and subfields using multiple automatically generated
+      templates. Neuroimage. 2014.
+    - Chakravarty MM, Steadman P, van Eede MC, et al. Performing label-fusion-
+      based segmentation using multiple automatically generated templates.
+      Hum Brain Mapp, 34(10):2635-54, October 2013.
+      doi:10.1002/hbm.22092
+
+  Implementation assistance: Claude (Anthropic).
 keywords:
   - segmentation
   - multi-atlas

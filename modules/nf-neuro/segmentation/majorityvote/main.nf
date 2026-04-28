@@ -5,7 +5,7 @@ process SEGMENTATION_MAJORITYVOTE {
     container "scilus/scilus:2.2.2"
 
     input:
-        tuple val(meta), path(candidate_labels)
+        tuple val(meta), path(candidate_labels, arity: '2..*')
 
     output:
         tuple val(meta), path("*_majorityvote.nii.gz"), emit: label
