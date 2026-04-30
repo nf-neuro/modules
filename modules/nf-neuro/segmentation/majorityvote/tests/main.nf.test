@@ -1,0 +1,56 @@
+nextflow_process {
+
+    name "Test Process SEGMENTATION_MAJORITYVOTE"
+    script "../main.nf"
+    process "SEGMENTATION_MAJORITYVOTE"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "segmentation"
+    tag "segmentation/majorityvote"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "T1w.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("segmentation - majorityvote - stub-run") {
+        tag "stub"
+        options "-stub-run"
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        [
+                            file("\${test_data_directory}/T1w_mask.nii.gz", checkIfExists: true),
+                            file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/T1w_mask_copy.nii.gz"
+                            )
+                        ]
+                    ]
+                }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.versions).match() }
+            )
+        }
+    }
+}

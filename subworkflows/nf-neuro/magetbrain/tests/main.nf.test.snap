@@ -1,0 +1,103 @@
+{
+    "template_subject_pairs": {
+        "content": [
+            [
+                "template1_to_subject1",
+                "template1_to_subject2",
+                "template2_to_subject1",
+                "template2_to_subject2",
+                "template3_to_subject1",
+                "template3_to_subject2"
+            ]
+        ],
+        "timestamp": "2026-04-29T11:27:55.846975533",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "24.10.5"
+        }
+    },
+    "magetbrain - stub-run": {
+        "content": [
+            {
+                "labels": [
+                    [
+                        {
+                            "id": "subject1_label_test"
+                        },
+                        "subject1_label_test_majorityvote.nii.gz"
+                    ],
+                    [
+                        {
+                            "id": "subject2_label_test"
+                        },
+                        "subject2_label_test_majorityvote.nii.gz"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,1a076128c0e5e49175034dac7bd05f03",
+                    "versions.yml:md5,2de58e65c4a8d57da273d757a93de74b",
+                    "versions.yml:md5,ce1c5e5dd2b76f4a269c95fa802a9abe",
+                    "versions.yml:md5,f11ee767f5469bc1de7ad7a271eaa40b"
+                ]
+            }
+        ],
+        "timestamp": "2026-04-29T10:32:21.875583592",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "24.10.5"
+        }
+    },
+    "resample_combinations": {
+        "content": [
+            [
+                "subject1_label_test_via_atlas1_template1",
+                "subject1_label_test_via_atlas1_template2",
+                "subject1_label_test_via_atlas1_template3",
+                "subject1_label_test_via_atlas2_template1",
+                "subject1_label_test_via_atlas2_template2",
+                "subject1_label_test_via_atlas2_template3",
+                "subject2_label_test_via_atlas1_template1",
+                "subject2_label_test_via_atlas1_template2",
+                "subject2_label_test_via_atlas1_template3",
+                "subject2_label_test_via_atlas2_template1",
+                "subject2_label_test_via_atlas2_template2",
+                "subject2_label_test_via_atlas2_template3"
+            ]
+        ],
+        "timestamp": "2026-04-29T11:27:55.860146101",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "24.10.5"
+        }
+    },
+    "majorityvote_groups": {
+        "content": [
+            [
+                "subject1_label_test",
+                "subject2_label_test"
+            ]
+        ],
+        "timestamp": "2026-04-29T11:27:55.874729084",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "24.10.5"
+        }
+    },
+    "atlas_template_pairs": {
+        "content": [
+            [
+                "atlas1_to_template1",
+                "atlas1_to_template2",
+                "atlas1_to_template3",
+                "atlas2_to_template1",
+                "atlas2_to_template2",
+                "atlas2_to_template3"
+            ]
+        ],
+        "timestamp": "2026-04-29T11:27:55.820499181",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "24.10.5"
+        }
+    }
+}

@@ -1,0 +1,179 @@
+nextflow_workflow {
+
+    name "Test Subworkflow MAGETBRAIN"
+    script "../main.nf"
+    workflow "MAGETBRAIN"
+    config "../nextflow.config"
+
+    tag "subworkflows"
+    tag "subworkflows_nfneuro"
+    tag "subworkflows/magetbrain"
+
+    tag "registration"
+    tag "registration/ants"
+    tag "registration/antsapplytransforms"
+    tag "segmentation"
+    tag "segmentation/majorityvote"
+
+    tag "subworkflows/utils_options"
+
+    tag "load_test_data"
+
+    tag "stub"
+    options "-stub-run"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "T1w.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("magetbrain - stub-run") {
+        when {
+            workflow {
+                """
+                // Create distinct copies of the same image for each atlas, template, subject
+                // to avoid file name collisions during staging.
+                // 2 atlases x 3 templates x 2 subjects exercises combinatorial pairing,
+                // transform chaining, and groupTuple with multiple candidates.
+                input[0] = LOAD_DATA.out.test_data_directory.flatMap{
+                    test_data_directory -> [
+                        [
+                            [ id:'atlas1' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas1_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'atlas2' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas2_T1w.nii.gz"
+                            )
+                        ]
+                    ]
+                }
+                input[1] = LOAD_DATA.out.test_data_directory.flatMap{
+                    test_data_directory -> [
+                        [
+                            [ id:'atlas1', label_tag:'_label_test' ],
+                            file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas1_label_test.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'atlas2', label_tag:'_label_test' ],
+                            file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/atlas2_label_test.nii.gz"
+                            )
+                        ]
+                    ]
+                }
+                input[2] = LOAD_DATA.out.test_data_directory.flatMap{
+                    test_data_directory -> [
+                        [
+                            [ id:'template1' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/template1_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'template2' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/template2_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'template3' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/template3_T1w.nii.gz"
+                            )
+                        ]
+                    ]
+                }
+                input[3] = LOAD_DATA.out.test_data_directory.flatMap{
+                    test_data_directory -> [
+                        [
+                            [ id:'subject1' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/subject1_T1w.nii.gz"
+                            )
+                        ],
+                        [
+                            [ id:'subject2' ],
+                            file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/subject2_T1w.nii.gz"
+                            )
+                        ]
+                    ]
+                }
+                input[4] = [:]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+
+                // Combinatorial fan-out:
+                //   2 atlases × 3 templates                = 6 atlas→template registrations
+                //   3 templates × 2 subjects               = 6 template→subject registrations
+                //   2 atlases × 3 templates × 2 subjects   = 12 chained-transform resamplings
+                //   2 subjects (groupTuple by subject+tag) = 2 majority votes
+                //                                          = 26 tasks total
+                { assert workflow.trace.succeeded().size() == 26 },
+
+                // Atlas → template pairs: every atlas registered to every template.
+                { assert snapshot(
+                    workflow.trace.tasks()
+                        .findAll{ it.name =~ /REGISTER_ATLAS_TEMPLATE/ }
+                        .collect{ (it.name =~ /\(([^)]+)\)/)[0][1] }
+                        .sort()
+                ).match("atlas_template_pairs") },
+
+                // Template → subject pairs: every template registered to every subject.
+                { assert snapshot(
+                    workflow.trace.tasks()
+                        .findAll{ it.name =~ /REGISTER_TEMPLATE_SUBJECT/ }
+                        .collect{ (it.name =~ /\(([^)]+)\)/)[0][1] }
+                        .sort()
+                ).match("template_subject_pairs") },
+
+                // Resample candidates: tags encode subject_label_via_atlas_template,
+                // so this snapshot directly proves the atlas×template×subject paths.
+                { assert snapshot(
+                    workflow.trace.tasks()
+                        .findAll{ it.name =~ /RESAMPLE_LABELS/ }
+                        .collect{ (it.name =~ /\(([^)]+)\)/)[0][1] }
+                        .sort()
+                ).match("resample_combinations") },
+
+                // groupTuple(by: [subject_id, label_tag]) collapses to one vote per (subject, tag).
+                { assert snapshot(
+                    workflow.trace.tasks()
+                        .findAll{ it.name =~ /SEGMENTATION_MAJORITYVOTE/ }
+                        .collect{ (it.name =~ /\(([^)]+)\)/)[0][1] }
+                        .sort()
+                ).match("majorityvote_groups") },
+
+                { assert snapshot(
+                    workflow.out
+                        .findAll{ channel -> !channel.key.isInteger() && channel.value }
+                        .collectEntries{ channel ->
+                            [(channel.key): ["versions"].contains(channel.key)
+                                ? channel.value
+                                : channel.value.collect{ subject ->
+                                    [ subject[0] ] + subject[1..-1].collect{ entry -> entry ? file(entry).name : "" }
+                            } ]
+                        }
+                ).match() }
+            )
+        }
+    }
+}
