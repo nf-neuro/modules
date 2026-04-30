@@ -18,9 +18,8 @@ process SEGMENTATION_MAJORITYVOTE {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=$task.cpus
-    export OMP_NUM_THREADS=1
-    export OPENBLAS_NUM_THREADS=1
+    export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=${task.ext.single_thread ? 1 : task.cpus}
+    export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
     ImageMath 3 ${prefix}_majorityvote.nii.gz MajorityVoting $candidate_labels
 
