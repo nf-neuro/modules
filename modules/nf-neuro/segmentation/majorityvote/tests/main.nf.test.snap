@@ -1,4 +1,14 @@
 {
+    "segmentation - majorityvote": {
+        "content": [
+            "test_majorityvote.nii.gz:md5:header,0dac0bc785f36a992cbd569171902d24,data,26e7b648874422b4cf07cbb237a466f2"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2026-05-05T21:15:36.776437076"
+    },
     "segmentation - majorityvote - stub-run": {
         "content": [
             [
@@ -9,6 +19,6 @@
             "nf-test": "0.9.3",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2026-03-21T15:11:34.911601939"
+        "timestamp": "2026-05-05T21:13:16.416412027"
     }
 }
