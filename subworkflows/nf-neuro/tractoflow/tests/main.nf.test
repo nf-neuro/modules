@@ -95,6 +95,7 @@ nextflow_workflow {
                 input[12] = [
                     "preproc_dwi_run_denoising": true,
                     "preproc_dwi_run_degibbs": false,
+                    "eddy_nan_threshold": 0,
                     "topup_eddy_run_topup": true,
                     "topup_eddy_run_eddy": true,
                     "preproc_dwi_run_N4": true,

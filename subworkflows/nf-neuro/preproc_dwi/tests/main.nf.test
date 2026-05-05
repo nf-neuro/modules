@@ -58,6 +58,7 @@ nextflow_workflow {
                 input[4] = channel.empty()
                 input[5] = channel.from( [] )
                 input[6] = [
+                    "eddy_nan_threshold": 0,
                     "topup_eddy_run_topup": false,
                     "topup_eddy_run_eddy": false,
                     "preproc_dwi_run_denoising": false,

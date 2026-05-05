@@ -54,7 +54,8 @@ nextflow_workflow {
                 input[4] = channel.from( [] )
                 input[5] = [
                     "topup_eddy_run_topup": false,
-                    "topup_eddy_run_eddy": true
+                    "topup_eddy_run_eddy": true,
+                    "eddy_nan_threshold": 0
                 ]
                 """
             }
@@ -109,7 +110,8 @@ nextflow_workflow {
                 input[4] = channel.from( [] )
                 input[5] = [
                     "topup_eddy_run_topup": true,
-                    "topup_eddy_run_eddy": true
+                    "topup_eddy_run_eddy": true,
+                    "eddy_nan_threshold": 0
                 ]
                 """
             }
@@ -163,7 +165,8 @@ nextflow_workflow {
                 input[4] = channel.from( [] )
                 input[5] = [
                     "topup_eddy_run_topup": true,
-                    "topup_eddy_run_eddy": true
+                    "topup_eddy_run_eddy": true,
+                    "eddy_nan_threshold": 0
                 ]
                 """
             }

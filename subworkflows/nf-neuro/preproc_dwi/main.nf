@@ -117,6 +117,7 @@ workflow PREPROC_DWI {
                 ch_rev_b0,
                 ch_config_topup.ifEmpty( "b02b0.cnf" ),
                 [
+                    "eddy_nan_threshold": options.eddy_nan_threshold,
                     "topup_eddy_run_topup": options.topup_eddy_run_topup,
                     "topup_eddy_run_eddy": options.topup_eddy_run_eddy
                 ] )

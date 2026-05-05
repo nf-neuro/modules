@@ -103,6 +103,10 @@ input:
       description: Map of options for the topup_eddy subworkflow.
       mandatory: false
       entries:
+        eddy_nan_threshold:
+          type: integer
+          description: Threshold for the percentage of NaN voxels in the brain mask after Eddy correction to raise a warning.
+          default: 0
         topup_eddy_run_topup:
           type: boolean
           description: Run FSL Topup for distorsion correction.

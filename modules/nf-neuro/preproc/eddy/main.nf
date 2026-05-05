@@ -12,6 +12,7 @@ process PREPROC_EDDY {
         tuple val(meta), path("*__dwi_eddy_corrected.bval")             , emit: bval_corrected
         tuple val(meta), path("*__dwi_eddy_corrected.bvec")             , emit: bvec_corrected
         tuple val(meta), path("*__b0_bet_mask.nii.gz")                  , emit: b0_mask
+        tuple val(meta), env("nan_percentage")                          , emit: nan_percentage
         tuple val(meta), path("*__dwi_eddy_mqc.gif")                    , emit: dwi_eddy_mqc, optional:true
         tuple val(meta), path("*__rev_dwi_eddy_mqc.gif")                , emit: rev_dwi_eddy_mqc, optional:true
         tuple val(meta), path("*__dwi_eddy_restricted_movement_rms.txt"), emit: eddy_fd_mqc, optional:true
@@ -26,8 +27,8 @@ process PREPROC_EDDY {
     def bet_topup_before_eddy_f = task.ext.bet_topup_before_eddy_f ?: ""
     def prefix_topup = task.ext.prefix_topup ? task.ext.prefix_topup : ""
     def b0_thr_extract_b0 = task.ext.b0_thr_extract_b0 ? task.ext.b0_thr_extract_b0 : ""
-    def encoding = task.ext.encoding ? task.ext.encoding : ""
-    def readout = task.ext.readout ? task.ext.readout : ""
+    def encoding = meta.dir ?: (task.ext.encoding ?: "")
+    def readout = meta.readout ?: (task.ext.readout ?: "")
     def dilate_b0_mask_prelim_brain_extraction = task.ext.dilate_b0_mask_prelim_brain_extraction ? task.ext.dilate_b0_mask_prelim_brain_extraction : ""
     def eddy_cmd = task.ext.eddy_cmd ? task.ext.eddy_cmd : "eddy_cpu"
     def bet_prelim_f = task.ext.bet_prelim_f ? task.ext.bet_prelim_f : ""
@@ -44,6 +45,8 @@ process PREPROC_EDDY {
     export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
     export ANTS_RANDOM_SEED=${task.ext.ants_rng_seed ? task.ext.ants_rng_seed : "1234"}
     export MRTRIX_RNG_SEED=${task.ext.mrtrix_rng_seed ? task.ext.mrtrix_rng_seed : "1234"}
+
+    nan_percentage=0
 
     orig_bval=$bval
     # Concatenate DWIs
@@ -111,6 +114,16 @@ process PREPROC_EDDY {
 
     # Rename framewise displacement file to include subject id
     mv dwi_eddy_corrected.eddy_restricted_movement_rms ${prefix}__dwi_eddy_restricted_movement_rms.txt
+
+    nb_voxels=\$(mrstats ${prefix}__dwi_corrected.nii.gz -mask ${prefix}__b0_bet_mask.nii.gz -quiet -output count)
+    nb_nan=\$(mrcalc ${prefix}__dwi_corrected.nii.gz  -isnan - | mrstats ${prefix}__dwi_corrected.nii.gz -mask ${prefix}__b0_bet_mask.nii.gz -quiet -output count)
+    nan_percentage=\$(( \${nb_nan} * 100 / \${nb_voxels} ))
+
+    if [[ \${nan_percentage} -gt 0 ]];
+    then
+        echo "Warning: \${nan_percentage}% of voxels in the brain mask are NaN after eddy correction."
+        mrcalc ${prefix}__dwi_corrected.nii.gz -finite ${prefix}__dwi_corrected.nii.gz 0.0 -if ${prefix}__dwi_corrected.nii.gz -force
+    fi
 
     if $run_qc;
     then
@@ -214,6 +227,7 @@ process PREPROC_EDDY {
     touch ${prefix}__dwi_eddy_corrected.bvec
     touch ${prefix}__b0_bet_mask.nii.gz
     touch ${prefix}__dwi_eddy_restricted_movement_rms.txt
+    nan_percentage=1
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

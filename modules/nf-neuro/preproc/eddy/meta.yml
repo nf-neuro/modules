@@ -184,6 +184,16 @@ output:
           pattern: "*__b0_bet_mask.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_3989 # GZIP format
+  nan_percentage:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - nan_percentage:
+          type: float
+          description: Percentage of NaN voxels in the brain mask after Eddy correction.
+          ontologies: []
   dwi_eddy_mqc:
     - - meta:
           type: map

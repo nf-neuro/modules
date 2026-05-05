@@ -546,6 +546,10 @@ input:
           type: boolean
           description: If 'true', the Gibbs artifact removal will be performed using the mrdegibbs method from MRtrix3.
           default: true
+        eddy_nan_threshold:
+          type: float
+          description: Threshold for the percentage of NaN voxels in the brain mask after Eddy correction to raise a warning.
+          default: 0
         topup_eddy_run_topup:
           type: boolean
           description: If 'true', the Topup correction will be performed using FSL's Topup.

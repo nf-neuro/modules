@@ -6,7 +6,9 @@
                 [
                     {
                         "id": "test",
-                        "session": "ses-01"
+                        "session": "ses-01",
+                        "dir": "y",
+                        "readout": 0.062
                     },
                     "test_ses-01__dwi_eddy_corrected.bval:md5,4c61c53078316c31b4d5daf446a3d6ac"
                 ]
@@ -16,9 +18,22 @@
                 [
                     {
                         "id": "test",
-                        "session": "ses-01"
+                        "session": "ses-01",
+                        "dir": "y",
+                        "readout": 0.062
                     },
                     "test_ses-01__b0_bet_mask.nii.gz:md5,884e1028fb86b5556e1caac18a8d6e1f"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test",
+                        "session": "ses-01",
+                        "dir": "y",
+                        "readout": 0.062
+                    },
+                    "0"
                 ]
             ],
             "test_ses-01__dwi_eddy_mqc.gif",
@@ -32,7 +47,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:15:32.652065952"
+        "timestamp": "2026-05-05T11:37:36.006704402"
     },
     "eddy_light": {
         "content": [
@@ -54,6 +69,14 @@
                     "test__b0_bet_mask.nii.gz:md5,884e1028fb86b5556e1caac18a8d6e1f"
                 ]
             ],
+            [
+                [
+                    {
+                        "id": "test"
+                    },
+                    "0"
+                ]
+            ],
             "test__dwi_eddy_mqc.gif",
             "test__dwi_eddy_restricted_movement_rms.txt",
             [
@@ -64,7 +87,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:16:33.991059908"
+        "timestamp": "2026-05-05T11:39:42.9821212"
     },
     "eddy - stub-run": {
         "content": [

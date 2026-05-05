@@ -21,7 +21,9 @@
                 [
                     {
                         "id": "test",
-                        "single_end": false
+                        "single_end": false,
+                        "dir": "y",
+                        "readout": 0.062
                     },
                     "test__rev_b0_mean.nii.gz:md5,a0c63d7a8a234d85eeb63045ae2a8f60"
                 ]
@@ -30,7 +32,9 @@
                 [
                     {
                         "id": "test",
-                        "single_end": false
+                        "single_end": false,
+                        "dir": "y",
+                        "readout": 0.062
                     },
                     "test__b0_mean.nii.gz:md5,f50e652bcdd1d45f7a4c592df7eb851a"
                 ]
@@ -45,7 +49,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:18:29.533803801"
+        "timestamp": "2026-05-05T07:41:24.661738077"
     },
     "topup - AP DWI | PA sbref": {
         "content": [

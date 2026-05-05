@@ -26,8 +26,8 @@ process PREPROC_TOPUP {
 
     def prefix_topup = task.ext.prefix_topup ?: ""
     config_topup = config_topup ?: task.ext.default_config_topup
-    def encoding = task.ext.encoding ?: ""
-    def readout = task.ext.readout ?: ""
+    def encoding = meta.dir ?: (task.ext.encoding ?: "")
+    def readout = meta.readout ?: (task.ext.readout ?: "")
     def b0_thr_extract_b0 = task.ext.b0_thr_extract_b0 ?: ""
     def run_qc = task.ext.run_qc
     def nthreads = task.ext.single_thread ? 1 : task.cpus

@@ -122,6 +122,7 @@ workflow TRACTOFLOW {
             [
                 "preproc_dwi_run_denoising": options.preproc_dwi_run_denoising,
                 "preproc_dwi_run_degibbs": options.preproc_dwi_run_degibbs,
+                "eddy_nan_threshold": options.eddy_nan_threshold,
                 "topup_eddy_run_topup": options.topup_eddy_run_topup,
                 "topup_eddy_run_eddy": options.topup_eddy_run_eddy,
                 "preproc_dwi_run_N4": options.preproc_dwi_run_N4,

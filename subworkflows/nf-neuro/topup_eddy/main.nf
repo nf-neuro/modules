@@ -85,6 +85,13 @@ workflow TOPUP_EDDY {
 
             // ** RUN EDDY **//
             PREPROC_EDDY ( ch_eddy_input )
+
+            PREPROC_EDDY.out.nan_percentage.subscribe { meta, nan_percentage ->
+                if (nan_percentage.toFloat() > options.eddy_nan_threshold) {
+                    log.warn "Subject ${meta.id} has ${nan_percentage}% of voxels in the brain mask that are NaN after eddy correction."
+                }
+            }
+
             ch_versions = ch_versions.mix(PREPROC_EDDY.out.versions.first())
             ch_multiqc_files = ch_multiqc_files.mix(PREPROC_EDDY.out.dwi_eddy_mqc)
             ch_multiqc_files = ch_multiqc_files.mix(PREPROC_EDDY.out.rev_dwi_eddy_mqc)
