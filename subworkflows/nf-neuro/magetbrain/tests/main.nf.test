@@ -15,8 +15,6 @@ nextflow_workflow {
     tag "segmentation"
     tag "segmentation/majorityvote"
 
-    tag "subworkflows/utils_options"
-
     tag "load_test_data"
 
     tag "stub"
@@ -112,7 +110,6 @@ nextflow_workflow {
                         ]
                     ]
                 }
-                input[4] = [:]
                 """
             }
         }

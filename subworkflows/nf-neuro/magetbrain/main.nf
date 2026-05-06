@@ -2,7 +2,6 @@ include { REGISTRATION_ANTS as REGISTER_ATLAS_TEMPLATE  } from '../../../modules
 include { REGISTRATION_ANTS as REGISTER_TEMPLATE_SUBJECT } from '../../../modules/nf-neuro/registration/ants/main'
 include { REGISTRATION_ANTSAPPLYTRANSFORMS as RESAMPLE_LABELS } from '../../../modules/nf-neuro/registration/antsapplytransforms/main'
 include { SEGMENTATION_MAJORITYVOTE } from '../../../modules/nf-neuro/segmentation/majorityvote/main'
-include { UTILS_OPTIONS } from '../utils_options/main'
 
 
 workflow MAGETBRAIN {
@@ -26,13 +25,8 @@ workflow MAGETBRAIN {
                         //   meta.id = template identifier
         ch_subjects     // channel: [ val(meta), path(image) ]
                         //   meta.id = subject identifier
-        options         // Map of options
-
     main:
         ch_versions = channel.empty()
-
-        UTILS_OPTIONS("${moduleDir}/meta.yml", options, true)
-        options = UTILS_OPTIONS.out.options.value
 
         // ** Step 1: Atlas-Template Registration **
         // Combine every atlas with every template, then register.

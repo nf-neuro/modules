@@ -10,11 +10,11 @@
                 "template3_to_subject2"
             ]
         ],
-        "timestamp": "2026-04-29T11:27:55.846975533",
         "meta": {
-            "nf-test": "0.9.5",
+            "nf-test": "0.9.3",
             "nextflow": "24.10.5"
-        }
+        },
+        "timestamp": "2026-05-06T17:32:19.050050964"
     },
     "magetbrain - stub-run": {
         "content": [
@@ -41,11 +41,11 @@
                 ]
             }
         ],
-        "timestamp": "2026-04-29T10:32:21.875583592",
         "meta": {
-            "nf-test": "0.9.5",
+            "nf-test": "0.9.3",
             "nextflow": "24.10.5"
-        }
+        },
+        "timestamp": "2026-05-06T17:32:19.084668537"
     },
     "resample_combinations": {
         "content": [
@@ -64,11 +64,11 @@
                 "subject2_label_test_via_atlas2_template3"
             ]
         ],
-        "timestamp": "2026-04-29T11:27:55.860146101",
         "meta": {
-            "nf-test": "0.9.5",
+            "nf-test": "0.9.3",
             "nextflow": "24.10.5"
-        }
+        },
+        "timestamp": "2026-05-06T17:32:19.059003028"
     },
     "majorityvote_groups": {
         "content": [
@@ -77,11 +77,11 @@
                 "subject2_label_test"
             ]
         ],
-        "timestamp": "2026-04-29T11:27:55.874729084",
         "meta": {
-            "nf-test": "0.9.5",
+            "nf-test": "0.9.3",
             "nextflow": "24.10.5"
-        }
+        },
+        "timestamp": "2026-05-06T17:32:19.064971529"
     },
     "atlas_template_pairs": {
         "content": [
@@ -94,10 +94,10 @@
                 "atlas2_to_template3"
             ]
         ],
-        "timestamp": "2026-04-29T11:27:55.820499181",
         "meta": {
-            "nf-test": "0.9.5",
+            "nf-test": "0.9.3",
             "nextflow": "24.10.5"
-        }
+        },
+        "timestamp": "2026-05-06T17:32:19.037194905"
     }
 }
