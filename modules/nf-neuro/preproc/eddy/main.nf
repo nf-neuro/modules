@@ -115,9 +115,9 @@ process PREPROC_EDDY {
     # Rename framewise displacement file to include subject id
     mv dwi_eddy_corrected.eddy_restricted_movement_rms ${prefix}__dwi_eddy_restricted_movement_rms.txt
 
-    nb_voxels=\$(mrstats ${prefix}__dwi_corrected.nii.gz -mask ${prefix}__b0_bet_mask.nii.gz -quiet -output count)
-    nb_nan=\$(mrcalc ${prefix}__dwi_corrected.nii.gz  -isnan - | mrstats ${prefix}__dwi_corrected.nii.gz -mask ${prefix}__b0_bet_mask.nii.gz -quiet -output count)
-    nan_percentage=\$(( \${nb_nan} * 100 / \${nb_voxels} ))
+    nb_voxels=\$(mrstats ${prefix}__dwi_corrected.nii.gz -mask ${prefix}__b0_bet_mask.nii.gz -quiet -output count -allvolumes)
+    nb_nan=\$(mrcalc ${prefix}__dwi_corrected.nii.gz  -isnan - | mrstats - -quiet -output count -ignorezero -allvolumes)
+    nan_percentage=\$(awk "BEGIN {print \${nb_nan} * 100 / \${nb_voxels}}")
 
     if [[ \${nan_percentage} -gt 0 ]];
     then
