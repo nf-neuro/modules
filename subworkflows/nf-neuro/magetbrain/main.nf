@@ -102,23 +102,23 @@ workflow MAGETBRAIN {
 
         // Add labels (combine on atlasId)
         ch_with_labels = ch_combined
-            .map { templateId, atlasId, at_xfm, subjectId, ts_xfm ->
-                [atlasId, templateId, subjectId, at_xfm, ts_xfm]
+            .map { template_id, atlas_id, at_xfm, subject_id, ts_xfm ->
+                [atlas_id, template_id, subject_id, at_xfm, ts_xfm]
             }
             .combine(ch_labels_keyed, by: 0)
             // [atlasId, templateId, subjectId, at_xfm, ts_xfm, label_tag, label_file]
 
         // Add subject images (combine on subjectId) and build ANTSAPPLYTRANSFORMS input
         ch_for_resample = ch_with_labels
-            .map { atlasId, templateId, subjectId, at_xfm, ts_xfm, label_tag, label_file ->
-                [subjectId, atlasId, templateId, at_xfm, ts_xfm, label_tag, label_file]
+            .map { atlas_id, template_id, subject_id, at_xfm, ts_xfm, label_tag, label_file ->
+                [subject_id, atlas_id, template_id, at_xfm, ts_xfm, label_tag, label_file]
             }
             .combine(ch_subjects_keyed, by: 0)
-            // [subjectId, atlasId, templateId, at_xfm, ts_xfm, label_tag, label_file, subject_image]
-            .map { subjectId, atlasId, templateId, at_xfm, ts_xfm, label_tag, label_file, subject_image ->
+            // [subject_id, atlas_id, template_id, at_xfm, ts_xfm, label_tag, label_file, subject_image]
+            .map { subject_id, atlas_id, template_id, at_xfm, ts_xfm, label_tag, label_file, subject_image ->
                 def meta = [
-                    id: "${subjectId}${label_tag}_via_${atlasId}_${templateId}",
-                    subject_id: subjectId,
+                    id: "${subject_id}${label_tag}_via_${atlas_id}_${template_id}",
+                    subject_id: subject_id,
                     label_tag: label_tag
                 ]
                 // antsApplyTransforms applies transforms right-to-left (the last -t is applied first)
