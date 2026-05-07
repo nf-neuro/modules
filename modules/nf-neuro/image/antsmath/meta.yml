@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-neuro/modules/main/modules/meta-schema.json
-name: "segmentation_majorityvote"
+name: "image_antsmath"
 description: |
   Perform majority voting label fusion on multiple candidate segmentation labels
   using ANTs ImageMath MajorityVoting. At each voxel, the most frequently
@@ -52,5 +52,10 @@ output:
         pattern: versions.yml
         ontologies:
           - edam: http://edamontology.org/format_3750 # YAML
+args:
+  - single_thread:
+      type: boolean
+      description: Force single-threaded execution for registration and resampling processes.
+      default: false
 authors:
   - "@CMonnin"

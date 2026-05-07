@@ -1,7 +1,7 @@
 include { REGISTRATION_ANTS as REGISTER_ATLAS_TEMPLATE  } from '../../../modules/nf-neuro/registration/ants/main'
 include { REGISTRATION_ANTS as REGISTER_TEMPLATE_SUBJECT } from '../../../modules/nf-neuro/registration/ants/main'
 include { REGISTRATION_ANTSAPPLYTRANSFORMS as RESAMPLE_LABELS } from '../../../modules/nf-neuro/registration/antsapplytransforms/main'
-include { SEGMENTATION_MAJORITYVOTE } from '../../../modules/nf-neuro/segmentation/majorityvote/main'
+include { IMAGE_ANTSMATH } from '../../../modules/nf-neuro/image/antsmath/main'
 
 
 workflow MAGETBRAIN {
@@ -142,10 +142,10 @@ workflow MAGETBRAIN {
                 [[id: "${subject_id}${label_tag}"], labels]
             }
 
-        SEGMENTATION_MAJORITYVOTE(ch_grouped)
-        ch_versions = ch_versions.mix(SEGMENTATION_MAJORITYVOTE.out.versions.first())
+        IMAGE_ANTSMATH(ch_grouped)
+        ch_versions = ch_versions.mix(IMAGE_ANTSMATH.out.versions.first())
 
     emit:
-        labels   = SEGMENTATION_MAJORITYVOTE.out.label  // channel: [ val(meta), path(label) ]
+        labels   = IMAGE_ANTSMATH.out.label  // channel: [ val(meta), path(label) ]
         versions = ch_versions                           // channel: [ versions.yml ]
 }

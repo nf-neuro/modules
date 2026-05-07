@@ -1,4 +1,4 @@
-process SEGMENTATION_MAJORITYVOTE {
+process IMAGE_ANTSMATH{
     tag "$meta.id"
     label 'process_medium'
 

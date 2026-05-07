@@ -12,8 +12,8 @@ nextflow_workflow {
     tag "registration"
     tag "registration/ants"
     tag "registration/antsapplytransforms"
-    tag "segmentation"
-    tag "segmentation/majorityvote"
+    tag "image"
+    tag "image/antsmath"
 
     tag "load_test_data"
 
@@ -154,7 +154,7 @@ nextflow_workflow {
                 // groupTuple(by: [subject_id, label_tag]) collapses to one vote per (subject, tag).
                 { assert snapshot(
                     workflow.trace.tasks()
-                        .findAll{ it.name =~ /SEGMENTATION_MAJORITYVOTE/ }
+                        .findAll{ it.name =~ /IMAGE_ANTSMATH/ }
                         .collect{ (it.name =~ /\(([^)]+)\)/)[0][1] }
                         .sort()
                 ).match("majorityvote_groups") },

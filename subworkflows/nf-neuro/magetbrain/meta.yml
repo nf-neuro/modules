@@ -12,7 +12,7 @@ description: |
     2. Register every template to every subject (REGISTER_TEMPLATE_SUBJECT)
     3. Chain transforms to resample atlas labels into subject space via every
         possible atlas-template-subject path (RESAMPLE_LABELS)
-    4. Majority vote across all candidate labels per subject (SEGMENTATION_MAJORITYVOTE)
+    4. Majority vote across all candidate labels per subject (IMAGE_ANTSMATH)
 
   Computational note: With A atlases, T templates, S subjects, and L labels per
   atlas, the subworkflow produces A*T + T*S registrations and A*T*S*L label
@@ -39,7 +39,7 @@ keywords:
 components:
   - registration/ants
   - registration/antsapplytransforms
-  - segmentation/majorityvote
+  - image/antsmath
 input:
   - ch_atlases:
       type: file

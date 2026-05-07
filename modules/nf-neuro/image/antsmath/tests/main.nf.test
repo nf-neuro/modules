@@ -1,14 +1,14 @@
 nextflow_process {
 
-    name "Test Process SEGMENTATION_MAJORITYVOTE"
+    name "Test Process IMAGE_ANTSMATH"
     script "../main.nf"
-    process "SEGMENTATION_MAJORITYVOTE"
+    process "IMAGE_ANTSMATH"
     config "./nextflow.config"
 
     tag "modules"
     tag "modules_nfneuro"
-    tag "segmentation"
-    tag "segmentation/majorityvote"
+    tag "image"
+    tag "image/antsmath"
 
     tag "subworkflows"
     tag "subworkflows/load_test_data"
@@ -25,7 +25,7 @@ nextflow_process {
         }
     }
 
-    test("segmentation - majorityvote") {
+    test("image - antsmath") {
         when {
             process {
                 """
@@ -54,7 +54,7 @@ nextflow_process {
         }
     }
 
-    test("segmentation - majorityvote - stub-run") {
+    test("image - antsmath - stub-run") {
         tag "stub"
         options "-stub-run"
         when {

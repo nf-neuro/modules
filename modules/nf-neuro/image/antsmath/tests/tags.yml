@@ -1,0 +1,2 @@
+image/antsmath:
+  - "modules/nf-neuro/image/antsmath/**"
