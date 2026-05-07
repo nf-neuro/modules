@@ -130,5 +130,14 @@ output:
             type: file
             description: Versions YAML file.
       pattern: "versions.yml"
+args:
+  - single_thread:
+      type: boolean
+      description: Force single-threaded execution for registration and resampling processes.
+      default: false
+  - repro_mode:
+      type: boolean
+      description: Run registration in reproducibility mode (registration/ants only).
+      default: false
 authors:
   - "@CMonnin"
