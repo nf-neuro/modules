@@ -2,9 +2,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-neuro/modules/main/modules/meta-schema.json
 name: "image_antsmath"
 description: |
-  Perform majority voting label fusion on multiple candidate segmentation labels
-  using ANTs ImageMath MajorityVoting. At each voxel, the most frequently
-  occurring label value across all candidate images is selected.
+  Wrapper for ANTs ImageMath. Currently implements MajorityVoting only:
+  performs majority voting label fusion on multiple candidate segmentation
+  labels, selecting the most frequently occurring label value at each voxel.
 keywords:
   - segmentation
   - label fusion
