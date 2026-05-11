@@ -60,7 +60,7 @@ args:
       type: string
       description: "ImageMath operation to perform. Must be one of: MajorityVoting, m."
       mandatory: true
-      choices: ['MajorityVoting', 'm']
+      choices: ["MajorityVoting", "m"]
   - suffix:
       type: string
       description: Suffix for the output filename. Defaults to the operation name.
