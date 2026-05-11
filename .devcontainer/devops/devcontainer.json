@@ -84,7 +84,8 @@
                     "terminal.activateEnvironment": true,
                     "terminal.activateEnvInCurrentTerminal": true,
                     "terminal.focusAfterLaunch": true
-                }
+                },
+                "isort.interpreter": ["${containerWorkspaceFolder}/.venv/bin/python"]
             },
             "extensions": ["nf-neuro.nf-neuro-extensionpack"]
         }
