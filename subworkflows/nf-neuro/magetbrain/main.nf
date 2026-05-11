@@ -146,6 +146,6 @@ workflow MAGETBRAIN {
         ch_versions = ch_versions.mix(IMAGE_ANTSMATH.out.versions.first())
 
     emit:
-        labels   = IMAGE_ANTSMATH.out.label  // channel: [ val(meta), path(label) ]
+        labels   = IMAGE_ANTSMATH.out.image  // channel: [ val(meta), path(label) ]
         versions = ch_versions                           // channel: [ versions.yml ]
 }

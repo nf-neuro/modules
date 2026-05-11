@@ -2,14 +2,17 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-neuro/modules/main/modules/meta-schema.json
 name: "image_antsmath"
 description: |
-  Wrapper for ANTs ImageMath. Currently implements MajorityVoting only:
-  performs majority voting label fusion on multiple candidate segmentation
-  labels, selecting the most frequently occurring label value at each voxel.
+  Wrapper for ANTs ImageMath. ANTs ImageMath provides many operations; this
+  module currently implements a subset. Additional operations can be added as
+  needed. Currently supported:
+    - MajorityVoting: label fusion selecting the most frequent label at each voxel.
+    - m: voxel-wise multiplication of two or more images.
 keywords:
   - segmentation
   - label fusion
   - majority voting
   - multi-atlas
+  - multiplication
 tools:
   - ANTs:
       description: "Advanced Normalization Tools."
@@ -22,27 +25,27 @@ input:
         description: |
           Groovy Map containing sample information
           e.g. `[ id:'test', single_end:false ]`
-    - candidate_labels:
+    - input:
         type: file
         description: |
-          Two or more candidate label NIfTI volumes to fuse via majority voting.
-          Each voxel in the output receives the most frequent label value across
-          all candidate images.
+          One or more NIfTI volumes to pass to the selected ImageMath operation.
+          The number of images required depends on the operation (e.g.,
+          MajorityVoting needs 2+, m needs 2+).
         pattern: "*.{nii,nii.gz}"
         mandatory: true
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
 output:
-  label:
+  image:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*_majorityvote.nii.gz":
+      - "*.nii.gz":
           type: file
-          description: Majority-voted label segmentation volume.
-          pattern: "*_majorityvote.nii.gz"
+          description: Output image from the selected ImageMath operation.
+          pattern: "*_{operation}.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
   versions:
@@ -53,9 +56,18 @@ output:
         ontologies:
           - edam: http://edamontology.org/format_3750 # YAML
 args:
+  - operation:
+      type: string
+      description: "ImageMath operation to perform. Must be one of: MajorityVoting, m."
+      mandatory: true
+      choices: ['MajorityVoting', 'm']
+  - suffix:
+      type: string
+      description: Suffix for the output filename. Defaults to the operation name.
+      default: null
   - single_thread:
       type: boolean
-      description: Force single-threaded execution for registration and resampling processes.
+      description: Force single-threaded execution.
       default: false
 authors:
   - "@CMonnin"
