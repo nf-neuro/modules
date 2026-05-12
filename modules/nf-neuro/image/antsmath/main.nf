@@ -46,7 +46,6 @@ process IMAGE_ANTSMATH {
     [[ " \${ignore[@]} " =~ " \$code " ]] || exit \$code
     }
     trap 'handle_code' ERR
-    
     ImageMath
 
     touch ${prefix}_${suffix}.nii.gz
