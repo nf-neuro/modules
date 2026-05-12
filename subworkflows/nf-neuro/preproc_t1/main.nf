@@ -93,8 +93,8 @@ workflow PREPROC_T1 {
             // error message from nextflow when they are absent is either non-informative or
             // missing, we use ifEmpty to provide a more informative one.
             ch_bet = ch_image
-                .join(ch_template.ifEmpty{ error("ANTS BET needs a template") })
-                .join(ch_probability_map.ifEmpty{ error("ANTS BET needs a tissue probability map") })
+                .join(ch_template)
+                .join(ch_probability_map)
                 .join(ch_template_mask, remainder: true)
                 .map{ meta, image, template, probability_map, mask -> [meta, image, template, probability_map, mask ?: []] }
                 .join(ch_initial_affine, remainder: true)

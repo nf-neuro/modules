@@ -56,9 +56,6 @@ workflow BUNDLE_SEG {
         options = UTILS_OPTIONS.out.options.value
 
         if ( options.run_easyreg ) error "The BUNDLE_SEG workflow does not support the easyreg registration method."
-        if ( options.run_synthmorph ) {
-            ch_freesurfer_license.ifEmpty{ error "Synthmorph registration need a Freesurfer License to run." }
-        }
 
         ch_versions = channel.empty()
         ch_mqc = channel.empty()

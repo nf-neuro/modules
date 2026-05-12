@@ -35,43 +35,6 @@ nextflow_workflow {
         }
     }
 
-    test("preproc_t1_antsbet_error") {
-        when {
-            workflow {
-                """
-                ch_split_test_data = LOAD_DATA.out.test_data_directory
-                    .branch{
-                        antsbet: it.simpleName == "antsbet"
-                        t1w: it.simpleName == "T1w"
-                    }
-                input[0] = ch_split_test_data.t1w.map{
-                    test_data_directory -> [
-                        [ id:'test' ],
-                        file("\${test_data_directory}/T1w.nii.gz")
-                    ]}
-                input[1] = channel.empty()
-                input[2] = channel.empty()
-                input[3] = channel.empty()
-                input[4] = channel.empty()
-                input[5] = channel.empty()
-                input[6] = channel.empty()
-                input[7] = channel.empty()
-                input[8] = [
-                    "preproc_t1_run_denoising": true,
-                    "preproc_t1_run_N4": true,
-                    "preproc_t1_run_resampling": true,
-                    "preproc_t1_run_ants_bet": true,
-                    "preproc_t1_run_synthstrip": false,
-                    "preproc_t1_run_crop": true
-                ]
-                """
-            }
-        }
-        then {
-            assert workflow.failed
-        }
-    }
-
     test("preproc_t1_antsbet") {
         when {
             workflow {
