@@ -39,7 +39,15 @@ process IMAGE_ANTSMATH {
     def suffix = task.ext.suffix ?: task.ext.operation
 
     """
-    ImageMath || true
+    set +e
+    function handle_code () {
+    local code=\$?
+    ignore=( 1 )
+    [[ " \${ignore[@]} " =~ " \$code " ]] || exit \$code
+    }
+    trap 'handle_code' ERR
+    
+    ImageMath
 
     touch ${prefix}_${suffix}.nii.gz
 
