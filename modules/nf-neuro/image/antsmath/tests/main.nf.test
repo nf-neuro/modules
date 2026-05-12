@@ -1,0 +1,119 @@
+nextflow_process {
+
+    name "Test Process IMAGE_ANTSMATH"
+    script "../main.nf"
+    process "IMAGE_ANTSMATH"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "image"
+    tag "image/antsmath"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "atlas.zip", "T1w.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("image - antsmath - majorityvoting") {
+        config "./majorityvoting.config"
+
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory
+                    .filter{ it.simpleName == "atlas" }
+                    .map{ test_data_directory -> [
+                        [ id:'test' ],
+                        [
+                            file("\${test_data_directory}/atlas_freesurfer_v2_no_brainstem.nii.gz", checkIfExists: true),
+                            file("\${test_data_directory}/atlas_freesurfer_v2_single_brainstem.nii.gz", checkIfExists: true),
+                            file("\${test_data_directory}/atlas_freesurfer_v2_single_brainstem_dil.nii.gz", checkIfExists: true),
+                            file("\${test_data_directory}/atlas_freesurfer_v2.nii.gz", checkIfExists: true)
+                        ]
+                    ]}
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    niftiMD5SUM(process.out.image.get(0).get(1), 3),
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("image - antsmath - multiply") {
+        config "./multiply.config"
+
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory
+                    .filter{ it.simpleName == "T1w" }
+                    .map{ test_data_directory -> [
+                        [ id:'test' ],
+                        [
+                            file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true),
+                            file("\${test_data_directory}/T1w_mask.nii.gz", checkIfExists: true)
+                        ]
+                    ]}
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    niftiMD5SUM(process.out.image.get(0).get(1), 3),
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("image - antsmath - stub-run") {
+        tag "stub"
+        config "./majorityvoting.config"
+        options "-stub-run"
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory
+                    .filter{ it.simpleName == "T1w" }
+                    .map{ test_data_directory -> [
+                        [ id:'test' ],
+                        [
+                            file("\${test_data_directory}/T1w_mask.nii.gz", checkIfExists: true),
+                            file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/T1w_mask_copy.nii.gz"
+                            )
+                        ]
+                    ]}
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out.versions).match() }
+            )
+        }
+    }
+}
