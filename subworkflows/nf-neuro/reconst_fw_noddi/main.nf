@@ -5,6 +5,19 @@ include { RECONST_FREEWATER      } from '../../../modules/nf-neuro/reconst/freew
 include { RECONST_DTIMETRICS as FW_CORRECTED_DTIMETRICS } from '../../../modules/nf-neuro/reconst/dtimetrics/main'
 include { UTILS_OPTIONS } from '../utils_options/main'
 
+// Helper function to format inputs
+def format_input(channel) {
+    channel.ifEmpty { [[tag: 'empty'], null] }
+        .map { it ->
+            // If we have subject-bound, leave as is
+            if (it instanceof List && it.size() == 2)
+                return it
+            // If we have a single value, convert to tuple
+            else {
+                return [[tag: 'global'], it]
+            }
+        }
+}
 
 workflow RECONST_FW_NODDI {
 
@@ -29,19 +42,6 @@ workflow RECONST_FW_NODDI {
         ch_base_noddi = dwi_bval_bvec.join(brain_mask)
         ch_base_freewater = dwi_bval_bvec.join(brain_mask)
 
-        // Format inputs to get the same shape of tuple for all possible cases.
-        def format_input = { ch ->
-            ch.ifEmpty { [[tag: 'empty'], null] }
-                .map { it ->
-                    // If we have subject-bound, leave as is
-                    if (it instanceof List && it.size() == 2)
-                        return it
-                    // If we have a single value, convert to tuple
-                    else {
-                        return [[tag: 'global'], it]
-                    }
-                }
-        }
         para_diff = format_input(diffusivities.para_diff)
         iso_diff = format_input(diffusivities.iso_diff)
         perp_diff_min = format_input(diffusivities.perp_diff_min)
@@ -151,7 +151,7 @@ workflow RECONST_FW_NODDI {
         // Branch 3: Compute diffusivity priors
         ch_compute_diff_priors = ch_priors_branched.compute
             .combine( fa_ad_rd_md )
-            .map{ bool, meta, fa, ad, rd, md ->
+            .map{ _bool, meta, fa, ad, rd, md ->
                 return tuple(meta, fa, ad, rd, md)
             }
 
