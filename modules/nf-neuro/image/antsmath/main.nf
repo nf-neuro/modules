@@ -39,7 +39,7 @@ process IMAGE_ANTSMATH {
     def suffix = task.ext.suffix ?: task.ext.operation
 
     """
-    ImageMath
+    ImageMath || true
 
     touch ${prefix}_${suffix}.nii.gz
 
