@@ -1,4 +1,4 @@
-FROM scilus/scilus:2.0.2
+FROM docker.io/scilus/scilus:2.0.2
 
 ARG NEXTFLOW_VERSION=24.10.5
 ARG NFTEST_VERSION=0.9.3

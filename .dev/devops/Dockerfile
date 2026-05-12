@@ -1,4 +1,4 @@
-FROM python:3.13-slim-bookworm
+FROM docker.io/python:3.13-slim-bookworm
 
 ARG NODE_MAJOR=20
 ARG ACTIONLINT_VERSION=1.7.7
