@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DEFAULT_FLAVOR="${NF_NEURO_DEV_FLAVOR:-prototyping}"
+
+flavor="$DEFAULT_FLAVOR"
+if [[ ${1:-} == "devops" || ${1:-} == "prototyping" ]]; then
+    flavor="$1"
+    shift
+fi
+
+volumes=()
+while [[ ${1:-} == -v ]]; do
+    shift
+    volumes+=(-v "$1")
+    shift
+done
+
+context="${REPO_ROOT}/.dev/${flavor}"
+image="${NF_NEURO_DEV_IMAGE:-nf-neuro-${flavor}:local}"
+
+if [[ ! -f "${context}/Dockerfile" ]]; then
+    echo "no Dockerfile at ${context}" >&2
+    exit 1
+fi
+
+podman build -t "$image" "$context"
+
+exec podman run --rm -it \
+    --privileged \
+    --device /dev/fuse \
+    --userns=keep-id \
+    -v "${REPO_ROOT}:/workspace" \
+    -w /workspace \
+    -v "nf-neuro-${flavor}-venv:/workspace/.venv:U" \
+    -v "nf-neuro-${flavor}-cache:/home/ubuntu/.cache:U" \
+    -v "nf-neuro-${flavor}-nextflow:/workspace/.nextflow:U" \
+    "${volumes[@]}" \
+    "$image" \
+    "${@:-bash}"
