@@ -34,7 +34,7 @@ exec podman run --rm -it \
     -v "${REPO_ROOT}:/workspace" \
     -w /workspace \
     -v "nf-neuro-${flavor}-venv:/workspace/.venv:U" \
-    -v "nf-neuro-${flavor}-cache:/home/dev/.cache:U" \
+    -v "nf-neuro-${flavor}-cache:/home/ubuntu/.cache:U" \
     -v "nf-neuro-${flavor}-nextflow:/workspace/.nextflow:U" \
     "${volumes[@]}" \
     "$image" \
