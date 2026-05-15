@@ -1,0 +1,73 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-neuro/modules/main/modules/meta-schema.json
+name: "image_antsmath"
+description: |
+  Wrapper for ANTs ImageMath. ANTs ImageMath provides many operations; this
+  module currently implements a subset. Additional operations can be added as
+  needed. Currently supported:
+    - MajorityVoting: label fusion selecting the most frequent label at each voxel.
+    - m: voxel-wise multiplication of two or more images.
+keywords:
+  - segmentation
+  - label fusion
+  - majority voting
+  - multi-atlas
+  - multiplication
+tools:
+  - ANTs:
+      description: "Advanced Normalization Tools."
+      homepage: "https://github.com/ANTsX/ANTs"
+      documentation: "http://stnava.github.io/ANTsDoc/"
+      doi: "10.1038/s41598-021-87564-6"
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - input:
+        type: file
+        description: |
+          One or more NIfTI volumes to pass to the selected ImageMath operation.
+          The number of images required depends on the operation (e.g.,
+          MajorityVoting needs 2+, m needs 2+).
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+output:
+  image:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*.nii.gz":
+          type: file
+          description: Output image from the selected ImageMath operation.
+          pattern: "*_{operation}.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+args:
+  - operation:
+      type: string
+      description: "ImageMath operation to perform. Must be one of: MajorityVoting, m."
+      mandatory: true
+      choices: ["MajorityVoting", "m"]
+  - suffix:
+      type: string
+      description: Suffix for the output filename. Defaults to the operation name.
+      default: null
+  - single_thread:
+      type: boolean
+      description: Force single-threaded execution.
+      default: false
+authors:
+  - "@CMonnin"

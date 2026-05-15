@@ -1,0 +1,2 @@
+subworkflows/magetbrain:
+  - subworkflows/nf-neuro/magetbrain/**

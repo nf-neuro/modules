@@ -22,12 +22,12 @@ on:
         description: "Nextflow version to use"
         required: false
         type: string
-        default: "24.04.4"
+        default: "26.04.0"
       nf_test_version:
         description: "nf-test version to use"
         required: false
         type: string
-        default: "0.9.0"
+        default: "0.9.5"
   workflow_call:
     inputs:
       paths:
@@ -49,12 +49,12 @@ on:
         description: "Nextflow version to use"
         required: false
         type: string
-        default: "24.04.4"
+        default: "26.04.0"
       nf_test_version:
         description: "nf-test version to use"
         required: false
         type: string
-        default: "0.9.0"
+        default: "0.9.5"
 
 env:
   NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/../.singularity_cache/.singularity

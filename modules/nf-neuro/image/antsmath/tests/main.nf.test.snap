@@ -1,0 +1,40 @@
+{
+    "image - antsmath - stub-run": {
+        "content": [
+            [
+                "versions.yml:md5,cb6d3b58688f73d65e7bf13b9ed34302"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2026-05-07T21:35:41.513790271"
+    },
+    "image - antsmath - multiply": {
+        "content": [
+            "test_multiply.nii.gz:md5:header,0f480c8f2b9e5e6baefbdb98190b4226,data,7f1aa52c3a7ac1b02ab1f140025eb13f",
+            [
+                "versions.yml:md5,cb6d3b58688f73d65e7bf13b9ed34302"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2026-05-11T16:48:28.654225098"
+    },
+    "image - antsmath - majorityvoting": {
+        "content": [
+            "test_MajorityVoting.nii.gz:md5:header,0dac0bc785f36a992cbd569171902d24,data,26e7b648874422b4cf07cbb237a466f2",
+            [
+                "versions.yml:md5,cb6d3b58688f73d65e7bf13b9ed34302"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2026-05-11T16:48:22.224289274"
+    }
+}

@@ -30,6 +30,20 @@ args:
         If true, generates a subject-specific MultiQC report. If false, generates a global report.
         This will change which module are run within MultiQC.
       mandatory: false
+  - cortical_rois:
+      type: string
+      description: |
+        Range of ROIs to consider as cortical. Can be supplied either as
+        a hyphenated range (e.g., "1-100") or multiple hyphenated ranges
+        separated by commas (e.g., "1-100,101-200").
+      mandatory: false
+  - subcortical_rois:
+      type: string
+      description: |
+        Range of ROIs to consider as subcortical. Can be supplied either as
+        a hyphenated range (e.g., "1-100") or multiple hyphenated ranges
+        separated by commas (e.g., "1-100,101-200").
+      mandatory: false
 
 input:
   - - meta:
