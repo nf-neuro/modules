@@ -256,7 +256,7 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,a338911f46f2c623d87eab600c524ffb"
+                    "versions.yml:md5,17bd535afe87cfe8fd4ed5dc814a4a1a"
                 ]
             }
         ],
@@ -264,7 +264,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-06-02T20:05:53.555032692"
+        "timestamp": "2026-09-11T11:42:29.573069385"
     },
     "registration - ANTs - Anat to DWI": {
         "content": [

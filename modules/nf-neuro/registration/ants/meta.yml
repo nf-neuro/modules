@@ -153,14 +153,14 @@ input:
           - edam: http://edamontology.org/format_4001 # NIFTI format
     - fixed_mask:
         type: file
-        description: Mask(s) for the fixed image space
+        description: Fixed image mask
         pattern: "*.{nii,nii.gz}"
         mandatory: false
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
     - moving_mask:
         type: file
-        description: Mask(s) for the moving image space
+        description: Moving image mask
         pattern: "*.{nii,nii.gz}"
         mandatory: false
         ontologies:
@@ -176,6 +176,18 @@ output:
           type: file
           description: Nifti volume after registration.
           pattern: "*_warped.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_3989 # GZIP format
+  fixed_warped:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_warped_reference.nii.gz":
+          type: file
+          description: Reference warped to moving space.
+          pattern: "*_warped_reference.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_3989 # GZIP format
   forward_affine:

@@ -46,16 +46,9 @@ nextflow_process {
                         file("\${test_data_directory}/t1.nii.gz")
                     ]
                 }
-                ch_T1w_mask = ch_split_test_data.T1w.map{
-                    test_data_directory -> [
-                        [ id:'test' ],
-                        file("\${test_data_directory}/T1w_mask.nii.gz")
-                    ]
-                }
                 input[0] = ch_T1w
                     .join(ch_moving)
-                    .join(ch_T1w_mask)
-                    .map{ meta, T1w, t1, T1w_mask -> [meta, T1w, t1, T1w_mask, []] }
+                    .map{ meta, fixed, moving -> [meta, fixed, moving, [], []] }
                 """
             }
         }
@@ -89,16 +82,9 @@ nextflow_process {
                         file("\${test_data_directory}/t1.nii.gz")
                     ]
                 }
-                ch_T1w_mask = ch_split_test_data.T1w.map{
-                    test_data_directory -> [
-                        [ id:'test' ],
-                        file("\${test_data_directory}/T1w_mask.nii.gz")
-                    ]
-                }
                 input[0] = ch_T1w
                     .join(ch_moving)
-                    .join(ch_T1w_mask)
-                    .map{ meta, T1w, t1, T1w_mask -> [meta, T1w, t1, T1w_mask, []] }
+                    .map{ meta, fixed, moving -> [meta, fixed, moving, [], []] }
                 """
             }
         }
@@ -132,7 +118,86 @@ nextflow_process {
                         file("\${test_data_directory}/t1.nii.gz")
                     ]
                 }
-                ch_T1w_mask = ch_split_test_data.T1w.map{
+                input[0] = ch_T1w
+                    .join(ch_moving)
+                    .map{ meta, fixed, moving -> [meta, fixed, moving, [], []] }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - ants - both - moving mask") {
+        config "./nextflow_both_moving_mask.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        T1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                ch_fixed = ch_split_test_data.moving.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/t1.nii.gz")
+                    ]
+                }
+                ch_moving = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_moving_mask = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
+                input[0] = ch_fixed
+                    .join(ch_moving)
+                    .join(ch_moving_mask)
+                    .map{ meta, fixed, moving, moving_mask -> [meta, fixed, moving, [], moving_mask] }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - ants - both - fixed mask") {
+        config "./nextflow_both_moving_mask.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        T1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                ch_T1w = ch_split_test_data.T1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_moving = ch_split_test_data.moving.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/t1.nii.gz")
+                    ]
+                }
+                ch_fixed_mask = ch_split_test_data.T1w.map{
                     test_data_directory -> [
                         [ id:'test' ],
                         file("\${test_data_directory}/T1w_mask.nii.gz")
@@ -140,8 +205,8 @@ nextflow_process {
                 }
                 input[0] = ch_T1w
                     .join(ch_moving)
-                    .join(ch_T1w_mask)
-                    .map{ meta, T1w, t1, T1w_mask -> [meta, T1w, t1, T1w_mask, []] }
+                    .join(ch_fixed_mask)
+                    .map{ meta, fixed, moving, fixed_mask -> [meta, fixed, moving, fixed_mask, []] }
                 """
             }
         }
@@ -176,16 +241,9 @@ nextflow_process {
                         file("\${test_data_directory}/t1.nii.gz")
                     ]
                 }
-                ch_T1w_mask = ch_split_test_data.T1w.map{
-                    test_data_directory -> [
-                        [ id:'test' ],
-                        file("\${test_data_directory}/T1w_mask.nii.gz")
-                    ]
-                }
                 input[0] = ch_T1w
                     .join(ch_moving)
-                    .join(ch_T1w_mask)
-                    .map{ meta, T1w, t1, T1w_mask -> [meta, T1w, t1, T1w_mask, []] }
+                    .map{ meta, fixed, moving -> [meta, fixed, moving, [], []] }
                 """
             }
         }
