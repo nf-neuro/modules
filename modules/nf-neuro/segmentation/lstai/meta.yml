@@ -1,0 +1,141 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "segmentation_lstai"
+description: Segment white matter lesions from a T1w and FLAIR image pair using LST-AI,
+  a deep learning ensemble (registration via greedy, skull stripping via HD-BET, anatomical
+  annotation via FastSurfer). Produces a binary lesion mask in FLAIR space, and, unless
+  run in segment-only mode, an anatomically annotated variant plus per-lesion statistics.
+  Label MS lesions according to McDonald criteria.
+keywords:
+  - segmentation
+  - lesion
+  - FLAIR
+  - T1w
+tools:
+  - LST-AI:
+      description: Deep learning ensemble for white matter multiple sclerosis lesion
+        segmentation and anatomical annotation.
+      homepage: https://github.com/CompImg/LST-AI
+      documentation: https://github.com/CompImg/LST-AI
+      doi: 10.1016/j.nicl.2024.103611
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - t1:
+        type: file
+        description: Nifti T1w volume, not skull-stripped (unless task.ext.stripped
+          is set), used together with the FLAIR volume for lesion segmentation and for
+          the anatomical annotation of lesions.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - flair:
+        type: file
+        description: Nifti 3D FLAIR volume, not skull-stripped (unless task.ext.stripped
+          is set), used together with the T1w volume for lesion segmentation. LST-AI
+          is only validated for 3D FLAIR acquisitions.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+args:
+  - cpu:
+      type: string
+      description: Set if LST-AI run with "gpu" or "cpu". Must be "cpu" when using the
+        CPU-only container.
+      default: cpu
+  - skip_stripped:
+      type: boolean
+      description: Set true if both the T1w and FLAIR inputs are already skull-stripped.
+        A mixture of stripped and non-stripped inputs is not supported by LST-AI.
+      default: false
+  - segment_only:
+      type: boolean
+      description: If true, only run the binary segmentation step (skips FastSurfer-based
+        anatomical annotation and per-region lesion statistics).
+      default: false
+  - threshold:
+      type: number
+      description: Threshold applied to the ensemble's lesion probability map to produce
+        the binary mask.
+      default: 0.5
+  - lesion_threshold:
+      type: number
+      description: Minimum lesion size in mm^3. Connected components smaller than this
+        are dropped from the binary mask.
+      default: 0
+  - clipping:
+      type: string
+      description: Lower and upper percentiles (default "0.5 99.5") used as min & max
+        for standardization of image intensities in pre-processing.
+  - fast_mode:
+      type: boolean
+      description: Run HD-BET skull-stripping with a single model rather than its full
+        ensemble, and without test-time augmentation. Faster, at some cost in mask quality.
+      default: false
+  - single_thread:
+      type: boolean
+      description: If true, registration runs single-threaded. By default, LST-AI uses
+        all CPUs allocated to the task.
+      default: false
+output:
+  lesion_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_space-flair_seg-lst_lesion_mask.nii.gz":
+          type: file
+          description: Binary lesion mask in FLAIR space, produced by LST-AI.
+          pattern: "*_space-flair_seg-lst_lesion_mask.{nii, nii.gz}"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  lesion_mask_annotated:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_space-flair_seg-lst_annotated_lesion_mask.nii.gz":
+          type: file
+          description: Anatomically annotated lesion mask in FLAIR space, produced by LST-AI.
+          pattern: "*_space-flair_seg-lst_annotated_lesion_mask.{nii, nii.gz}"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  lesion_stats:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_raw_lesion_stats.csv":
+          type: file
+          description: CSV file containing per-lesion statistics (volume, number, etc.)
+            for the binary lesion mask.
+          pattern: "*_raw_lesion_stats.csv"
+  lesion_stats_annotated:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_annotated_lesion_stats.csv":
+          type: file
+          description: CSV file containing per-lesion statistics (volume, location, etc.)
+            for the anatomically annotated lesion mask.
+          pattern: "*_annotated_lesion_stats.csv"
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@scilus"
+maintainers:
+  - "@scilus"
