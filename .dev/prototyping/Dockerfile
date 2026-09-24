@@ -1,7 +1,7 @@
 FROM docker.io/scilus/scilus:dev
 
-ARG NEXTFLOW_VERSION=25.04.6
-ARG NFTEST_VERSION=0.9.3
+ARG NEXTFLOW_VERSION=25.10.7
+ARG NFTEST_VERSION=0.9.5
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -38,18 +38,19 @@ RUN curl -fsSL https://get.nextflow.io | NXF_VER=${NEXTFLOW_VERSION} bash \
     && mv nextflow /usr/local/bin/nextflow \
     && chmod u+x /usr/local/bin/nextflow
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.12.18 /uv /usr/local/bin/uv
 
 USER ubuntu
 WORKDIR /home/ubuntu
 
-ENV PATH="/home/ubuntu/.local/bin:${PATH}"
+ENV PATH="/workspace/.venv/bin:/home/ubuntu/.local/bin:${PATH}"
 ENV NXF_APPTAINER_CACHEDIR=/home/ubuntu/.cache/apptainer
 
 RUN mkdir -p .local/bin \
     && curl -fsSL https://code.askimed.com/install/nf-test | bash -s ${NFTEST_VERSION} \
     && mv nf-test /home/ubuntu/.local/bin/nf-test \
-    && chmod u+x /home/ubuntu/.local/bin/nf-test
+    && chmod u+x /home/ubuntu/.local/bin/nf-test \
+    && uv tool install "poetry==1.8.*"
 
 WORKDIR /workspace
 CMD ["bash"]

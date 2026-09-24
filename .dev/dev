@@ -25,12 +25,23 @@ if [[ ! -f "${context}/Dockerfile" ]]; then
     exit 1
 fi
 
-podman build -t "$image" "$context"
+podman build -q -t "$image" "$context" >/dev/null
 
-exec podman run --rm -it \
+tty=()
+[[ -t 0 && -t 1 ]] && tty=(-t)
+
+remote="https://github.com/nf-neuro/modules.git"
+
+exec podman run --rm -i "${tty[@]}" \
     --privileged \
     --device /dev/fuse \
-    --userns=keep-id \
+    --userns=keep-id:uid=1000,gid=1000 \
+    -e NXF_HOME=/home/ubuntu/.cache/nextflow \
+    -e NFNEURO_TEST_DATA_HOME=/home/ubuntu/.cache \
+    -e NFCORE_MODULES_GIT_REMOTE="$remote" \
+    -e NFCORE_MODULES_BRANCH=main \
+    -e NFCORE_SUBWORKFLOWS_GIT_REMOTE="$remote" \
+    -e NFCORE_SUBWORKFLOWS_BRANCH=main \
     -v "${REPO_ROOT}:/workspace" \
     -w /workspace \
     -v "nf-neuro-${flavor}-venv:/workspace/.venv:U" \

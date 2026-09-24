@@ -2,8 +2,8 @@ FROM docker.io/ubuntu:24.04
 
 ARG NODE_MAJOR=20
 ARG ACTIONLINT_VERSION=1.7.7
-ARG NEXTFLOW_VERSION=25.04.6
-ARG NFTEST_VERSION=0.9.3
+ARG NEXTFLOW_VERSION=25.10.7
+ARG NFTEST_VERSION=0.9.5
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -55,17 +55,19 @@ RUN curl -fsSL https://get.nextflow.io | NXF_VER=${NEXTFLOW_VERSION} bash \
     && mv nextflow /usr/local/bin/nextflow \
     && chmod u+x /usr/local/bin/nextflow
 
-RUN npm install -g --save-exact prettier \
-    && npm install -g editorconfig editorconfig-checker
+RUN npm install -g --prefix /usr/local --save-exact prettier \
+    && npm install -g --prefix /usr/local editorconfig editorconfig-checker@2 \
+    && chgrp -R nodeusers /usr/local/lib/node_modules \
+    && chmod -R g+w /usr/local/lib/node_modules
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.12.18 /uv /usr/local/bin/uv
 
 RUN usermod -aG nodeusers ubuntu \
     && echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu \
     && chmod u=r,g=r /etc/sudoers.d/ubuntu \
     && echo "prefix=/usr/local" >> /home/ubuntu/.npmrc
 
-ENV PATH="/home/ubuntu/.local/bin:${PATH}"
+ENV PATH="/workspace/.venv/bin:/home/ubuntu/.local/bin:${PATH}"
 ENV NXF_APPTAINER_CACHEDIR=/home/ubuntu/.cache/apptainer
 
 USER ubuntu
@@ -74,7 +76,8 @@ WORKDIR /home/ubuntu
 RUN mkdir -p .local/bin \
     && curl -fsSL https://code.askimed.com/install/nf-test | bash -s ${NFTEST_VERSION} \
     && mv nf-test /home/ubuntu/.local/bin/nf-test \
-    && chmod u+x /home/ubuntu/.local/bin/nf-test
+    && chmod u+x /home/ubuntu/.local/bin/nf-test \
+    && uv tool install "poetry==1.8.*"
 
 WORKDIR /workspace
 CMD ["bash"]
