@@ -3,7 +3,6 @@ nextflow_workflow {
     name "Test Subworkflow REGISTRATION"
     script "../main.nf"
     workflow "REGISTRATION"
-    config "./nextflow.config"
 
     tag "subworkflows"
     tag "subworkflows_nfneuro"
@@ -11,11 +10,12 @@ nextflow_workflow {
 
     tag "registration"
     tag "registration/anattodwi"
-    tag "registration"
     tag "registration/ants"
+    tag "registration/antsapplytransforms"
     tag "registration/convert"
     tag "registration/easyreg"
     tag "registration/synthmorph"
+    tag "image/applymask"
 
     tag "subworkflows/utils_options"
 
@@ -23,6 +23,8 @@ nextflow_workflow {
 
     tag "stub"
     options "-stub-run"
+
+    config "./nextflow.config"
 
     setup {
         run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
@@ -70,16 +72,12 @@ nextflow_workflow {
                         file("\${test_data_directory}/brainmask.nii.gz")
                     ]
                 }
-                input[4] = ch_split_test_data.t1w.map{
-                    test_data_directory -> [
-                        [ id:'test' ],
-                        file("\${test_data_directory}/T1w_mask.nii.gz")
-                    ]
-                }
+                input[4] = channel.empty()
                 input[5] = channel.empty()
                 input[6] = channel.empty()
                 input[7] = channel.empty()
-                input[8] = [:]
+                input[8] = [ "method": "ants",
+                            "masking_strategy": "apriori" ]
                 """
             }
         }
@@ -139,7 +137,213 @@ nextflow_workflow {
                 input[5] = channel.empty()
                 input[6] = channel.empty()
                 input[7] = channel.empty()
-                input[8] = [:]
+                input[8] = [ "masking_strategy": "apriori" ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    workflow.out
+                        .findAll{ channel -> !channel.key.isInteger() && channel.value  }
+                        .collectEntries{ channel ->
+                            [(channel.key): ["versions"].contains(channel.key)
+                                ? channel.value
+                                : channel.value.collect{ subject ->
+                                    [ subject[0] ] + subject[1..-1].flatten().collect{ entry -> entry ? file(entry).name : "" }
+                            } ]
+                        }
+                ).match() },
+                { assert workflow.out
+                    .findAll{ channel -> !channel.key.isInteger() }
+                    .every{ channel -> ["ref_warped",
+                                        "segmentation",
+                                        "ref_segmentation"].contains(channel.key)
+                        ? channel.value.size() == 0
+                        : channel.value.every{ subject -> subject instanceof ArrayList
+                            ? subject.every()
+                            : subject } } }
+            )
+        }
+    }
+
+    test("registration - ANTs - SyNQuick - apriori - two masks") {
+        when {
+            workflow {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        t1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                input[0] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/fixed.nii.gz")
+                    ]}
+                input[1] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/moving.nii.gz")
+                    ]}
+                input[2] = channel.empty()
+                input[3] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/fixed_mask.nii.gz")
+                    ]}
+                input[4] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/moving_mask.nii.gz")
+                    ]}
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
+                input[8] = [ "method": "ants",
+                            "masking_strategy": "apriori" ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    workflow.out
+                        .findAll{ channel -> !channel.key.isInteger() && channel.value  }
+                        .collectEntries{ channel ->
+                            [(channel.key): ["versions"].contains(channel.key)
+                                ? channel.value
+                                : channel.value.collect{ subject ->
+                                    [ subject[0] ] + subject[1..-1].flatten().collect{ entry -> entry ? file(entry).name : "" }
+                            } ]
+                        }
+                ).match() },
+                { assert workflow.out
+                    .findAll{ channel -> !channel.key.isInteger() }
+                    .every{ channel -> ["ref_warped",
+                                        "segmentation",
+                                        "ref_segmentation"].contains(channel.key)
+                        ? channel.value.size() == 0
+                        : channel.value.every{ subject -> subject instanceof ArrayList
+                            ? subject.every()
+                            : subject } } }
+            )
+        }
+    }
+
+    test("registration - ANTs - SyNQuick - internal") {
+        when {
+            workflow {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        t1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                input[0] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/fixed.nii.gz")
+                    ]}
+                input[1] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/moving.nii.gz")
+                    ]}
+                input[2] = channel.empty()
+                input[3] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/fixed_mask.nii.gz")
+                    ]}
+                input[4] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/moving_mask.nii.gz")
+                    ]}
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
+                input[8] = [ "method": "ants",
+                            "masking_strategy": "internal" ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    workflow.out
+                        .findAll{ channel -> !channel.key.isInteger() && channel.value  }
+                        .collectEntries{ channel ->
+                            [(channel.key): ["versions"].contains(channel.key)
+                                ? channel.value
+                                : channel.value.collect{ subject ->
+                                    [ subject[0] ] + subject[1..-1].flatten().collect{ entry -> entry ? file(entry).name : "" }
+                            } ]
+                        }
+                ).match() },
+                { assert workflow.out
+                    .findAll{ channel -> !channel.key.isInteger() }
+                    .every{ channel -> ["ref_warped",
+                                        "segmentation",
+                                        "ref_segmentation"].contains(channel.key)
+                        ? channel.value.size() == 0
+                        : channel.value.every{ subject -> subject instanceof ArrayList
+                            ? subject.every()
+                            : subject } } }
+            )
+        }
+    }
+
+    test("registration - ANTs - SyNQuick - both") {
+        when {
+            workflow {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        t1w: it.simpleName == "T1w"
+                        moving: it.simpleName == "others"
+                    }
+                input[0] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/fixed.nii.gz")
+                    ]}
+                input[1] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz").copyTo(
+                                "\${test_data_directory}/moving.nii.gz")
+                    ]}
+                input[2] = channel.empty()
+                input[3] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/fixed_mask.nii.gz")
+                    ]}
+                input[4] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz").copyTo(
+                                "\${test_data_directory}/moving_mask.nii.gz")
+                    ]}
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
+                input[8] = [ "masking_strategy": "both" ]
                 """
             }
         }
@@ -197,7 +401,8 @@ nextflow_workflow {
                 input[5] = channel.empty()
                 input[6] = channel.empty()
                 input[7] = channel.empty()
-                input[8] = [ "run_easyreg": true ]
+                input[8] = [ "masking_strategy": "apriori",
+                            "method": "easyreg" ]
                 """
             }
         }
@@ -249,7 +454,8 @@ nextflow_workflow {
                 input[7] = ch_split_test_data.freesurfer.map{
                     test_data_directory -> file("\${test_data_directory}/license.txt")
                 }
-                input[8] = [ "run_synthmorph": true ]
+                input[8] = [ "masking_strategy": "apriori",
+                            "method": "synthmorph" ]
                 """
             }
         }

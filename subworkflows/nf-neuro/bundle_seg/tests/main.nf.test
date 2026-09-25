@@ -100,7 +100,7 @@ nextflow_workflow {
                 input[2] = ch_split_test_data.freesurfer.map{
                     test_data_directory -> file("\${test_data_directory}/license.txt")
                 }
-                input[3] = [ "run_synthmorph": true ]
+                input[3] = [ "method": "synthmorph" ]
                 """
             }
         }

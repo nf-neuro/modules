@@ -55,7 +55,7 @@ workflow BUNDLE_SEG {
         UTILS_OPTIONS("${moduleDir}/meta.yml", options, true)
         options = UTILS_OPTIONS.out.options.value
 
-        if ( options.run_easyreg ) error "The BUNDLE_SEG workflow does not support the easyreg registration method."
+        if ( options.method == "easyreg" ) error "The BUNDLE_SEG workflow does not support the easyreg registration method."
 
         ch_versions = channel.empty()
         ch_mqc = channel.empty()
@@ -95,8 +95,7 @@ workflow BUNDLE_SEG {
             channel.empty(),
             ch_freesurfer_license,
             [
-                "run_easyreg": options.run_easyreg,
-                "run_synthmorph": options.run_synthmorph,
+                "method": options.method,
             ]
         )
         ch_versions = ch_versions.mix(REGISTRATION.out.versions.first())
