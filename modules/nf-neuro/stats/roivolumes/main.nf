@@ -10,7 +10,7 @@ process STATS_ROIVOLUMES {
 
     output:
     tuple val(meta), path("*_volumes.csv"), emit: volumes
-    path "versions.yml",                    emit: versions, topic: versions
+    path "versions.yml",                    emit: versions
 
     when:
     task.ext.when == null || task.ext.when
