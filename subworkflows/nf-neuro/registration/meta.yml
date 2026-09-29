@@ -93,7 +93,7 @@ input:
   - ch_fixed_mask:
       type: file
       description: |
-        FOR USE WITH ANTS SYN REGISTRATION ONLY. The input channel containing the mask file in fixed image space.
+        The input channel containing the mask file in fixed image space.
       structure:
         - meta:
             type: map
@@ -106,7 +106,7 @@ input:
   - ch_moving_mask:
       type: file
       description: |
-        FOR USE WITH ANTS SYN REGISTRATION ONLY. The input channel containing the mask file in moving image space.
+        The input channel containing the mask file in moving image space.
       structure:
         - meta:
             type: map
@@ -159,7 +159,7 @@ output:
   - reference_warped:
       type: file
       description: |
-        ONLY PROVIDED BY REGISTRATION_EASYREG. Channel containing the reference image warped in moving space.
+        Channel containing the reference image warped in moving space.
       structure:
         - meta:
             type: map

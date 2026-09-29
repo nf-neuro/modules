@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: registration_anattodwi
 description: |
-  Registration computing transformations moving images from anatomical space into diffusion space. The `moving_anat` image
-  represents the anatomical space, moving to diffusion space, onto its `fixed_reference` and its `metric` representations.
+  Registration computing transformations moving images from anatomical space into diffusion space. The `moving_image`
+  represents the anatomical space, moving to diffusion space, onto its `fixed_image` and its `metric` representations.
 
   Configuration, direction and order of the registration follows the [tractoflow](https://doi.org/10.1016/j.neuroimage.2020.116889)
   publication.
@@ -31,10 +31,21 @@ tools:
       homepage: "https://github.com/scilus/scilpy"
       documentation: "https://scilpy.readthedocs.io/en/latest/"
 args:
+  - suffix:
+      type: string
+      description: |
+        Custom suffix to add to the output file name. In any case, the suffix "_warped"
+        will be appended to the supplied suffix or directly used to prevent overwriting input files.
+        e.g. : the suffix `to_T1w` will result in the name `image_to_T1w_warped.nii.gz`.
+      default: "warped"
   - run_qc:
       type: boolean
       description: "Run quality control for the registration process"
       default: false
+  - suffix_qc:
+      type: string
+      description: "Suffix for the QC image file."
+      default: ""
   - single_thread:
       type: boolean
       description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
@@ -49,16 +60,16 @@ input:
         description: |
           Groovy Map containing sample information
           e.g. `[ id:'test', single_end:false ]`
-    - fixed_reference:
+    - fixed_image:
         type: file
-        description: Nifti image file - fixed DWI reference (usually b0)
+        description: Nifti image file - fixed DWI image (usually b0)
         pattern: "*.{nii,nii.gz}"
         mandatory: true
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
-    - moving_anat:
+    - moving_image:
         type: file
-        description: Nifti image file - moving anat to register (usually T1w)
+        description: Nifti image file - moving image to register (usually T1w)
         pattern: "*.{nii,nii.gz}"
         mandatory: true
         ontologies:
@@ -70,8 +81,22 @@ input:
         mandatory: true
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
+    - fixed_mask:
+        type: file
+        description: Fixed image mask
+        pattern: "*.{nii,nii.gz}"
+        mandatory: false
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - moving_mask:
+        type: file
+        description: Moving image mask
+        pattern: "*.{nii,nii.gz}"
+        mandatory: false
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
 output:
-  anat_warped:
+  image_warped:
     - - meta:
           type: map
           description: |
@@ -81,6 +106,18 @@ output:
           type: file
           description: Anatomical image warped to DWI space
           pattern: "*_warped.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  fixed_warped:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_warped_reference.nii.gz":
+          type: file
+          description: Fixed image warped to moving space.
+          pattern: "*_warped_reference.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
   forward_affine:

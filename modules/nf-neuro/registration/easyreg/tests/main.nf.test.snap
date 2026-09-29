@@ -4,7 +4,7 @@
             "test_warped_reference_segmentation.nii.gz",
             "test_warped_segmentation.nii.gz",
             "test_warped_reference.nii.gz:md5:header,c5e41f89848f91c53a9a7be44970d4b1,data,1501221fe23cd62bfdafb33367cadf4d",
-            "test_warped.nii.gz:md5:header,ec5893cd9ea024e630c4444bd914c331,data,d75ae3fc935cd5cc70ea6797a4c70775",
+            "test_b0_warped.nii.gz:md5:header,ec5893cd9ea024e630c4444bd914c331,data,d75ae3fc935cd5cc70ea6797a4c70775",
             "test_forward0_warp.nii.gz:md5:header,0db0a80786ff39864cc17506ed1a0146,data,e4fa6c626729cbf236c34680e5c76df4",
             "test_backward0_warp.nii.gz:md5:header,74c92ee4cd3c4abfecf3da6cdb1d4650,data,8f26afa5c3de21469466213498542486",
             [
@@ -12,10 +12,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "25.04.8"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-16T15:11:21.026914183"
+        "timestamp": "2026-09-23T11:03:10.212177861"
     },
     "registration - easyreg - stub-run": {
         "content": [

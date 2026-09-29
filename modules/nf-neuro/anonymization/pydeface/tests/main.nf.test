@@ -1,0 +1,53 @@
+nextflow_process {
+
+    name "Test Process PYDEFACE"
+    script "../main.nf"
+    process "PYDEFACE"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "pydeface"
+    tag "anonymization"
+    tag "anonymization/pydeface"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+
+    test("single T1w nifti creates defaces image and logs") {
+        setup {
+            run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+                script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+                process {
+                    """
+                    input[0] = channel.from( ["freesurfer.zip"] )
+                    input[1] = "test.load-test-data"
+                    """
+                }
+            }
+        }
+
+
+        when {
+            process {
+                """
+                ch_t1w = LOAD_DATA.out.test_data_directory
+                    .map{ test_data_directory -> [
+                        [ id: "sub-test" ],
+                        file("\${test_data_directory}/anat_image.nii.gz")
+                    ] }
+
+                input[0] = ch_t1w
+                """
+
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

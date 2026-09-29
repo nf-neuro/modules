@@ -1,4 +1,5 @@
 // ** Importing modules from nf-neuro ** //
+include { PYDEFACE } from '../../../modules/nf-neuro/anonymization/pydeface/main'
 include { DENOISING_NLMEANS } from '../../../modules/nf-neuro/denoising/nlmeans/main'
 include { PREPROC_N4 } from '../../../modules/nf-neuro/preproc/n4/main'
 include { IMAGE_RESAMPLE } from '../../../modules/nf-neuro/image/resample/main'
@@ -28,6 +29,7 @@ workflow PREPROC_T1 {
         options = UTILS_OPTIONS.out.options.value
 
         ch_versions = channel.empty()
+        image_defaced = channel.empty()
         image_nlmeans = channel.empty()
         image_N4 = channel.empty()
         image_resample = channel.empty()
@@ -37,6 +39,13 @@ workflow PREPROC_T1 {
         mask_crop = channel.empty()
         bbox = channel.empty()
         ch_mask = channel.empty()
+
+        if ( options.preproc_t1_run_defacing ) {
+            PYDEFACE ( ch_image )
+            ch_versions = ch_versions.mix(PYDEFACE.out.versions.first())
+            image_defaced = PYDEFACE.out.defaced
+            ch_image = PYDEFACE.out.defaced
+        }
 
         if ( options.preproc_t1_run_denoising ) {
 
@@ -134,6 +143,7 @@ workflow PREPROC_T1 {
     emit:
         t1_final        = ch_image          // channel: [ val(meta), t1-preprocessed ]
         mask_final      = ch_mask           // channel: [ val(meta), t1-mask ]
+        image_defaced   = image_defaced     // channel: [ val(meta), t1-defaced ]
         image_nlmeans   = image_nlmeans     // channel: [ val(meta), t1-after-denoise ]
         image_N4        = image_N4          // channel: [ val(meta), t1-after-unbias ]
         image_resample  = image_resample    // channel: [ val(meta), t1-after-resample ]

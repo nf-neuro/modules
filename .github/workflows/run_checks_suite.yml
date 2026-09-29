@@ -16,7 +16,7 @@ on:
         description: "nf-test version to use"
         required: false
         type: string
-        default: "0.9.0"
+        default: "0.9.5"
 
 jobs:
   pre-commit:
@@ -49,7 +49,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "npm"
 
       - name: Install Prettier
@@ -67,14 +67,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version: "24"
 
       - name: Install editorconfig-checker
-        run: npm ci
+        run: npm install -g editorconfig-checker@2
 
       - name: Run ECLint check
-        run: npx editorconfig-checker -exclude README.md $(git ls-files | grep -v test)
+        run: editorconfig-checker -exclude 'README\.md|docs|\.vscode' $(git ls-files | grep -v test)
 
   lint-changes:
     name: lint - changes
@@ -93,7 +92,7 @@ jobs:
 
       - name: List nf-test files
         id: changes
-        uses: adamrtalbot/detect-nf-test-changes@de3c3c8e113031b4f15a3c1104b5f135e8346997 # v0.0.6
+        uses: adamrtalbot/detect-nf-test-changes@accef9459c66baa65dbca647615f088b98eefa9c # main
         with:
           head: ${{ github.sha }}
           base: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before }}
@@ -127,7 +126,7 @@ jobs:
 
       - name: List nf-test files
         id: changes
-        uses: adamrtalbot/detect-nf-test-changes@de3c3c8e113031b4f15a3c1104b5f135e8346997 # v0.0.6
+        uses: adamrtalbot/detect-nf-test-changes@accef9459c66baa65dbca647615f088b98eefa9c # main
         with:
           head: ${{ github.sha }}
           base: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before }}

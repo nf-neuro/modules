@@ -59,7 +59,15 @@
                         {
                             "id": "test"
                         },
-                        "test_warped.nii.gz"
+                        "test_b0_warped.nii.gz"
+                    ]
+                ],
+                "reference_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz"
                     ]
                 ],
                 "versions": [
@@ -69,10 +77,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "25.04.8"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-16T20:51:47.326447932"
+        "timestamp": "2026-09-23T12:55:26.179875082"
     },
     "registration - easyreg": {
         "content": [
@@ -130,7 +138,7 @@
                         {
                             "id": "test"
                         },
-                        "test_warped.nii.gz"
+                        "test_T1w_warped.nii.gz"
                     ]
                 ],
                 "reference_segmentation": [
@@ -163,10 +171,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "25.04.8"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-15T18:55:55.830874285"
+        "timestamp": "2026-09-23T11:07:51.328575782"
     },
     "registration - ANTs - SyNQuick": {
         "content": [
@@ -252,11 +260,19 @@
                         {
                             "id": "test"
                         },
-                        "test__registration_ants_mqc.gif"
+                        "test_registration_ants_mqc.gif"
+                    ]
+                ],
+                "reference_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,a338911f46f2c623d87eab600c524ffb"
+                    "versions.yml:md5,17bd535afe87cfe8fd4ed5dc814a4a1a"
                 ]
             }
         ],
@@ -264,7 +280,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-06-02T20:05:53.555032692"
+        "timestamp": "2026-09-21T14:18:50.987490019"
     },
     "registration - ANTs - Anat to DWI": {
         "content": [
@@ -353,8 +369,16 @@
                         "test_registration_anattodwi_mqc.gif"
                     ]
                 ],
+                "reference_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz"
+                    ]
+                ],
                 "versions": [
-                    "versions.yml:md5,03b958f14a890b541bb76c73f7a72847"
+                    "versions.yml:md5,e387017f3bb8f7bc50efb907d9e8e73f"
                 ]
             }
         ],
@@ -362,6 +386,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:46:42.344818522"
+        "timestamp": "2026-09-21T14:18:38.020455328"
     }
 }

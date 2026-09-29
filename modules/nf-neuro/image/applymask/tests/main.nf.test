@@ -12,8 +12,6 @@ nextflow_process {
     tag "subworkflows"
     tag "subworkflows/load_test_data"
 
-    config "./nextflow.config"
-
     setup {
         run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
             script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
@@ -27,7 +25,7 @@ nextflow_process {
     }
 
     test("image - applymask - 4D") {
-
+        config "./nextflow.config"
         when {
             process {
                 """
@@ -41,7 +39,6 @@ nextflow_process {
                 """
             }
         }
-
         then {
             assertAll(
                 { assert process.success },
@@ -51,7 +48,7 @@ nextflow_process {
     }
 
     test("image - applymask - 3D") {
-
+        config "./nextflow_suffix.config"
         when {
             process {
                 """
@@ -65,7 +62,6 @@ nextflow_process {
                 """
             }
         }
-
         then {
             assertAll(
                 { assert process.success },
@@ -77,7 +73,6 @@ nextflow_process {
     test("image - applymask - stub-run") {
         tag "stub"
         options "-stub-run"
-
         when {
             process {
                 """
@@ -91,7 +86,6 @@ nextflow_process {
                 """
             }
         }
-
         then {
             assertAll(
                 { assert process.success },

@@ -37,29 +37,198 @@ nextflow_process {
                     }
                 ch_t1w = ch_split_test_data.t1w.map{
                     test_data_directory -> [
-                        [ id:'test', single_end:false ],
+                        [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]
                 }
                 ch_b0 = ch_split_test_data.b0.map{
                     test_data_directory -> [
-                        [ id:'test', single_end:false ],
+                        [ id:'test' ],
                         file("\${test_data_directory}/b0.nii.gz")
                     ]
                 }
                 ch_fa = ch_split_test_data.dti.map{
                     test_data_directory -> [
-                        [ id:'test', single_end:false ],
+                        [ id:'test' ],
                         file("\${test_data_directory}/fa.nii.gz")
                     ]
                 }
                 input[0] = ch_b0
                     .join(ch_t1w)
                     .join(ch_fa)
+                    .map{ meta, fixed_image, moving_image, metric ->
+                        [ meta, fixed_image, moving_image, metric, [], []]
+                    }
                 """
             }
         }
 
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - anattodwi - moving mask") {
+        config "./nextflow.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        t1w: it.simpleName == "T1w"
+                        b0: it.simpleName == "b0"
+                        dti: it.simpleName == "dti"
+                    }
+                ch_t1w = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_moving_mask = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
+                ch_b0 = ch_split_test_data.b0.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/b0.nii.gz")
+                    ]
+                }
+                ch_fa = ch_split_test_data.dti.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/fa.nii.gz")
+                    ]
+                }
+                input[0] = ch_b0
+                    .join(ch_t1w)
+                    .join(ch_fa)
+                    .join(ch_moving_mask)
+                    .map{ meta, fixed_image, moving_image, metric, moving_mask ->
+                        [ meta, fixed_image, moving_image, metric, [], moving_mask]
+                    }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - anattodwi - fixed mask") {
+        config "./nextflow.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        t1w: it.simpleName == "T1w"
+                        b0: it.simpleName == "b0"
+                        dti: it.simpleName == "dti"
+                    }
+                ch_t1w = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_b0 = ch_split_test_data.b0.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/b0.nii.gz")
+                    ]
+                }
+                ch_fixed_mask = ch_split_test_data.b0.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/brainmask.nii.gz")
+                    ]
+                }
+                ch_fa = ch_split_test_data.dti.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/fa.nii.gz")
+                    ]
+                }
+                input[0] = ch_b0
+                    .join(ch_t1w)
+                    .join(ch_fa)
+                    .join(ch_fixed_mask)
+                    .map{ meta, fixed_image, moving_image, metric, fixed_mask ->
+                        [ meta, fixed_image, moving_image, metric, fixed_mask, []]
+                    }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("registration - anattodwi - fixed and moving mask") {
+        config "./nextflow.config"
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        t1w: it.simpleName == "T1w"
+                        b0: it.simpleName == "b0"
+                        dti: it.simpleName == "dti"
+                    }
+                ch_t1w = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w.nii.gz")
+                    ]
+                }
+                ch_b0 = ch_split_test_data.b0.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/b0.nii.gz")
+                    ]
+                }
+                ch_fixed_mask = ch_split_test_data.b0.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/brainmask.nii.gz")
+                    ]
+                }
+                ch_moving_mask = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
+                ch_fa = ch_split_test_data.dti.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/fa.nii.gz")
+                    ]
+                }
+                input[0] = ch_b0
+                    .join(ch_t1w)
+                    .join(ch_fa)
+                    .join(ch_fixed_mask)
+                    .join(ch_moving_mask)
+                    .map{ meta, fixed_image, moving_image, metric, fixed_mask, moving_mask ->
+                        [ meta, fixed_image, moving_image, metric, fixed_mask, moving_mask]
+                    }
+                """
+            }
+        }
         then {
             assertAll(
                 { assert process.success },
@@ -82,25 +251,28 @@ nextflow_process {
                     }
                 ch_t1w = ch_split_test_data.t1w.map{
                     test_data_directory -> [
-                        [ id:'test', single_end:false ],
+                        [ id:'test' ],
                         file("\${test_data_directory}/T1w.nii.gz")
                     ]
                 }
                 ch_b0 = ch_split_test_data.b0.map{
                     test_data_directory -> [
-                        [ id:'test', single_end:false ],
+                        [ id:'test' ],
                         file("\${test_data_directory}/b0.nii.gz")
                     ]
                 }
                 ch_fa = ch_split_test_data.dti.map{
                     test_data_directory -> [
-                        [ id:'test', single_end:false ],
+                        [ id:'test' ],
                         file("\${test_data_directory}/fa.nii.gz")
                     ]
                 }
                 input[0] = ch_b0
                     .join(ch_t1w)
                     .join(ch_fa)
+                    .map{ meta, fixed_image, moving_image, metric ->
+                        [ meta, fixed_image, moving_image, metric, [], []]
+                    }
                 """
             }
         }

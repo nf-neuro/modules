@@ -1,0 +1,35 @@
+{
+    "single T1w nifti creates defaces image and logs": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "sub-test"
+                        },
+                        "sub-test_defaced.nii.gz:md5,5d1d1fd150bc9e7651569ebd89a33f86"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,7166e1007a783ebcb49923704f616d63"
+                ],
+                "defaced": [
+                    [
+                        {
+                            "id": "sub-test"
+                        },
+                        "sub-test_defaced.nii.gz:md5,5d1d1fd150bc9e7651569ebd89a33f86"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,7166e1007a783ebcb49923704f616d63"
+                ]
+            }
+        ],
+        "timestamp": "2026-07-28T15:12:02.228379",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    }
+}

@@ -53,6 +53,7 @@ workflow REGISTRATION {
 
             // ** Set compulsory outputs ** //
             out_image_warped = REGISTRATION_EASYREG.out.image_warped
+            out_ref_warped = REGISTRATION_EASYREG.out.fixed_warped
             out_forward_affine = channel.empty()
             out_forward_warp = REGISTRATION_EASYREG.out.forward_warp
             out_backward_affine = channel.empty()
@@ -65,7 +66,6 @@ workflow REGISTRATION {
             // ** Set optional outputs. ** //
             // If segmentations are not provided as inputs,
             // easyreg will outputs synthseg segmentations
-            out_ref_warped = REGISTRATION_EASYREG.out.fixed_warped
             out_segmentation = ch_segmentation.mix( REGISTRATION_EASYREG.out.segmentation_warped )
             out_ref_segmentation = ch_moving_segmentation.mix( REGISTRATION_EASYREG.out.fixed_segmentation_warped )
         }
@@ -139,6 +139,7 @@ workflow REGISTRATION {
 
             // ** Set compulsory outputs ** //
             out_image_warped = REGISTRATION_SYNTHMORPH.out.image_warped
+            out_ref_warped = REGISTRATION_SYNTHMORPH.out.fixed_warped
             out_forward_affine = ch_conversion_outputs.forward_affine
             out_forward_warp = ch_conversion_outputs.forward_warp
             out_backward_affine = ch_conversion_outputs.backward_affine
@@ -152,24 +153,27 @@ workflow REGISTRATION {
             out_forward_tractogram_transform = out_backward_image_transform
             out_backward_tractogram_transform = out_forward_image_transform
             // ** and optional outputs. ** //
-            out_ref_warped = channel.empty()
             out_segmentation = channel.empty()
             out_ref_segmentation = channel.empty()
         }
         else {
             // ** Classic registration using antsRegistration  ** //
-            // Result : [ meta, image, reference, metric | [] ]
+            // Result : [ meta, fixed, moving, metric | [], fixed_mask | [], moving_mask | [] ]
             //  Steps :
-            //   - join [ meta, image, ref ]
-            //   - join [ meta, image, ref, metric | null ]
-            //   - map  [ meta, image, ref, metric | [] ]
+            //   - join [ meta, fixed, moving ]
+            //   - join [ meta, fixed, moving, metric | null ]
+            //   - join [ meta, fixed, moving, metric | null, fixed_mask | null ]
+            //   - join [ meta, fixed, moving, metric | null, fixed_mask | null, moving_mask | null ]
+            //   - map  [ meta, fixed, moving, metric | [], fixed_mask | [], moving_mask | [] ]
             // Branches :
             //   - anat_to_dwi : has a metric at index 3
-            //   - ants_syn    : doesn't have a metric at index 3 ( [] or null )
+            //   - ants_syn    : does not have a metric at index 3 ( [] or null )
             ch_register = ch_fixed_image
                 .join(ch_moving_image)
                 .join(ch_metric, remainder: true)
-                .map{ it[0..2] + [it[3] ?: []] }
+                .join(ch_fixed_mask, remainder: true)
+                .join(ch_moving_mask, remainder: true)
+                .map{ it[0..2] + [it[3] ?: []] + [it[4] ?: []] + [it[5] ?: []] }
                 .branch{
                     anat_to_dwi : it[3]
                     ants_syn: true
@@ -181,7 +185,8 @@ workflow REGISTRATION {
             ch_mqc = ch_mqc.mix(REGISTRATION_ANATTODWI.out.mqc)
 
             // ** Set compulsory outputs ** //
-            out_image_warped = REGISTRATION_ANATTODWI.out.anat_warped
+            out_image_warped = REGISTRATION_ANATTODWI.out.image_warped
+            out_ref_warped = REGISTRATION_ANATTODWI.out.fixed_warped
             out_forward_affine = REGISTRATION_ANATTODWI.out.forward_affine
             out_forward_warp = REGISTRATION_ANATTODWI.out.forward_warp
             out_backward_affine = REGISTRATION_ANATTODWI.out.backward_affine
@@ -194,14 +199,9 @@ workflow REGISTRATION {
             // ** Registration using ANTS SYN SCRIPTS ** //
             // Registration using antsRegistrationSyN.sh or antsRegistrationSyNQuick.sh, has
             // to be defined in the config file or else the default (SyN) will be used.
-            // Result : [ meta, image, mask | [] ]
-            //  Steps :
-            //   - join [ meta, image, metric | [], mask | null ]
-            //   - map  [ meta, image, mask | [] ]
+            // Result : [ meta, fixed, moving, mask_fixed | [], mask_moving | [] ]
             ch_register = ch_register.ants_syn
-                .join(ch_fixed_mask, remainder: true)
-                .join(ch_moving_mask, remainder: true)
-                .map{ it[0..2] + [it[4] ?: []] + [it[5] ?: []] }
+                .map { it[0..2] + [it[4] ?: [], it[5] ?: []] }
 
             REGISTRATION_ANTS ( ch_register )
             ch_versions = ch_versions.mix(REGISTRATION_ANTS.out.versions.first())
@@ -209,6 +209,7 @@ workflow REGISTRATION {
 
             // ** Set compulsory outputs ** //
             out_image_warped = out_image_warped.mix(REGISTRATION_ANTS.out.image_warped)
+            out_ref_warped = out_ref_warped.mix(REGISTRATION_ANTS.out.fixed_warped)
             out_forward_affine = out_forward_affine.mix(REGISTRATION_ANTS.out.forward_affine)
             out_forward_warp = out_forward_warp.mix(REGISTRATION_ANTS.out.forward_warp)
             out_backward_affine = out_backward_affine.mix(REGISTRATION_ANTS.out.backward_affine)
@@ -219,7 +220,6 @@ workflow REGISTRATION {
             out_backward_tractogram_transform = out_backward_tractogram_transform.mix(REGISTRATION_ANTS.out.backward_tractogram_transform)
 
             // **and optional outputs **//
-            out_ref_warped = channel.empty()
             out_segmentation = channel.empty()
             out_ref_segmentation = channel.empty()
         }

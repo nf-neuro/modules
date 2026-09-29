@@ -90,6 +90,12 @@ args:
       type: boolean
       description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
       default: false
+  - suffix:
+      type: string
+      description: |
+        Custom suffix to add to the output file name. In any case, the suffix "_warped"
+        will be appended to the supplied suffix or directly used to prevent overwriting input files.
+        e.g. : the suffix `to_T1w` will result in the name `image_to_T1w_warped.nii.gz`.
 output:
   image_warped:
     - - meta:
@@ -139,6 +145,18 @@ output:
           description: Deformation field to moving space.
           pattern: "*_backward1_deform.nii.gz"
           mandatory: false
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  fixed_warped:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_warped_reference.nii.gz":
+          type: file
+          description: Fixed image warped to moving space.
+          pattern: "*_warped_reference.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
   backward_affine:

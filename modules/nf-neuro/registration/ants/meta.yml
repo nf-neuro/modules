@@ -101,8 +101,9 @@ args:
   - suffix:
       type: string
       description: |
-        Obligatory suffix to add to the output file name to prevent overwrite
-        of input files. e.g. : the suffix `warped` will result in the name `image_warped.nii.gz`.
+        Custom suffix to add to the output file name. In any case, the suffix "_warped"
+        will be appended to the supplied suffix or directly used to prevent overwriting input files.
+        e.g. : the suffix `to_T1w` will result in the name `image_to_T1w_warped.nii.gz`.
       default: "warped"
   - run_qc:
       type: boolean
@@ -153,14 +154,14 @@ input:
           - edam: http://edamontology.org/format_4001 # NIFTI format
     - fixed_mask:
         type: file
-        description: Mask(s) for the fixed image space
+        description: Fixed image mask
         pattern: "*.{nii,nii.gz}"
         mandatory: false
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
     - moving_mask:
         type: file
-        description: Mask(s) for the moving image space
+        description: Moving image mask
         pattern: "*.{nii,nii.gz}"
         mandatory: false
         ontologies:
@@ -177,7 +178,19 @@ output:
           description: Nifti volume after registration.
           pattern: "*_warped.nii.gz"
           ontologies:
-            - edam: http://edamontology.org/format_3989 # GZIP format
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  fixed_warped:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*_warped_reference.nii.gz":
+          type: file
+          description: Fixed image warped to moving space.
+          pattern: "*_warped_reference.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
   forward_affine:
     - - meta:
           type: map
@@ -202,7 +215,7 @@ output:
           pattern: "*_forward0_warp.nii.gz"
           mandatory: false
           ontologies:
-            - edam: http://edamontology.org/format_3989 # GZIP format
+            - edam: http://edamontology.org/format_4001 # NIFTI format
   backward_warp:
     - - meta:
           type: map
@@ -215,7 +228,7 @@ output:
           pattern: "*_backward1_warp.nii.gz"
           mandatory: false
           ontologies:
-            - edam: http://edamontology.org/format_3989 # GZIP format
+            - edam: http://edamontology.org/format_4001 # NIFTI format
   backward_affine:
     - - meta:
           type: map

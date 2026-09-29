@@ -20,7 +20,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_masked.nii.gz:md5,40fd233f77f8ce185f651bbaf4422ff9"
+                        "test_image_masked.nii.gz:md5,40fd233f77f8ce185f651bbaf4422ff9"
                     ]
                 ],
                 "1": [
@@ -32,7 +32,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_masked.nii.gz:md5,40fd233f77f8ce185f651bbaf4422ff9"
+                        "test_image_masked.nii.gz:md5,40fd233f77f8ce185f651bbaf4422ff9"
                     ]
                 ],
                 "versions": [
@@ -41,10 +41,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "25.04.7"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-09-17T20:01:55.772148569"
+        "timestamp": "2026-09-09T16:05:59.024669657"
     },
     "image - applymask - 4D": {
         "content": [

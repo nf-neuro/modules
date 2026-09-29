@@ -32,10 +32,20 @@ input:
         ontologies:
           - edam: http://edamontology.org/format_3989 # GZIP format
 args:
+  - first_suffix:
+      type: string
+      description: Suffix for the output image file. This will be used as the first part of the suffix, followed by "_masked".
+      default: ""
   - single_thread:
       type: boolean
       description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
       default: false
+  - data_type:
+      type: string
+      description: |
+        Data type for the output image. Use the following format:
+        uint8, int16, int32, int64, float16, float32 or float64.
+        Original type is preserved if data_type is not supplied.
 output:
   image:
     - - meta:

@@ -5,8 +5,7 @@
                 "0": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         "test_T1w_warped.nii.gz:md5,9f2eda1485017da83b5fcd6871cdcb74"
                     ]
@@ -14,47 +13,58 @@
                 "1": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
-                        "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
+                        "test_warped_reference.nii.gz:md5,f6969de8c75d8e4a5a6d264c3ac50ab1"
                     ]
                 ],
                 "10": [
-                    "versions.yml:md5,37249bcc3b9ecbaf310960d876fd802d"
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,9cbc1ce8755821996dae18080cf0a23c"
+                    ]
+                ],
+                "11": [
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
                 ],
                 "2": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
-                        "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693"
+                        "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                     ]
                 ],
                 "3": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
-                        "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
+                        "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693"
                     ]
                 ],
                 "4": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
-                        "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9"
+                        "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
                     ]
                 ],
                 "5": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
                         },
                         [
                             "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
@@ -62,23 +72,10 @@
                         ]
                     ]
                 ],
-                "6": [
-                    [
-                        {
-                            "id": "test",
-                            "single_end": false
-                        },
-                        [
-                            "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
-                            "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
-                        ]
-                    ]
-                ],
                 "7": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         [
                             "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
@@ -89,8 +86,18 @@
                 "8": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
+                            "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
+                        ]
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test"
                         },
                         [
                             "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
@@ -98,29 +105,10 @@
                         ]
                     ]
                 ],
-                "9": [
-                    [
-                        {
-                            "id": "test",
-                            "single_end": false
-                        },
-                        "test_registration_anattodwi_mqc.gif:md5,9cbc1ce8755821996dae18080cf0a23c"
-                    ]
-                ],
-                "anat_warped": [
-                    [
-                        {
-                            "id": "test",
-                            "single_end": false
-                        },
-                        "test_T1w_warped.nii.gz:md5,9f2eda1485017da83b5fcd6871cdcb74"
-                    ]
-                ],
                 "backward_affine": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9"
                     ]
@@ -128,8 +116,7 @@
                 "backward_image_transform": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         [
                             "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
@@ -140,8 +127,7 @@
                 "backward_tractogram_transform": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         [
                             "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
@@ -152,17 +138,23 @@
                 "backward_warp": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         "test_backward1_warp.nii.gz:md5,4ea6f41a8246f3cb0b1ad39c94028c1f"
+                    ]
+                ],
+                "fixed_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz:md5,f6969de8c75d8e4a5a6d264c3ac50ab1"
                     ]
                 ],
                 "forward_affine": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         "test_forward1_affine.mat:md5,984ac5023aca49f513af811d0f1e3e89"
                     ]
@@ -170,8 +162,7 @@
                 "forward_image_transform": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         [
                             "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693",
@@ -182,8 +173,7 @@
                 "forward_tractogram_transform": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         [
                             "test_backward0_affine.mat:md5,177325d18b5a5fa457bd3a2e052463d9",
@@ -194,23 +184,29 @@
                 "forward_warp": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
                         "test_forward0_warp.nii.gz:md5,464d7b291ab9c9aaead7ecbfec6a6693"
+                    ]
+                ],
+                "image_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1w_warped.nii.gz:md5,9f2eda1485017da83b5fcd6871cdcb74"
                     ]
                 ],
                 "mqc": [
                     [
                         {
-                            "id": "test",
-                            "single_end": false
+                            "id": "test"
                         },
-                        "test_registration_anattodwi_mqc.gif:md5,9cbc1ce8755821996dae18080cf0a23c"
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,9cbc1ce8755821996dae18080cf0a23c"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,37249bcc3b9ecbaf310960d876fd802d"
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
                 ]
             }
         ],
@@ -218,18 +214,669 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-05-02T12:00:04.565708322"
+        "timestamp": "2026-09-21T13:47:41.285241037"
     },
     "registration - anattodwi -stub-run": {
         "content": [
             [
-                "versions.yml:md5,37249bcc3b9ecbaf310960d876fd802d"
+                "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
             ]
         ],
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T22:30:03.859914189"
+        "timestamp": "2026-09-21T13:28:25.507194842"
+    },
+    "registration - anattodwi - fixed and moving mask": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1w_warped.nii.gz:md5,e89cee538ef47677f4918b30790d9269"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz:md5,ef0770d304b2587fd467d46a551aee3e"
+                    ]
+                ],
+                "10": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,d1ad614866ba5a9d4d7232b7ecd4fdda"
+                    ]
+                ],
+                "11": [
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,df25857b60cd93fba02012f1c3c51f6a"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,4a307468f8ef88970db66d00b2ae666f"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,0920d68662140c4e32a29cc60424b25a"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,2b18b41c252bc3b120ddfad1bed68c19"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,4a307468f8ef88970db66d00b2ae666f",
+                            "test_forward1_affine.mat:md5,df25857b60cd93fba02012f1c3c51f6a"
+                        ]
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,2b18b41c252bc3b120ddfad1bed68c19",
+                            "test_backward1_warp.nii.gz:md5,0920d68662140c4e32a29cc60424b25a"
+                        ]
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,2b18b41c252bc3b120ddfad1bed68c19",
+                            "test_backward1_warp.nii.gz:md5,0920d68662140c4e32a29cc60424b25a"
+                        ]
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,4a307468f8ef88970db66d00b2ae666f",
+                            "test_forward1_affine.mat:md5,df25857b60cd93fba02012f1c3c51f6a"
+                        ]
+                    ]
+                ],
+                "backward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,2b18b41c252bc3b120ddfad1bed68c19"
+                    ]
+                ],
+                "backward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,2b18b41c252bc3b120ddfad1bed68c19",
+                            "test_backward1_warp.nii.gz:md5,0920d68662140c4e32a29cc60424b25a"
+                        ]
+                    ]
+                ],
+                "backward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,4a307468f8ef88970db66d00b2ae666f",
+                            "test_forward1_affine.mat:md5,df25857b60cd93fba02012f1c3c51f6a"
+                        ]
+                    ]
+                ],
+                "backward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,0920d68662140c4e32a29cc60424b25a"
+                    ]
+                ],
+                "fixed_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz:md5,ef0770d304b2587fd467d46a551aee3e"
+                    ]
+                ],
+                "forward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,df25857b60cd93fba02012f1c3c51f6a"
+                    ]
+                ],
+                "forward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,4a307468f8ef88970db66d00b2ae666f",
+                            "test_forward1_affine.mat:md5,df25857b60cd93fba02012f1c3c51f6a"
+                        ]
+                    ]
+                ],
+                "forward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,2b18b41c252bc3b120ddfad1bed68c19",
+                            "test_backward1_warp.nii.gz:md5,0920d68662140c4e32a29cc60424b25a"
+                        ]
+                    ]
+                ],
+                "forward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,4a307468f8ef88970db66d00b2ae666f"
+                    ]
+                ],
+                "image_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1w_warped.nii.gz:md5,e89cee538ef47677f4918b30790d9269"
+                    ]
+                ],
+                "mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,d1ad614866ba5a9d4d7232b7ecd4fdda"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-09-21T13:56:29.958259751"
+    },
+    "registration - anattodwi - fixed mask": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1w_warped.nii.gz:md5,6580d9115d9ab2b0b7595d0a1ca4b766"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz:md5,619a055e786899ffaf5d1f602ee950a0"
+                    ]
+                ],
+                "10": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,01b36472680e1ebc077ab909fc3acf98"
+                    ]
+                ],
+                "11": [
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,359a6367dfed044159c2942c8a1cfd52"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,9cb6a47255664b264f4f689a0437f9e0"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,0cf33b5e2c6c2ca3eefdbad888c94223"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,85bdf6da993afeaba6718241425a10a7"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9cb6a47255664b264f4f689a0437f9e0",
+                            "test_forward1_affine.mat:md5,359a6367dfed044159c2942c8a1cfd52"
+                        ]
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,85bdf6da993afeaba6718241425a10a7",
+                            "test_backward1_warp.nii.gz:md5,0cf33b5e2c6c2ca3eefdbad888c94223"
+                        ]
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,85bdf6da993afeaba6718241425a10a7",
+                            "test_backward1_warp.nii.gz:md5,0cf33b5e2c6c2ca3eefdbad888c94223"
+                        ]
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9cb6a47255664b264f4f689a0437f9e0",
+                            "test_forward1_affine.mat:md5,359a6367dfed044159c2942c8a1cfd52"
+                        ]
+                    ]
+                ],
+                "backward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,85bdf6da993afeaba6718241425a10a7"
+                    ]
+                ],
+                "backward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,85bdf6da993afeaba6718241425a10a7",
+                            "test_backward1_warp.nii.gz:md5,0cf33b5e2c6c2ca3eefdbad888c94223"
+                        ]
+                    ]
+                ],
+                "backward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9cb6a47255664b264f4f689a0437f9e0",
+                            "test_forward1_affine.mat:md5,359a6367dfed044159c2942c8a1cfd52"
+                        ]
+                    ]
+                ],
+                "backward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,0cf33b5e2c6c2ca3eefdbad888c94223"
+                    ]
+                ],
+                "fixed_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz:md5,619a055e786899ffaf5d1f602ee950a0"
+                    ]
+                ],
+                "forward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,359a6367dfed044159c2942c8a1cfd52"
+                    ]
+                ],
+                "forward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,9cb6a47255664b264f4f689a0437f9e0",
+                            "test_forward1_affine.mat:md5,359a6367dfed044159c2942c8a1cfd52"
+                        ]
+                    ]
+                ],
+                "forward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,85bdf6da993afeaba6718241425a10a7",
+                            "test_backward1_warp.nii.gz:md5,0cf33b5e2c6c2ca3eefdbad888c94223"
+                        ]
+                    ]
+                ],
+                "forward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,9cb6a47255664b264f4f689a0437f9e0"
+                    ]
+                ],
+                "image_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1w_warped.nii.gz:md5,6580d9115d9ab2b0b7595d0a1ca4b766"
+                    ]
+                ],
+                "mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,01b36472680e1ebc077ab909fc3acf98"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-09-21T13:53:39.861991502"
+    },
+    "registration - anattodwi - moving mask": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1w_warped.nii.gz:md5,4334976dc38fdfbeccbc9270a84c8140"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz:md5,82551b5651f8583e9649466863d80bcf"
+                    ]
+                ],
+                "10": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,169d48fe0db4b5edba5e2eedbdf44768"
+                    ]
+                ],
+                "11": [
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,aee4b87a3cad6826c14876c193dbd663"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,7cf3694e834b848fe2a6b98dd29e2f75"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,4c4395385defdadad781c0073b4f1676"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,e0ee04e6e0f1df9d47e9e8417bb86791"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,7cf3694e834b848fe2a6b98dd29e2f75",
+                            "test_forward1_affine.mat:md5,aee4b87a3cad6826c14876c193dbd663"
+                        ]
+                    ]
+                ],
+                "7": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,e0ee04e6e0f1df9d47e9e8417bb86791",
+                            "test_backward1_warp.nii.gz:md5,4c4395385defdadad781c0073b4f1676"
+                        ]
+                    ]
+                ],
+                "8": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,e0ee04e6e0f1df9d47e9e8417bb86791",
+                            "test_backward1_warp.nii.gz:md5,4c4395385defdadad781c0073b4f1676"
+                        ]
+                    ]
+                ],
+                "9": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,7cf3694e834b848fe2a6b98dd29e2f75",
+                            "test_forward1_affine.mat:md5,aee4b87a3cad6826c14876c193dbd663"
+                        ]
+                    ]
+                ],
+                "backward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward0_affine.mat:md5,e0ee04e6e0f1df9d47e9e8417bb86791"
+                    ]
+                ],
+                "backward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,e0ee04e6e0f1df9d47e9e8417bb86791",
+                            "test_backward1_warp.nii.gz:md5,4c4395385defdadad781c0073b4f1676"
+                        ]
+                    ]
+                ],
+                "backward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,7cf3694e834b848fe2a6b98dd29e2f75",
+                            "test_forward1_affine.mat:md5,aee4b87a3cad6826c14876c193dbd663"
+                        ]
+                    ]
+                ],
+                "backward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_backward1_warp.nii.gz:md5,4c4395385defdadad781c0073b4f1676"
+                    ]
+                ],
+                "fixed_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_warped_reference.nii.gz:md5,82551b5651f8583e9649466863d80bcf"
+                    ]
+                ],
+                "forward_affine": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward1_affine.mat:md5,aee4b87a3cad6826c14876c193dbd663"
+                    ]
+                ],
+                "forward_image_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_forward0_warp.nii.gz:md5,7cf3694e834b848fe2a6b98dd29e2f75",
+                            "test_forward1_affine.mat:md5,aee4b87a3cad6826c14876c193dbd663"
+                        ]
+                    ]
+                ],
+                "forward_tractogram_transform": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "test_backward0_affine.mat:md5,e0ee04e6e0f1df9d47e9e8417bb86791",
+                            "test_backward1_warp.nii.gz:md5,4c4395385defdadad781c0073b4f1676"
+                        ]
+                    ]
+                ],
+                "forward_warp": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_forward0_warp.nii.gz:md5,7cf3694e834b848fe2a6b98dd29e2f75"
+                    ]
+                ],
+                "image_warped": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_T1w_warped.nii.gz:md5,4334976dc38fdfbeccbc9270a84c8140"
+                    ]
+                ],
+                "mqc": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_t1_to_dwi_registration_anattodwi_mqc.gif:md5,169d48fe0db4b5edba5e2eedbdf44768"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,f957f7aa624e41f5a292326ca6b83fc3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-09-21T13:50:54.921852613"
     }
 }

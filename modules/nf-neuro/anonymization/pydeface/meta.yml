@@ -1,0 +1,55 @@
+name: "pydeface"
+description: Remove facial structures from MRI NIfTI images using PyDeface.
+keywords:
+  - neuroimaging
+  - MRI
+  - NIfTI
+  - anonymization
+  - defacing
+authors:
+  - "@loboehme1"
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information.
+          e.g. [id:'test']
+    - nifti:
+        type: file
+        description: |
+          Input anatomical MRI image in NIfTI format.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001
+          - edam: http://edamontology.org/format_3989
+output:
+  defaced:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information.
+            e.g. [id:'test']
+      - "*_defaced.nii.gz":
+          type: file
+          description: Defaced anatomical MRI image in NIfTI format.
+          pattern: "*_defaced.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001
+            - edam: http://edamontology.org/format_3989
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750
+tools:
+  - pydeface:
+      description: "A tool to remove facial structure from MRI images."
+      homepage: "https://www.poldracklab.org"
+      identifier: ""
+topics:
+  '"versions"':
+    - versions.yml:
+        type: string
+        description: The name of the process

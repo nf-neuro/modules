@@ -14,26 +14,27 @@ nextflow_workflow {
             workflow {
                 """
                 // Create a test meta.yml file content
-                def test_meta_content = '''
+                def test_meta_content =
+'''
 name: "test_workflow"
 input:
-  - options:
-      type: map
-      description: Map of options for the test workflow.
-      mandatory: false
-      entries:
-        option_a:
-          type: boolean
-          description: Enable feature A
-          default: false
-        option_b:
-          type: boolean
-          description: Enable feature B
-          default: true
-        option_c:
-          type: boolean
-          description: Enable feature C
-          default: false
+    - options:
+        type: map
+        description: Map of options for the test workflow.
+        mandatory: false
+        entries:
+            option_a:
+                type: boolean
+                description: Enable feature A
+                default: false
+            option_b:
+                type: boolean
+                description: Enable feature B
+                default: true
+            option_c:
+                type: boolean
+                description: Enable feature C
+                default: false
 '''
                 // Write test meta file
                 def test_meta_file = file("\${workDir}/test_meta.yml")
@@ -67,19 +68,19 @@ input:
                 def test_meta_content = '''
 name: "test_workflow"
 input:
-  - options:
-      type: map
-      description: Map of options for the test workflow.
-      mandatory: false
-      entries:
-        option_a:
-          type: boolean
-          description: Enable feature A
-          default: false
-        option_b:
-          type: boolean
-          description: Enable feature B
-          default: true
+    - options:
+        type: map
+        description: Map of options for the test workflow.
+        mandatory: false
+        entries:
+            option_a:
+                type: boolean
+                description: Enable feature A
+                default: false
+            option_b:
+                type: boolean
+                description: Enable feature B
+                default: true
 '''
                 // Write test meta file
                 def test_meta_file = file("\${workDir}/test_meta_strict_false.yml")
@@ -112,19 +113,19 @@ input:
                 def test_meta_content = '''
 name: "test_workflow"
 input:
-  - options:
-      type: map
-      description: Map of options for the test workflow.
-      mandatory: false
-      entries:
-        option_a:
-          type: boolean
-          description: Enable feature A
-          default: false
-        option_b:
-          type: boolean
-          description: Enable feature B
-          default: true
+    - options:
+        type: map
+        description: Map of options for the test workflow.
+        mandatory: false
+        entries:
+            option_a:
+                type: boolean
+                description: Enable feature A
+                default: false
+            option_b:
+                type: boolean
+                description: Enable feature B
+                default: true
 '''
                 // Write test meta file
                 def test_meta_file = file("\${workDir}/test_meta_strict_true.yml")
@@ -157,19 +158,19 @@ input:
                 def test_meta_content = '''
 name: "test_workflow"
 input:
-  - options:
-      type: map
-      description: Map of options for the test workflow.
-      mandatory: false
-      entries:
-        option_a:
-          type: boolean
-          description: Enable feature A
-          default: false
-        option_b:
-          type: boolean
-          description: Enable feature B
-          default: true
+    - options:
+        type: map
+        description: Map of options for the test workflow.
+        mandatory: false
+        entries:
+            option_a:
+                type: boolean
+                description: Enable feature A
+                default: false
+            option_b:
+                type: boolean
+                description: Enable feature B
+                default: true
 '''
                 // Write test meta file
                 def test_meta_file = file("\${workDir}/test_meta_partial.yml")
@@ -202,19 +203,19 @@ input:
                 def test_meta_content = '''
 name: "test_workflow"
 input:
-  - options:
-      type: map
-      description: Map of options for the test workflow.
-      mandatory: false
-      entries:
-        option_a:
-          type: boolean
-          description: Enable feature A
-          default: false
-        option_b:
-          type: boolean
-          description: Enable feature B
-          default: true
+    - options:
+        type: map
+        description: Map of options for the test workflow.
+        mandatory: false
+        entries:
+            option_a:
+                type: boolean
+                description: Enable feature A
+                default: false
+            option_b:
+                type: boolean
+                description: Enable feature B
+                default: true
 '''
                 // Write test meta file
                 def test_meta_file = file("\${workDir}/test_meta_defaults.yml")
@@ -244,15 +245,15 @@ input:
                 def test_meta_content = '''
 name: "test_workflow"
 input:
-  - options:
-      type: map
-      description: Map of options for the test workflow.
-      mandatory: false
-      entries:
-        option_a:
-          type: boolean
-          description: Enable feature A
-          default: false
+    - options:
+        type: map
+        description: Map of options for the test workflow.
+        mandatory: false
+        entries:
+            option_a:
+                type: boolean
+                description: Enable feature A
+                default: false
 '''
                 // Write test meta file
                 def test_meta_file = file("\${workDir}/test_meta_invalid.yml")

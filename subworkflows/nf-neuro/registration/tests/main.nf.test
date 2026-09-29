@@ -64,8 +64,18 @@ nextflow_workflow {
                         file("\${test_data_directory}/fa.nii.gz")
                     ]
                 }
-                input[3] = channel.empty()
-                input[4] = channel.empty()
+                input[3] = ch_split_test_data.b0.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/brainmask.nii.gz")
+                    ]
+                }
+                input[4] = ch_split_test_data.t1w.map{
+                    test_data_directory -> [
+                        [ id:'test' ],
+                        file("\${test_data_directory}/T1w_mask.nii.gz")
+                    ]
+                }
                 input[5] = channel.empty()
                 input[6] = channel.empty()
                 input[7] = channel.empty()

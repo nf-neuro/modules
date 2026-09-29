@@ -27,8 +27,41 @@ nextflow_process {
             }
         }
 
-    test("registration - synthmorph") {
+    test("registration - synthmorph - affine + deform") {
         config "./nextflow.config"
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory
+                    .map{ test_data_directory -> [
+                    [ id:'test', single_end:false ],
+                    file("\${test_data_directory}/mni_masked_2x2x2.nii.gz"),
+                    file("\${test_data_directory}/b0_mean.nii.gz")
+                ]}
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    process.out
+                        .findAll{ channel -> !channel.key.isInteger() && channel.value  }
+                        .collectEntries{ channel ->
+                            [(channel.key): ["versions"].contains(channel.key)
+                                ? channel.value
+                                : channel.value.collect{ subject ->
+                                    [ subject[0] ] + subject[1..-1].flatten().collect{ entry -> entry ? file(entry).name : "" }
+                            } ]
+                        }
+                ).match() }
+            )
+        }
+    }
+
+    test("registration - synthmorph - affine") {
+        tag "affine"
+        config "./nextflow_affine.config"
         when {
             process {
                 """

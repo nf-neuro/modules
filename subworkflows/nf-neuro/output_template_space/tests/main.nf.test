@@ -77,7 +77,7 @@ nextflow_workflow {
                 }
                 input[5] = channel.empty()
                 input[6] = [ "template": "MNI152NLin2009cAsym",
-                             "templateflow_home": "$launchDir/templateflow_home"]
+                            "templateflow_home": "$launchDir/templateflow_home"]
                 """
             }
         }
@@ -161,7 +161,7 @@ nextflow_workflow {
                 }
                 input[5] = channel.empty()
                 input[6] = [ "template": "MNI152NLin2009bSym",
-                             "templateflow_home": "$launchDir/templateflow_home" ]
+                            "templateflow_home": "$launchDir/templateflow_home" ]
                 """
             }
         }
@@ -247,8 +247,8 @@ nextflow_workflow {
                     test_data_directory -> file("\${test_data_directory}/license.txt")
                 }
                 input[6] = [ "run_synthmorph": true,
-                             "template": "MNI152NLin2009bSym",
-                             "templateflow_home": "$launchDir/templateflow_home" ]
+                            "template": "MNI152NLin2009bSym",
+                            "templateflow_home": "$launchDir/templateflow_home" ]
                 """
             }
         }

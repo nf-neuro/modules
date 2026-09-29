@@ -9,6 +9,7 @@ nextflow_workflow {
     tag "subworkflows_nfneuro"
     tag "subworkflows/preproc_t1"
 
+    tag "anonymization/pydeface"
     tag "denoising/nlmeans"
     tag "preproc/n4"
     tag "image/resample"
@@ -65,6 +66,7 @@ nextflow_workflow {
                 input[6] = channel.empty()
                 input[7] = channel.empty()
                 input[8] = [
+                    "preproc_t1_run_defacing": true,
                     "preproc_t1_run_denoising": true,
                     "preproc_t1_run_N4": true,
                     "preproc_t1_run_resampling": true,
@@ -236,6 +238,7 @@ nextflow_workflow {
                 input[6] = channel.empty()
                 input[7] = channel.empty()
                 input[8] = [
+                    "preproc_t1_run_defacing": false,
                     "preproc_t1_run_denoising": false,
                     "preproc_t1_run_N4": false,
                     "preproc_t1_run_resampling": false,
@@ -262,7 +265,8 @@ nextflow_workflow {
                 ).match() },
                 { assert workflow.out
                     .findAll{ !it.key.isInteger() }
-                    .every{ channel -> ["image_nlmeans",
+                    .every{ channel -> ["image_defaced",
+                                        "image_nlmeans",
                                         "image_N4",
                                         "image_resample",
                                         "image_bet",

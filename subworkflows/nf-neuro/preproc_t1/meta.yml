@@ -14,30 +14,34 @@ description: |
 
   -----------  Steps  -----------
 
-  1. Denoising (nlmeans, scil).
+  1. Defacing (pydeface).
+    Used to remove facial structures from NIfTI images, to ensure the anonymity of the subjects.
+    This step is optional, disabled by default, and can be enabled using the options map.
+
+  2. Denoising (nlmeans, scil).
     Used to remove the noise induced by the MRI acquisition,
     enhance the signal to noise ratio and improve the image quality and following metrics.
     The denoising is performed in the original spatial resolution and uses the nlmeans method.
 
 
-  2. N4 Image Intensities Bias Correction (N4BiasFieldCorrection, ANTs).
+  3. N4 Image Intensities Bias Correction (N4BiasFieldCorrection, ANTs).
     Used to normalize the image intensities and reduce biases (e.g. signal loss with distance in
     multi-channel head coils), while preserving contrasts between tissues.
 
 
-  3. Resample (DIPY).
+  4. Resample (DIPY).
     Resamples the T1 to an isotropic spatial resolution. The default is 1mm, a standard in humans which
     usually facilitate registration with corrected DWI images.
     This spatial resolution is modifiable in the configuration file.
 
 
-  4. Brain Extraction (ANTs - default, freesurfer).
+  5. Brain Extraction (ANTs - default, freesurfer).
     Isolates the brain tissue voxels from the remaining image. Also creates a binary brain mask.
     This brain extraction is required for the T1 to DWI Registration. IMPORTANT : when using ANTs,
     brain extraction is reproducible only when run using a single thread.
 
 
-  5. Cropping (scil).
+  6. Cropping (scil).
     Crops the empty planes around the brain to optimize the next processing steps.
 
 
@@ -53,6 +57,7 @@ keywords:
   - crop
 
 components:
+  - pydeface
   - denoising/nlmeans
   - preproc/n4
   - image/resample
@@ -173,6 +178,10 @@ input:
       description: Map of options for the preproc_t1 subworkflow.
       mandatory: false
       entries:
+        preproc_t1_run_defacing:
+          type: boolean
+          description: Deface the anatomical image using pydeface.
+          default: false
         preproc_t1_run_denoising:
           type: boolean
           description: Denoise the anatomical image using the nlmeans method from scilpy.
@@ -198,6 +207,18 @@ input:
           description: Crop the image after brain extraction.
           default: true
 output:
+  - image_defaced:
+      type: file
+      description: |
+        Channel containing the anatomical image after the defacing.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - image:
+            type: file
+            description: Defaced T1 image file.
+      pattern: "*.{nii,nii.gz}"
   - image_nlmeans:
       type: file
       description: |

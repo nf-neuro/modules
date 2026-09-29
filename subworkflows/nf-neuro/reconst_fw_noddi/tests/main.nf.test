@@ -68,8 +68,8 @@ nextflow_workflow {
                     perp_diff_max: channel.empty()
                 ]
                 input[4] = [ "run_noddi": true,
-                             "run_freewater": false,
-                             "average_diff_priors": false]
+                            "run_freewater": false,
+                            "average_diff_priors": false]
                 """
             }
         }
@@ -134,8 +134,8 @@ nextflow_workflow {
                     perp_diff_max: channel.empty()
                 ]
                 input[4] = [ "run_noddi": false,
-                             "run_freewater": true,
-                             "average_diff_priors": false]
+                            "run_freewater": true,
+                            "average_diff_priors": false]
                 """
             }
         }
@@ -200,8 +200,8 @@ nextflow_workflow {
                     perp_diff_max: channel.empty()
                 ]
                 input[4] = [ "run_noddi": true,
-                             "run_freewater": true,
-                             "average_diff_priors": false]
+                            "run_freewater": true,
+                            "average_diff_priors": false]
                 """
             }
         }
@@ -266,8 +266,8 @@ nextflow_workflow {
                     perp_diff_max: channel.empty()
                 ]
                 input[4] = [ "run_noddi": true,
-                             "run_freewater": true,
-                             "average_diff_priors": true]
+                            "run_freewater": true,
+                            "average_diff_priors": true]
                 """
             }
         }
@@ -358,8 +358,8 @@ nextflow_workflow {
                     perp_diff_max: channel.value(0.0007)
                 ]
                 input[4] = [ "run_noddi": true,
-                             "run_freewater": true,
-                             "average_diff_priors": true]
+                            "run_freewater": true,
+                            "average_diff_priors": true]
                 """
             }
         }
@@ -425,8 +425,8 @@ nextflow_workflow {
                     perp_diff_max: channel.of(tuple([ id:'test', single_end:false ], 0.0007))
                 ]
                 input[4] = [ "run_noddi": true,
-                             "run_freewater": true,
-                             "average_diff_priors": true]
+                            "run_freewater": true,
+                            "average_diff_priors": true]
                 """
             }
         }
@@ -491,8 +491,8 @@ nextflow_workflow {
                     perp_diff_max: channel.value(0.0007)
                 ]
                 input[4] = [ "run_noddi": true,
-                             "run_freewater": false,
-                             "average_diff_priors": true]
+                            "run_freewater": false,
+                            "average_diff_priors": true]
                 """
             }
         }
@@ -557,8 +557,8 @@ nextflow_workflow {
                     perp_diff_max: channel.value(0.0007)
                 ]
                 input[4] = [ "run_noddi": false,
-                             "run_freewater": true,
-                             "average_diff_priors": true]
+                            "run_freewater": true,
+                            "average_diff_priors": true]
                 """
             }
         }
@@ -618,8 +618,8 @@ nextflow_workflow {
                     ]}
                 input[3] = channel.empty()
                 input[4] = [ "run_noddi": false,
-                             "run_freewater": false,
-                             "average_diff_priors": true]
+                            "run_freewater": false,
+                            "average_diff_priors": true]
                 """
             }
         }

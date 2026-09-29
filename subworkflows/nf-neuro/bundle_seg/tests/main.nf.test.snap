@@ -67,7 +67,7 @@
                 ],
                 "versions": [
                     "versions.yml:md5,3c2a7cf1723c95390ee45ee209e08994",
-                    "versions.yml:md5,811148d45564ab7cb9f3669bededce15"
+                    "versions.yml:md5,ca9d271003f19c98df8b8ea080463f32"
                 ]
             }
         ],
@@ -75,6 +75,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-06-02T20:03:03.095138057"
+        "timestamp": "2026-09-17T10:22:18.064345655"
     }
 }
