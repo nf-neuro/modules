@@ -20,7 +20,7 @@ description: |
       The following features are experimental and may not work as expected. While we run tests to ensure
       computational stability of the subworkflow, we cannot guarantee the correctness of the results.
 
-  Anatomical Registration (SynthMorph) : params.run_synthmorph = true
+  Anatomical Registration (SynthMorph) : params.method = "synthmorph"
       Synthmorph is a machine learning-based registration method developed by the Freesurfer team. It is made
       available in this subworkflow by the REGISTRATION subworkflow, please refer to its documentation for
       more details.
@@ -79,14 +79,11 @@ input:
       description: Map of options for the bundle_seg subworkflow.
       mandatory: false
       entries:
-        run_synthmorph:
-          type: boolean
-          description: Use Synthmorph ML registration model instead of ANTs.
-          default: false
-        run_easyreg:
-          type: boolean
-          description: This option is not supported and will throw an error if set to 'true'.
-          default: false
+        method:
+          type: string
+          choices: [ants, synthmorph]
+          description: Registration method to use. Options are 'ants' or 'synthmorph'.
+          default: ants
         atlas_directory:
           type: string
           description: Use an alternative atlas to the default BundleSeg one available on Zenodo (https://zenodo.org/records/10103446). The folder MUST follow the same organisation as archive `atlas.zip` hosted on Zenodo.
