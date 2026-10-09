@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "tensor_ratio"
+description: Split the tensor image and compute the ratio of Dxx to Dyy and Dxx to Dzz for ALPS.
+keywords:
+  - DWI
+  - tensor
+  - DTI-ALPS
+tools:
+  - "FSL":
+      description: "FSL Toolbox"
+      homepage: "https://fsl.fmrib.ox.ac.uk/fsl/fslwiki"
+
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. `[ id:'test', single_end:false ]`
+
+  - image:
+      type: file
+      description: Nifti tensor image volume to extract Dx to Dy and Dx to Dz.
+      pattern: "*.{nii,nii.gz}"
+
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. `[ id:'test', single_end:false ]`
+
+  - tensor_x_to_y:
+      type: file
+      description: Nifti volume ratio of Dxx to Dyy.
+      pattern: "*_Dxx_to_Dyy.{nii,nii.gz}"
+
+  - tensor_x_to_z:
+      type: file
+      description: Nifti volume ratio of Dxx to Dzz.
+      pattern: "*_Dxx_to_Dzz.{nii,nii.gz}"
+
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+
+authors:
+  - "@atsuch"
+maintainers:
+  - "@atsuch"

@@ -1,0 +1,60 @@
+{
+    "tensorratio - classic": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "tensor_x_to_y": [
+                    
+                ],
+                "tensor_x_to_z": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-02-27T14:05:10.553221131"
+    },
+    "tensorratio - stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "tensor_x_to_y": [
+                    
+                ],
+                "tensor_x_to_z": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-02-27T14:05:28.311339916"
+    }
+}
