@@ -1,0 +1,30 @@
+{
+    "segmentation - lstai - stub": {
+        "content": [
+            [
+                "versions.yml:md5,87b33423229868e02b051435945b8838"
+            ]
+        ],
+        "timestamp": "2026-09-22T08:20:13.33511465",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    },
+    "segmentation - lstai": {
+        "content": [
+            "test_space-flair_seg-lst_lesion_mask.nii.gz",
+            "test_space-flair_seg-lst_annotated_lesion_mask.nii.gz",
+            "test_raw_lesion_stats.csv",
+            "test_annotated_lesion_stats.csv",
+            [
+                "versions.yml:md5,87b33423229868e02b051435945b8838"
+            ]
+        ],
+        "timestamp": "2026-09-22T13:15:50.241769988",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    }
+}
