@@ -48,6 +48,18 @@ input:
           type: string
           description: Path to a directory containing IIT bundle masks. If provided, these inputs will be used instead of downloading and processing the bundle masks.
           default: null
+        fetch_gm_desikan:
+          type: boolean
+          description: If 'true', also fetch the IIT GM Desikan parcellation atlas and its Look-Up Table, emitted on the `gm_atlas` and `gm_lut` channels. Both channels stay empty when this is 'false'.
+          default: false
+        atlas_iit_gm_atlas:
+          type: string
+          description: Path to the IIT GM Desikan atlas (IIT_GM_Desikan_atlas.nii.gz). If provided, this input will be used instead of downloading the atlas from NITRC.
+          default: null
+        atlas_iit_gm_lut:
+          type: string
+          description: Path to the IIT GM Desikan Look-Up Table. Accepts either a pre-converted JSON file or the raw tab-separated TXT distributed by NITRC (LUT_GM_Desikan_0to1.txt), which is converted to JSON locally without requiring internet access. If provided, this input will be used instead of downloading the LUT from NITRC.
+          default: null
 output:
   - bundle_masks:
       type: file
@@ -71,6 +83,30 @@ output:
       pattern: "*_b0.nii.gz"
       ontologies:
         - edam: http://edamontology.org/format_4001 # NIFTI format
+  - gm_atlas:
+      type: file
+      description: |
+        IIT GM Desikan parcellation atlas, in the atlas' template space.
+        Empty unless `fetch_gm_desikan` is enabled.
+      structure:
+        - gm_atlas:
+            type: file
+            description: GM Desikan parcellation labelmap file.
+      pattern: "*.nii.gz"
+      ontologies:
+        - edam: http://edamontology.org/format_4001 # NIFTI format
+  - gm_lut:
+      type: file
+      description: |
+        JSON Look-Up Table mapping the GM Desikan label indices to region names.
+        Empty unless `fetch_gm_desikan` is enabled.
+      structure:
+        - gm_lut:
+            type: file
+            description: GM Desikan Look-Up Table, as JSON.
+      pattern: "*.json"
+      ontologies:
+        - edam: http://edamontology.org/format_3464 # JSON format
   - versions:
       type: file
       description: |

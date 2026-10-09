@@ -1,0 +1,112 @@
+nextflow_process {
+
+    name "Test Process STATS_ROIVOLUMES"
+    script "../main.nf"
+    process "STATS_ROIVOLUMES"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "stats"
+    tag "stats/roivolumes"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "tractometry.zip", "plot.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+    test("stats - roi volumes - labels mode") {
+
+        config "./nextflow.config"
+
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        tractometry: it.simpleName == "tractometry"
+                    }
+                input[0] = ch_split_test_data.tractometry.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ],
+                        [
+                            file("\${test_data_directory}/IFGWM.nii.gz"),
+                            file("\${test_data_directory}/IFGWM_labels_map.nii.gz")
+                        ],
+                        []
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("stats - roi volumes - atlas labelmap mode") {
+
+        config "./nextflow_label.config"
+
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        plot: it.simpleName == "plot"
+                    }
+                input[0] = ch_split_test_data.plot.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ],
+                        file("\${test_data_directory}/atlas_brainnetome.nii.gz"),
+                        file("\${test_data_directory}/atlas_brainnetome.json")
+                    ]
+                }
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("stats - roi volumes - stub-run") {
+        tag "stub"
+        options "-stub-run"
+
+        config "./nextflow.config"
+
+        when {
+            process {
+                """
+                input[0] = channel.of([
+                    [ id:'test', single_end:false ],
+                    [ file('stub.nii.gz', checkIfExists: false) ],
+                    []
+                ])
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
