@@ -11,7 +11,7 @@ description: |
   channels provided by this subworkflow.
 
   Registration suites:
-  - EasyReg (ML): params.run_easyreg = true
+  - EasyReg (ML): params.method = "easyreg"
 
     module: REGISTRATION_EASYREG
 
@@ -19,7 +19,7 @@ description: |
 
     NOTE: Outputs a combined warp field only, no affine transformations are available. CANNOT BE LINKED WITH THE BUNDLE_SEG SUBWORKFLOW.
 
-  - Synthmorph (ML): params.run_synthmorph = true
+  - Synthmorph (ML): params.method = "synthmorph"
 
     module: REGISTRATION_SYNTHMORPH
 
@@ -29,24 +29,27 @@ description: |
 
     NOTE: the output affine transformation file is in .lta format and needs to be converted to .mat to be used with ANTs using the REGISTRATION_CONVERT module.
 
-  - ANTs (SyN+SyN Quick): params.run_easyreg = false && params.run_synthmorph = false
+  - ANTs (SyN+SyN Quick): params.method = "ants"
 
     module: REGISTRATION_ANTS or REGISTRATION_ANATTODWI
 
     Run ANTs registration using antsRegistrationSyN.sh (quick version also available).
 
-    NOTE : Transformation to DWI space is available. To trigger it, supply a metric file (ch_metric) in DWI space (e.g. FA map) in addition to the moving (ch_image) and reference (ch_ref) images.
+    NOTE : Transformation to DWI space is available. To trigger it, supply a metric file (metric) in DWI space (e.g. FA map) in addition to the moving (fixed_image) and fixed (moving_image) images.
 keywords:
   - Registration
   - Transformation
   - DWI
   - Anatomical
 components:
+  - image/applymask
+  - registration/antsapplytransforms
   - registration/anattodwi
   - registration/ants
   - registration/convert
   - registration/easyreg
   - registration/synthmorph
+  - registration/deform2disp
   - utils_options
 input:
   - ch_fixed_image:
@@ -72,7 +75,7 @@ input:
         - meta:
             type: map
             description: Metadata map.
-        - image:
+        - moving_image:
             type: file
             description: Moving image file.
       pattern: "*.{nii,nii.gz}"
@@ -135,16 +138,52 @@ input:
       description: Map of options for the registration subworkflow.
       mandatory: false
       entries:
-        run_easyreg:
-          type: boolean
-          description: Run EasyReg for registration. If false, SynthMorph will be used if `run_synthmorph` is true, and ANTs SyN will be used if `run_synthmorph` is false.
-          default: false
-        run_synthmorph:
-          type: boolean
-          description: Run SynthMorph for registration. If false, EasyReg will be used if `run_easyreg` is true, and ANTs SyN will be used if `run_easyreg` is false.
-          default: false
+        masking_strategy:
+          type: string
+          choices:
+            - none
+            - apriori
+            - internal
+            - both
+          description:
+            Masking strategy to use for registration. Options are:
+              none: do not use any masks.
+              apriori: multiply the inputs by the masks before registration, then warp the unmasked images again. The masked results go to *_warped_masked.
+              internal: give the masks to ANTs only. Only works with method=ants.
+              both: do both. Only works with method=ants.
+          default: "none"
+        method:
+          type: string
+          choices: [ants, easyreg, synthmorph]
+          description: Registration method to use. Options are 'ants', 'easyreg', or 'synthmorph'.
+          default: ants
 output:
   - image_warped:
+      type: file
+      description: |
+        Channel containing images warped to fixed space.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - image:
+            type: file
+            description: Warped image to fixed space.
+      pattern: "*.{nii,nii.gz}"
+  - fixed_warped:
+      type: file
+      description: |
+        Channel containing the fixed image warped to moving space.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - image:
+            type: file
+            description: Warped fixed image to moving space.
+      pattern: "*.{nii,nii.gz}"
+      mandatory: false
+  - image_warped_masked:
       type: file
       description: |
         Channel containing images warped in fixed space.
@@ -154,19 +193,20 @@ output:
             description: Metadata map.
         - image:
             type: file
-            description: Warped image in fixed space.
+            description: Warped image masked in fixed space.
       pattern: "*.{nii,nii.gz}"
-  - reference_warped:
+      mandatory: false
+  - fixed_warped_masked:
       type: file
       description: |
-        Channel containing the reference image warped in moving space.
+        Channel containing the fixed image masked and warped in moving space.
       structure:
         - meta:
             type: map
             description: Metadata map.
         - image:
             type: file
-            description: Warped reference image in moving space.
+            description: Warped fixed image masked and warped in moving space.
       pattern: "*.{nii,nii.gz}"
       mandatory: false
   - forward_affine:
@@ -284,10 +324,10 @@ output:
             description: Metadata map.
         - segmentation:
             type: file
-            description: Segmentation image file.
+            description: Segmentation image file in moving space.
       pattern: "*.{nii,nii.gz}"
       mandatory: false
-  - reference_segmentation:
+  - fixed_segmentation:
       type: file
       description: |
         ONLY PROVIDED BY REGISTRATION_SYNTHMORPH. Channel containing the SynthSeg v2 (non-robust)
@@ -296,9 +336,9 @@ output:
         - meta:
             type: map
             description: Metadata map.
-        - reference_segmentation:
+        - fixed_segmentation:
             type: file
-            description: Reference segmentation image file.
+            description: Fixed segmentation image file in fixed space.
       pattern: "*.{nii,nii.gz}"
       mandatory: false
   - mqc:

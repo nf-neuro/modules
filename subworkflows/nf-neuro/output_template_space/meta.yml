@@ -19,9 +19,8 @@ description: |
   are also available in the `test/local.config` file.
 
   To select the registration technique used to register the input files, use the
-  following parameters :
-  - params.run_easyreg : Use Easyreg any-to-any registration model
-  - params.run_synthmorph : Use Synthmorph ML registration model
+  method parameter :
+  - params.method : Use the specified registration method (e.g., 'ants', 'easyreg', or 'synthmorph')
 
   Refer to the `registration` subworkflow and the modules it uses for configuration options.
 keywords:
@@ -137,14 +136,11 @@ input:
           type: string
           description: Name/type of the cohort to use.
           default: null
-        run_easyreg:
-          type: boolean
-          description: Use Easyreg any-to-any registration model.
-          default: false
-        run_synthmorph:
-          type: boolean
-          description: Use Synthmorph ML registration model.
-          default: false
+        method:
+          type: string
+          choices: [ants, easyreg, synthmorph]
+          description: Registration method to use. Options are 'ants', 'easyreg', or 'synthmorph'.
+          default: ants
 output:
   - ch_t1w_tpl:
       type: file
