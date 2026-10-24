@@ -1,0 +1,2 @@
+tensor/ratio:
+  - "modules/nf-neuro/tensor/ratio/**"
