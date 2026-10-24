@@ -1,0 +1,2 @@
+registration/cobralab_ants:
+  - "modules/nf-neuro/registration/cobralab_ants/**"
