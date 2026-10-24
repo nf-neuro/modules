@@ -5,11 +5,11 @@
                 "versions.yml:md5,4ba12b9047fe4e26adcb513df16d99d6"
             ]
         ],
+        "timestamp": "2026-02-26T14:15:04.916471",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.04.6"
-        },
-        "timestamp": "2026-02-26T14:15:04.916471"
+        }
     },
     "stats - metrics in ROI": {
         "content": [
@@ -29,7 +29,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-mean_stats.tsv:md5,3ccf55bb588f464b994f2dec4dcbcb8a"
+                        "test_desc-mean_stats.tsv:md5,24ea743ac6055ac6d327509d3926f514"
                     ]
                 ],
                 "2": [
@@ -38,7 +38,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-std_stats.tsv:md5,839dffc28119ba0e6c3e5c627a500802"
+                        "test_desc-std_stats.tsv:md5,fd928c608e106e94930a2cc0d4fa006c"
                     ]
                 ],
                 "3": [
@@ -59,7 +59,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-mean_stats.tsv:md5,3ccf55bb588f464b994f2dec4dcbcb8a"
+                        "test_desc-mean_stats.tsv:md5,24ea743ac6055ac6d327509d3926f514"
                     ]
                 ],
                 "stats_std": [
@@ -68,7 +68,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-std_stats.tsv:md5,839dffc28119ba0e6c3e5c627a500802"
+                        "test_desc-std_stats.tsv:md5,fd928c608e106e94930a2cc0d4fa006c"
                     ]
                 ],
                 "versions": [
@@ -76,11 +76,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-09-29T12:28:09.750447525",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2026-02-26T14:12:57.321897"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
     },
     "stats - metrics in Label": {
         "content": [
@@ -91,7 +91,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_stats.json:md5,5bf37c68f8201323fe9d468cf271c4d8"
+                        "test_stats.json:md5,8cea55c192b8a521b8ffbff377932795"
                     ]
                 ],
                 "1": [
@@ -100,7 +100,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-mean_stats.tsv:md5,4252c17f0f9a9cfb96f0b3f84e5a00d3"
+                        "test_desc-mean_stats.tsv:md5,6b580dc422e63892f49bda9b3eb1f26d"
                     ]
                 ],
                 "2": [
@@ -109,7 +109,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-std_stats.tsv:md5,fb3927a64184d184740274e1118fa5c6"
+                        "test_desc-std_stats.tsv:md5,ac6c4bc12e38c3a2929dc7b0e2c0bc17"
                     ]
                 ],
                 "3": [
@@ -121,7 +121,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_stats.json:md5,5bf37c68f8201323fe9d468cf271c4d8"
+                        "test_stats.json:md5,8cea55c192b8a521b8ffbff377932795"
                     ]
                 ],
                 "stats_mean": [
@@ -130,7 +130,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-mean_stats.tsv:md5,4252c17f0f9a9cfb96f0b3f84e5a00d3"
+                        "test_desc-mean_stats.tsv:md5,6b580dc422e63892f49bda9b3eb1f26d"
                     ]
                 ],
                 "stats_std": [
@@ -139,7 +139,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-std_stats.tsv:md5,fb3927a64184d184740274e1118fa5c6"
+                        "test_desc-std_stats.tsv:md5,ac6c4bc12e38c3a2929dc7b0e2c0bc17"
                     ]
                 ],
                 "versions": [
@@ -147,11 +147,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-09-29T12:28:21.440283798",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2026-02-26T14:14:49.956048"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
     },
     "stats - metrics in ROI - csv": {
         "content": [
@@ -171,7 +171,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-mean_stats.csv:md5,9a2e347e4427811ffb352d144b510283"
+                        "test_desc-mean_stats.csv:md5,bd0ee16df4d60bc0fa12d7fdba1589fc"
                     ]
                 ],
                 "2": [
@@ -180,7 +180,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-std_stats.csv:md5,34a487ce1fcab0a28a3bb522c08fd3e4"
+                        "test_desc-std_stats.csv:md5,beed2d8145119b1724e82b42e0137e15"
                     ]
                 ],
                 "3": [
@@ -201,7 +201,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-mean_stats.csv:md5,9a2e347e4427811ffb352d144b510283"
+                        "test_desc-mean_stats.csv:md5,bd0ee16df4d60bc0fa12d7fdba1589fc"
                     ]
                 ],
                 "stats_std": [
@@ -210,7 +210,7 @@
                             "id": "test",
                             "single_end": false
                         },
-                        "test_desc-std_stats.csv:md5,34a487ce1fcab0a28a3bb522c08fd3e4"
+                        "test_desc-std_stats.csv:md5,beed2d8145119b1724e82b42e0137e15"
                     ]
                 ],
                 "versions": [
@@ -218,10 +218,10 @@
                 ]
             }
         ],
+        "timestamp": "2026-09-29T12:28:14.80453604",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.04.6"
-        },
-        "timestamp": "2026-02-26T14:13:07.371131"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
     }
 }
