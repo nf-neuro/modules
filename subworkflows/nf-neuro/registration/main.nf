@@ -250,7 +250,7 @@ workflow REGISTRATION {
         }
         else {
             // ** Classic registration using antsRegistration  ** //
-            // Result : [ meta, fixed, moving, metric | [] ]
+            // Result : [ meta, fixed, moving, metric | [], fixed_mask | [], moving_mask | [] ]
             //  Steps :
             //   - join [ meta, fixed, moving ]
             //   - join [ meta, fixed, moving, metric | null ]

@@ -35,7 +35,7 @@ description: |
 
     Run ANTs registration using antsRegistrationSyN.sh (quick version also available).
 
-    NOTE : Transformation to DWI space is available. To trigger it, supply a metric file (metric) in DWI space (e.g. FA map) in addition to the moving (fixed_image) and fixed (moving_image) images.
+    NOTE : Transformation to DWI space is available. To trigger it, supply a metric file (metric) in DWI space (e.g. FA map) in addition to the moving (ch_moving_image) and fixed (ch_fixed_image) images.
 keywords:
   - Registration
   - Transformation
