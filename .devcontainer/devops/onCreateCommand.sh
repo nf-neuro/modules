@@ -29,7 +29,7 @@ npm install -g --save-dev editorconfig
 npm install -g --save-dev editorconfig-checker@6
 
 # Install nf-test
-curl -fsSL https://code.askimed.com/install/nf-test | bash -s ${NFTEST_VERSION}
+curl -fsSL https://get.nf-test.com | bash -s ${NFTEST_VERSION}
 mv nf-test /usr/local/bin/.
 
 # Change container bind mounts ownership
