@@ -80,7 +80,7 @@
                     ],
                     "createEnvironment.trigger": "off",
                     "interpreter.infoVisibility": "always",
-                    "defaultInterpreterPath": "${containerWorkspaceFolder}/.venv",
+                    "defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin",
                     "terminal.activateEnvironment": true,
                     "terminal.activateEnvInCurrentTerminal": true,
                     "terminal.focusAfterLaunch": true
