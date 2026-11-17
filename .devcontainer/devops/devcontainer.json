@@ -59,32 +59,30 @@
         "vscode": {
             "settings": {
                 "prettier.prettierPath": "/usr/local/lib/node_modules/prettier",
-                "python": {
-                    "analysis.exclude": [
-                        "${containerWorkspaceFolder}/.dvc",
-                        "${containerWorkspaceFolder}/.pytest_cache",
-                        "${containerWorkspaceFolder}/.test_data",
-                        "${containerWorkspaceFolder}/.vscode",
-                        "${containerWorkspaceFolder}/.venv",
-                        "**/__pycache__",
-                        "${containerWorkspaceFolder}/.git"
-                    ],
-                    "analysis.ignore": [
-                        "${containerWorkspaceFolder}/.dvc",
-                        "${containerWorkspaceFolder}/.pytest_cache",
-                        "${containerWorkspaceFolder}/.test_data",
-                        "${containerWorkspaceFolder}/.vscode",
-                        "${containerWorkspaceFolder}/.venv",
-                        "**/__pycache__",
-                        "${containerWorkspaceFolder}/.git"
-                    ],
-                    "createEnvironment.trigger": "off",
-                    "interpreter.infoVisibility": "always",
-                    "defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
-                    "terminal.activateEnvironment": true,
-                    "terminal.activateEnvInCurrentTerminal": true,
-                    "terminal.focusAfterLaunch": true
-                },
+                "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
+                "python.createEnvironment.trigger": "off",
+                "python.interpreter.infoVisibility": "always",
+                "python.terminal.activateEnvironment": true,
+                "python.terminal.activateEnvInCurrentTerminal": true,
+                "python.terminal.focusAfterLaunch": true,
+                "python.analysis.exclude": [
+                    "${containerWorkspaceFolder}/.dvc",
+                    "${containerWorkspaceFolder}/.pytest_cache",
+                    "${containerWorkspaceFolder}/.test_data",
+                    "${containerWorkspaceFolder}/.vscode",
+                    "${containerWorkspaceFolder}/.venv",
+                    "**/__pycache__",
+                    "${containerWorkspaceFolder}/.git"
+                ],
+                "python.analysis.ignore": [
+                    "${containerWorkspaceFolder}/.dvc",
+                    "${containerWorkspaceFolder}/.pytest_cache",
+                    "${containerWorkspaceFolder}/.test_data",
+                    "${containerWorkspaceFolder}/.vscode",
+                    "${containerWorkspaceFolder}/.venv",
+                    "**/__pycache__",
+                    "${containerWorkspaceFolder}/.git"
+                ],
                 "isort.interpreter": ["${containerWorkspaceFolder}/.venv/bin/python"]
             },
             "extensions": ["nf-neuro.nf-neuro-extensionpack"]
