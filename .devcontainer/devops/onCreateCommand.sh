@@ -37,3 +37,5 @@ echo "🔑 Adjusting permissions for container bind mounts..."
 sudo chown -R neuro:neuro $WORKSPACE/.venv
 sudo chown -R neuro:neuro $WORKSPACE/tests/.runs
 sudo chown -R neuro:neuro /home/neuro/commandhistory
+
+source /workspaces/nf-neuro/.venv/bin/activate
