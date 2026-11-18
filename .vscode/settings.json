@@ -40,5 +40,6 @@
         "tests/.runs"
     ],
     "nextflow.formatting.harshilAlignment": true,
-    "nextflow.debug": true
+    "nextflow.debug": true,
+    "nextflow.telemetry.enabled": false
 }

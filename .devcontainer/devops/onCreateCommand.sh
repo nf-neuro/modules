@@ -29,11 +29,13 @@ npm install -g --save-dev editorconfig
 npm install -g --save-dev editorconfig-checker@6
 
 # Install nf-test
-curl -fsSL https://code.askimed.com/install/nf-test | bash -s ${NFTEST_VERSION}
-mv nf-test /usr/local/bin/.
+curl -fsSL https://get.nf-test.com | bash -s "${NFTEST_VERSION}"
+sudo mv nf-test /usr/local/bin/.
 
 # Change container bind mounts ownership
 echo "🔑 Adjusting permissions for container bind mounts..."
 sudo chown -R neuro:neuro $WORKSPACE/.venv
 sudo chown -R neuro:neuro $WORKSPACE/tests/.runs
 sudo chown -R neuro:neuro /home/neuro/commandhistory
+
+source /workspaces/nf-neuro/.venv/bin/activate

@@ -50,27 +50,27 @@
     "customizations": {
         "vscode": {
             "settings": {
-                "python": {
-                    "analysis.exclude": [
-                        "${containerWorkspaceFolder}/.vscode",
-                        "${containerWorkspaceFolder}/.venv",
-                        "**/__pycache__",
-                        "${containerWorkspaceFolder}/.git"
-                    ],
-                    "analysis.ignore": [
-                        "${containerWorkspaceFolder}/.vscode",
-                        "${containerWorkspaceFolder}/.venv",
-                        "**/__pycache__",
-                        "${containerWorkspaceFolder}/.git"
-                    ],
-                    "createEnvironment.trigger": "off",
-                    "interpreter.infoVisibility": "always",
-                    "poetryPath": "/root/.local/bin/poetry",
-                    "defaultInterpreterPath": "${containerWorkspaceFolder}/.venv",
-                    "terminal.activateEnvironment": true,
-                    "terminal.activateEnvInCurrentTerminal": true,
-                    "terminal.focusAfterLaunch": true
-                }
+                "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
+                "python.poetryPath": "/root/.local/bin/poetry",
+                "python.createEnvironment.trigger": "off",
+                "python.interpreter.infoVisibility": "always",
+                "python.terminal.activateEnvironment": true,
+                "python.terminal.activateEnvInCurrentTerminal": true,
+                "python.terminal.focusAfterLaunch": true,
+                "python.analysis.exclude": [
+                    "${containerWorkspaceFolder}/.vscode",
+                    "${containerWorkspaceFolder}/.venv",
+                    "**/__pycache__",
+                    "${containerWorkspaceFolder}/.git"
+                ],
+                "python.analysis.ignore": [
+                    "${containerWorkspaceFolder}/.vscode",
+                    "${containerWorkspaceFolder}/.venv",
+                    "**/__pycache__",
+                    "${containerWorkspaceFolder}/.git"
+                ],
+                "python-envs.defaultEnvManager": "ms-python.python:poetry",
+                "python-envs.defaultPackageManager": "ms-python.python:poetry"
             },
             "extensions": ["nf-neuro.nf-neuro-extensionpack"]
         }
