@@ -126,10 +126,6 @@ args:
       type: float
       description: Probability threshold for LAC map binarization.
       default: 0.5
-  - threshold_clusters:
-      type: float
-      description: Probability threshold for cluster-level binarization.
-      default: null
   - min_pvs_size:
       type: integer
       description: Minimum cluster size (voxels) for PVS detections.

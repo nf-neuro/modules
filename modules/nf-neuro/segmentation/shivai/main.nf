@@ -1,6 +1,6 @@
 process SEGMENTATION_SHIVAI {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_high'
 
     container 'stanislasthoumyre/shivai:2.0.0'
 
@@ -38,7 +38,6 @@ process SEGMENTATION_SHIVAI {
     def threshold_wmh   = task.ext.threshold_wmh   != null ? "--threshold_wmh ${task.ext.threshold_wmh}"     : ''   // default: 0.5
     def threshold_cmb   = task.ext.threshold_cmb   != null ? "--threshold_cmb ${task.ext.threshold_cmb}"     : ''   // default: 0.5
     def threshold_lac   = task.ext.threshold_lac   != null ? "--threshold_lac ${task.ext.threshold_lac}"     : ''   // default: 0.5
-    def threshold_clusters = task.ext.threshold_clusters != null ? "--threshold_clusters ${task.ext.threshold_clusters}" : ''
     def min_pvs_size    = task.ext.min_pvs_size    != null ? "--min_pvs_size ${task.ext.min_pvs_size}"       : ''   // default: 10 vox
     def min_wmh_size    = task.ext.min_wmh_size    != null ? "--min_wmh_size ${task.ext.min_wmh_size}"       : ''   // default: 10 vox
     def min_cmb_size    = task.ext.min_cmb_size    != null ? "--min_cmb_size ${task.ext.min_cmb_size}"       : ''   // default: 2 vox
@@ -47,6 +46,8 @@ process SEGMENTATION_SHIVAI {
     def voxels_size      = task.ext.voxels_size            ? "--voxels_size ${task.ext.voxels_size}"         : ''   // default: 1.0 1.0 1.0
     def voxels_tolerance = task.ext.voxels_tolerance       ? "--voxels_tolerance ${task.ext.voxels_tolerance}" : '' // default: 0.01 0.01 0.01
     """
+
+    export PATH="/opt/shivai-venv/bin:/opt/SynthSeg/scripts:/opt/ants-2.4.3/bin:\$PATH"
 
     mkdir -p shiva_input/${prefix}/t1
     cp $t1 shiva_input/${prefix}/t1/T1.nii.gz
@@ -82,7 +83,6 @@ process SEGMENTATION_SHIVAI {
         $threshold_wmh \
         $threshold_cmb \
         $threshold_lac \
-        $threshold_clusters \
         $min_pvs_size \
         $min_wmh_size \
         $min_cmb_size \
@@ -128,6 +128,8 @@ process SEGMENTATION_SHIVAI {
         [[ " \${ignore[@]} " =~ " \$code " ]] || exit \$code
     }
     trap 'handle_code' ERR
+
+    export PATH="/opt/shivai-venv/bin:\$PATH"
 
     shiva -h
 

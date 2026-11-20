@@ -1,0 +1,44 @@
+{
+    "segmentation - shivai - wmh - pvs -lacune": {
+        "content": [
+            "test__pvs_mask.nii.gz",
+            "test__wmh_mask.nii.gz",
+            "test__lac_mask.nii.gz",
+            "test__shivai_report.pdf",
+            [
+                "versions.yml:md5,49061175a8ce9bbeb5a117d79f107f74"
+            ]
+        ],
+        "timestamp": "2026-11-20T17:10:42.125434098",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.5"
+        }
+    },
+    "segmentation - shiva - stub": {
+        "content": [
+            [
+                "versions.yml:md5,49061175a8ce9bbeb5a117d79f107f74"
+            ]
+        ],
+        "timestamp": "2026-11-20T16:39:30.347032976",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.5"
+        }
+    },
+    "segmentation - shivai - wmh": {
+        "content": [
+            "test__wmh_mask.nii.gz",
+            "test__shivai_report.pdf",
+            [
+                "versions.yml:md5,49061175a8ce9bbeb5a117d79f107f74"
+            ]
+        ],
+        "timestamp": "2026-11-20T16:57:28.705142285",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.5"
+        }
+    }
+}
