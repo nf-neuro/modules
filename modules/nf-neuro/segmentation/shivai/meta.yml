@@ -210,10 +210,10 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__report.pdf":
+      - "*__shivai_report.pdf":
           type: file
           description: QC report PDF summarizing segmentation results.
-          pattern: "*__report.pdf"
+          pattern: "*__shivai_report.pdf"
           ontologies:
             - edam: http://edamontology.org/format_3508 # PDF
   versions:
