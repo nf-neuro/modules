@@ -1,0 +1,228 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: segmentation_shivai
+description: >
+  Runs SHiVAi to detect and map small vessel disease biomarkers in
+  brain MRI, including perivascular spaces (PVS), white matter
+  hyperintensities (WMH), cerebral microbleeds (CMB), and lacunes (LAC).
+  Optionally produces a brain mask and a PDF QC report.
+  See https://github.com/pboutinaud/SHiVAi for full documentation.
+keywords:
+  - neural network
+  - artificial intelligence
+  - machine learning
+  - segmentation
+  - brain MRI
+  - small vessel disease
+  - perivascular spaces
+  - white matter hyperintensities
+  - cerebral microbleeds
+  - lacunes
+tools:
+  - Freesurfer:
+      description: |
+        Open source neuroimaging toolkit for processing, analyzing, and visualizing human brain MR images.
+      homepage: https://surfer.nmr.mgh.harvard.edu/
+      doi: 10.1016/j.neuroimage.2012.01.021
+      identifier: ""
+
+  - SHiVAi:
+      description: |
+        Deep learning pipeline for detection and quantification of small vessel
+        disease biomarkers (PVS, WMH, CMB, LAC) in brain MRI.
+      homepage: https://github.com/pboutinaud/SHiVAi
+      doi: 10.1016/j.media.2024.103270
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - t1:
+        type: file
+        description: T1-weighted anatomical image.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001
+    - flair:
+        type: file
+        description: FLAIR image. Can be null if not available.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001
+    - swi:
+        type: file
+        description: SWI image for microbleed detection. Can be null if not available.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001
+
+args:
+  - prediction:
+      type: string
+      description: |
+        Which lesion types to predict. Common values: 'all', 'PVS', 'WMH', 'CMB', 'LAC'.
+      default: "all"
+  - input_type:
+      type: string
+      description: |
+        Input type descriptor passed to shivai (e.g. 'BIDS', 'swomed').
+      default: "standard"
+  - brain_seg:
+      type: string
+      description: |
+        Brain segmentation method: 'shiva' (internal U-Net) or 'synthseg_cpu' (FreeSurfer SynthSeg on CPU).
+      default: "shiva"
+  - use_cpu:
+      type: boolean
+      description: Force inference on CPU even if a GPU is available.
+      default: false
+  - inverse_t2:
+      type: boolean
+      description: Invert T2/FLAIR intensities before processing.
+      default: false
+  - use_t1:
+      type: boolean
+      description: Use T1 image in combination with other modalities.
+      default: false
+  - prereg_flair:
+      type: boolean
+      description: Assume FLAIR is already registered to T1.
+      default: false
+  - preproc_only:
+      type: boolean
+      description: Run preprocessing steps only, skip inference.
+      default: false
+  - postproc_only:
+      type: boolean
+      description: Run postprocessing steps only, skip inference.
+      default: false
+  - ai_threads:
+      type: integer
+      description: Number of threads for AI inference.
+      default: 8
+  - percentile:
+      type: float
+      description: Percentile used for image intensity normalization.
+      default: 99
+  - threshold:
+      type: float
+      description: Probability threshold for brain mask binarization.
+      default: 0.5
+  - threshold_pvs:
+      type: float
+      description: Probability threshold for PVS map binarization.
+      default: 0.5
+  - threshold_wmh:
+      type: float
+      description: Probability threshold for WMH map binarization.
+      default: 0.5
+  - threshold_cmb:
+      type: float
+      description: Probability threshold for CMB map binarization.
+      default: 0.5
+  - threshold_lac:
+      type: float
+      description: Probability threshold for LAC map binarization.
+      default: 0.5
+  - min_pvs_size:
+      type: integer
+      description: Minimum cluster size (voxels) for PVS detections.
+      default: 10
+  - min_wmh_size:
+      type: integer
+      description: Minimum cluster size (voxels) for WMH detections.
+      default: 10
+  - min_cmb_size:
+      type: integer
+      description: Minimum cluster size (voxels) for CMB detections.
+      default: 2
+  - min_lac_size:
+      type: integer
+      description: Minimum cluster size (voxels) for LAC detections.
+      default: 50
+  - final_dimensions:
+      type: string
+      description: Target image dimensions after resampling (three integers, e.g. '160 214 176').
+      default: "160 214 176"
+  - voxels_size:
+      type: string
+      description: Target voxel size in mm after resampling (e.g. '1.0 1.0 1.0').
+      default: "1.0 1.0 1.0"
+  - voxels_tolerance:
+      type: string
+      description: Tolerance on voxel size comparison (e.g. '0.01 0.01 0.01').
+      default: "0.01 0.01 0.01"
+
+output:
+  pvs_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__pvs_mask.nii.gz":
+          type: file
+          description: Perivascular spaces segmentation label mask.
+          pattern: "*__pvs_mask.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001
+  wmh_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__wmh_mask.nii.gz":
+          type: file
+          description: White matter hyperintensity segmentation label mask.
+          pattern: "*__wmh_mask.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001
+  cmb_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__cmb_mask.nii.gz":
+          type: file
+          description: Cerebral microbleed segmentation label mask.
+          pattern: "*__cmb_mask.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001
+  lac_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__lac_mask.nii.gz":
+          type: file
+          description: Lacune segmentation label mask.
+          pattern: "*__lac_mask.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001
+  report:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__shivai_report.pdf":
+          type: file
+          description: QC report PDF summarizing segmentation results.
+          pattern: "*__shivai_report.pdf"
+          ontologies:
+            - edam: http://edamontology.org/format_3508 # PDF
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions.
+        pattern: "versions.yml"
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+
+authors:
+  - "@ThoumyreStanislas"
