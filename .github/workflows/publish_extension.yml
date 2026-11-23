@@ -20,12 +20,12 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@v7
         with:
           sparse-checkout: |
             .vscode/${{ inputs.name }}
           sparse-checkout-cone-mode: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: "npm"

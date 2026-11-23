@@ -24,10 +24,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@v7
 
       - name: Setup Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: "pip"
@@ -44,10 +44,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
           cache: "npm"
@@ -62,10 +62,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -86,7 +86,7 @@ jobs:
       modules: ${{ steps.components.outputs.modules }}
       subworkflows: ${{ steps.components.outputs.subworkflows }}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -120,7 +120,7 @@ jobs:
       modules: ${{ steps.components.outputs.modules }}
       subworkflows: ${{ steps.components.outputs.subworkflows }}
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -218,8 +218,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - uses: actions/upload-artifact/merge@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
+      - uses: actions/checkout@v7
+      - uses: actions/upload-artifact@v7
+
         continue-on-error: true
         with:
           name: nf-test-reports
