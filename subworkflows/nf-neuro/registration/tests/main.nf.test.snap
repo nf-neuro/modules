@@ -109,11 +109,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-10-29T11:03:40.4688134",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:03:40.4688134"
+        }
     },
     "registration - ANTs - SyNQuick - internal - two masks": {
         "content": [
@@ -215,11 +215,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-10-29T11:04:11.864299295",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:04:11.864299295"
+        }
     },
     "registration - ANTs - SyNQuick - apriori - two masks": {
         "content": [
@@ -341,11 +341,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-10-29T11:03:58.812815098",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:03:58.812815098"
+        }
     },
     "registration - easyreg - none - no mask": {
         "content": [
@@ -355,7 +355,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_backward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "backward_tractogram_transform": [
@@ -363,7 +363,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_forward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "backward_warp": [
@@ -371,7 +371,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_backward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "fixed_segmentation": [
@@ -395,7 +395,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_forward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "forward_tractogram_transform": [
@@ -403,7 +403,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_backward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "forward_warp": [
@@ -411,7 +411,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_forward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "image_warped": [
@@ -437,11 +437,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-11-23T16:48:16.455786745",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:04:46.567700349"
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
+        }
     },
     "registration - easyreg - apriori - two masks": {
         "content": [
@@ -451,7 +451,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_backward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "backward_tractogram_transform": [
@@ -459,7 +459,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_forward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "backward_warp": [
@@ -467,7 +467,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_backward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "fixed_segmentation": [
@@ -505,7 +505,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_forward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "forward_tractogram_transform": [
@@ -513,7 +513,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_backward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "forward_warp": [
@@ -521,7 +521,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz"
+                        "test_forward_warp_out_warp.nii.gz"
                     ]
                 ],
                 "image_warped": [
@@ -565,11 +565,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-11-23T16:48:36.38976718",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:05:09.928457264"
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
+        }
     },
     "registration - Synthmorph - apriori - two masks": {
         "content": [
@@ -579,7 +579,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_affine.txt"
+                        "test_backward_affine_out_affine.txt"
                     ]
                 ],
                 "backward_image_transform": [
@@ -587,8 +587,8 @@
                         {
                             "id": "test"
                         },
-                        "test_out_affine.txt",
-                        "test_out_warp.nii.gz"
+                        "test_backward_image_transform_out_affine.txt",
+                        "test_backward_image_transform_out_warp.nii.gz"
                     ]
                 ],
                 "backward_tractogram_transform": [
@@ -596,8 +596,8 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz",
-                        "test_out_affine.txt"
+                        "test_forward_image_transform_out_warp.nii.gz",
+                        "test_forward_image_transform_out_affine.txt"
                     ]
                 ],
                 "fixed_warped": [
@@ -621,7 +621,7 @@
                         {
                             "id": "test"
                         },
-                        "test_out_affine.txt"
+                        "test_forward_affine_out_affine.txt"
                     ]
                 ],
                 "forward_image_transform": [
@@ -629,8 +629,8 @@
                         {
                             "id": "test"
                         },
-                        "test_out_warp.nii.gz",
-                        "test_out_affine.txt"
+                        "test_forward_image_transform_out_warp.nii.gz",
+                        "test_forward_image_transform_out_affine.txt"
                     ]
                 ],
                 "forward_tractogram_transform": [
@@ -638,8 +638,8 @@
                         {
                             "id": "test"
                         },
-                        "test_out_affine.txt",
-                        "test_out_warp.nii.gz"
+                        "test_backward_image_transform_out_affine.txt",
+                        "test_backward_image_transform_out_warp.nii.gz"
                     ]
                 ],
                 "image_warped": [
@@ -668,11 +668,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-11-23T16:48:53.720123746",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:05:25.949087267"
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
+        }
     },
     "registration - ANTs - Anat to DWI": {
         "content": [
@@ -785,11 +785,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-10-29T11:03:22.678150917",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:03:22.678150917"
+        }
     },
     "registration - ANTs - SyNQuick - both - two masks": {
         "content": [
@@ -911,10 +911,10 @@
                 ]
             }
         ],
+        "timestamp": "2026-10-29T11:04:30.761626093",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-10-29T11:04:30.761626093"
+        }
     }
 }
