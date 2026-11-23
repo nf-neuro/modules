@@ -1,8 +1,9 @@
 process SEGMENTATION_WMHSYNTHSEG {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_high'
+    memory { 16.GB * task.attempt }
 
-    container "ThoumyreStanislas/wmh-synthseg-minimal:1.0.0"
+    container "stanislasthoumyre/wmh-synthseg-minimal:1.0.0"
 
     input:
     tuple val(meta), path(flair)
@@ -20,27 +21,29 @@ process SEGMENTATION_WMHSYNTHSEG {
     def prefix      = task.ext.prefix ?: "${meta.id}"
     def label_id    = task.ext.label_id ?: 77
     def use_gpu     = task.ext.gpu
-    def device_args = use_gpu ? "--device cuda --crop" : "--device cpu --crop --threads 1"
+    def device_args = use_gpu ? "--device cuda " : "--device cpu --threads 4"
+    def crop        = task.ext.crop ? "--crop " : ""
     """
     set +u
     export FREESURFER_HOME=/usr/local/freesurfer
+    export HOME="\$(pwd)"
+    export TORCH_HOME="\$(pwd)/.cache/torch"
+    export MPLCONFIGDIR="\$(pwd)/.cache/matplotlib"
     source /usr/local/freesurfer/SetUpFreeSurfer.sh
     set -u
 
     export PATH=/usr/local/freesurfer/python/bin:\${PATH}
-    export HOME="\$(pwd)"
-    export TORCH_HOME="\$(pwd)/.cache/torch"
-    export MPLCONFIGDIR="\$(pwd)/.cache/matplotlib"
 
     mri_WMHsynthseg --i ${flair} \
                     --o multiclass.nii.gz \
                     --save_lesion_probabilities \
-                    ${device_args}
+                    ${device_args} \
+                    ${crop}
 
-    fspython conform_synthseg.py --input multiclass.nii.gz --ref ${flair} \
+    fspython /usr/local/freesurfer/bin/conform_synthseg.py --input multiclass.nii.gz --ref ${flair} \
              --output ${prefix}_wmh-synthseg_binary.nii.gz --label_id ${label_id}
 
-    fspython conform_synthseg.py --input multiclass.lesion_probs.nii.gz \
+    fspython /usr/local/freesurfer/bin/conform_synthseg.py --input multiclass.lesion_probs.nii.gz \
              --ref ${flair} --output ${prefix}_wmh-synthseg_prob.nii.gz --continuous
 
     rm -f multiclass.nii.gz multiclass.lesion_probs.nii.gz
@@ -55,18 +58,16 @@ process SEGMENTATION_WMHSYNTHSEG {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mri_WMHsynthseg -h
+    mri_WMHsynthseg -h || true
 
-    fspython "\$(command -v conform_synthseg.py)" -h
+    fspython /usr/local/freesurfer/bin/conform_synthseg.py -h || true
 
     touch ${prefix}_wmh-synthseg_binary.nii.gz
     touch ${prefix}_wmh-synthseg_prob.nii.gz
-
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         Freesurfer: \$(cat /usr/local/freesurfer/build-stamp.txt | grep -oP '\\d+\\.\\d+\\.\\d+' | head -1)
     END_VERSIONS
-
     """
 }
