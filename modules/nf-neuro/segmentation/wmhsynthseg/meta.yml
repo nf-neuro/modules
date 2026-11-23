@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: segmentation_wmhsynthseg
+description: Perform White Matter Hyperintensities (WMH) segmentation using FreeSurfer
+  mri_WMHsynthseg on a FLAIR image. Produces a binary mask and a probability map
+  of WMH lesions.
+keywords:
+  - Segmentation
+  - White Matter Hyperintensities
+  - lesions
+  - FLAIR
+  - neural network
+
+tools:
+  - Freesurfer:
+      description: |
+        Open source neuroimaging toolkit for processing, analyzing, and visualizing human brain MR images.
+      homepage: https://surfer.nmr.mgh.harvard.edu/
+      doi: 10.1016/j.neuroimage.2012.01.021
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1', single_end:false ]`
+    - flair:
+        type: file
+        description: Nifti FLAIR volume to segment white matter hyperintensities.
+        pattern: "*.{nii,nii.gz}"
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+args:
+  - label_id:
+      type: integer
+      description: Label ID corresponding to WMH in the multiclass segmentation output. Default is 77.
+      default: 77
+  - gpu:
+      type: boolean
+      description: If true, runs inference on GPU (CUDA) with cropping enabled. If false, runs on CPU in single-threaded mode with cropping enabled.
+      default: false
+output:
+  binary_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1', single_end:false ]`
+      - "*_wmh-synthseg_binary.nii.gz":
+          type: file
+          description: Nifti binary mask of white matter hyperintensities, resampled to the input FLAIR resolution.
+          pattern: "*_wmh-synthseg_binary.{nii,nii.gz}"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  probability_map:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1', single_end:false ]`
+      - "*_wmh-synthseg_prob.nii.gz":
+          type: file
+          description: Nifti probability map of white matter hyperintensities, resampled to the input FLAIR resolution.
+          pattern: "*_wmh-synthseg_prob.{nii,nii.gz}"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: "versions.yml"
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@ThoumyreStanislas"
