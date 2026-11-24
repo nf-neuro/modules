@@ -146,7 +146,7 @@
                         {
                             "id": "test"
                         },
-                        "test_warped_reference_segmentation.nii.gz"
+                        "test_fixed_segmentation.nii.gz"
                     ]
                 ],
                 "reference_warped": [
@@ -162,7 +162,7 @@
                         {
                             "id": "test"
                         },
-                        "test_warped_segmentation.nii.gz"
+                        "test_moving_segmentation.nii.gz"
                     ]
                 ],
                 "versions": [

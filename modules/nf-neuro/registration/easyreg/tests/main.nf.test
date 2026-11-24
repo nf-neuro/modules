@@ -57,8 +57,8 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    file(process.out.fixed_segmentation_warped.get(0).get(1)).name,
-                    file(process.out.segmentation_warped.get(0).get(1)).name,
+                    file(process.out.moving_segmentation.get(0).get(1)).name,
+                    file(process.out.fixed_segmentation.get(0).get(1)).name,
                     niftiMD5SUM(process.out.fixed_warped.get(0).get(1), 6),
                     niftiMD5SUM(process.out.image_warped.get(0).get(1), 6),
                     niftiMD5SUM(process.out.forward_warp.get(0).get(1), 6),
