@@ -125,30 +125,23 @@ process SEGMENTATION_SHIVAI {
     def prediction = task.ext.prediction ?: 'all'
 
     """
-    set +e
-    function handle_code () {
-        local code=\$?
-        ignore=( 1 )
-        [[ " \${ignore[@]} " =~ " \$code " ]] || exit \$code
-    }
-    trap 'handle_code' ERR
 
     export PATH="/opt/shivai-venv/bin:\$PATH"
 
     shiva -h
 
-    if ( ($prediction == 'all' || $prediction.contains('PVS')) && [[ -f "$flair" ]] ) {
+    if [[ "$prediction" == "all" || "$prediction" == *PVS* ]] && [[ -f "$flair" ]]; then
         touch ${prefix}_space-FLAIR_seg-pvs_desc-shivai_dseg.nii.gz
-    }
-    if ( ($prediction == 'all' || $prediction.contains('WMH')) && [[ -f "$flair" ]] ) {
+    fi
+    if [[ "$prediction" == "all" || "$prediction" == *WMH* ]] && [[ -f "$flair" ]]; then
         touch ${prefix}_space-FLAIR_seg-wmh_desc-shivai_dseg.nii.gz
-    }
-    if ( ($prediction == 'all' || $prediction.contains('CMB')) && [[ -f "$swi" ]] ) {
+    fi
+    if [[ "$prediction" == "all" || "$prediction" == *CMB* ]] && [[ -f "$swi" ]]; then
         touch ${prefix}_space-swi_seg-cmb_desc-shivai_dseg.nii.gz
-    }
-    if ( ($prediction == 'all' || $prediction.contains('LAC')) && [[ -f "$flair" ]] ) {
+    fi
+    if [[ "$prediction" == "all" || "$prediction" == *LAC* ]] && [[ -f "$flair" ]]; then
         touch ${prefix}_space-FLAIR_seg-lac_desc-shivai_dseg.nii.gz
-    }
+    fi
     touch ${prefix}__shivai_report.pdf
 
     cat <<-END_VERSIONS > versions.yml
