@@ -24,9 +24,9 @@ echo "Run 'ga-test' to see available testing commands."
 
 # Setup for NF-CORE linting sub-dependencies
 echo "⚙️ Setting up linting and testing sub-dependencies..."
-npm install -g --save-dev --save-exact prettier
-npm install -g --save-dev editorconfig
-npm install -g --save-dev editorconfig-checker@6
+sudo npm install -g --save-dev --save-exact prettier
+sudo npm install -g --save-dev editorconfig
+sudo npm install -g --save-dev editorconfig-checker@6
 
 # Install nf-test
 curl -fsSL https://get.nf-test.com | bash -s "${NFTEST_VERSION}"
@@ -37,4 +37,3 @@ echo "🔑 Adjusting permissions for container bind mounts..."
 sudo chown -R neuro:neuro $WORKSPACE/.venv
 sudo chown -R neuro:neuro $WORKSPACE/tests/.runs
 sudo chown -R neuro:neuro /home/neuro/commandhistory
-

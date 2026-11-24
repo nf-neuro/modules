@@ -46,6 +46,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_MAJOR}.x | bash - &&\
     mkdir -p -m 0775 /usr/local/lib/node_modules && \
     chown -R root:nodeusers /usr/local/lib/node_modules
 
+# Install global npm tools as root so binaries land in /usr/local/lib/node_modules
+# and pre-run editorconfig-checker so it downloads its binary at build time
+RUN npm install -g editorconfig-checker && \
+    editorconfig-checker --version
+
 # Create neuro user inside the container
 #  - in group neuro and nodeusers
 #  - uses bash shell
