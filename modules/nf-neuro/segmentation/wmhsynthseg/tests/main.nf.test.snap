@@ -1,0 +1,14 @@
+{
+    "segmentation - shiva - stub": {
+        "content": [
+            [
+                "versions.yml:md5,6f04655cd767544ebc10a11222f548a8"
+            ]
+        ],
+        "timestamp": "2026-11-23T21:21:41.921669885",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
+        }
+    }
+}
