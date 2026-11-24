@@ -1,0 +1,64 @@
+{
+    "segmentation - lstai - stub": {
+        "content": [
+            "test__space-flair_seg-lst_lesion_mask.nii.gz",
+            "test__space-flair_seg-lst_annotated_lesion_mask.nii.gz",
+            "test__raw_lesion_stats.csv",
+            "test__annotated_lesion_stats.csv",
+            [
+                "versions.yml:md5,87b33423229868e02b051435945b8838"
+            ]
+        ],
+        "timestamp": "2026-11-17T10:03:08.694675946",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    },
+    "segmentation - lstai - gpu - stub": {
+        "content": [
+            "test__space-flair_seg-lst_lesion_mask.nii.gz",
+            "test__space-flair_seg-lst_annotated_lesion_mask.nii.gz",
+            "test__raw_lesion_stats.csv",
+            "test__annotated_lesion_stats.csv",
+            [
+                "versions.yml:md5,87b33423229868e02b051435945b8838"
+            ]
+        ],
+        "timestamp": "2026-11-17T10:05:08.484416516",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    },
+    "segmentation - lstai": {
+        "content": [
+            "test__space-flair_seg-lst_lesion_mask.nii.gz",
+            "test__space-flair_seg-lst_annotated_lesion_mask.nii.gz",
+            "test__raw_lesion_stats.csv",
+            "test__annotated_lesion_stats.csv",
+            [
+                "versions.yml:md5,87b33423229868e02b051435945b8838"
+            ]
+        ],
+        "timestamp": "2026-11-17T09:40:46.683283943",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    },
+    "segmentation - lstai - segment_only": {
+        "content": [
+            "test__space-flair_seg-lst_lesion_mask.nii.gz",
+            "test__raw_lesion_stats.csv",
+            [
+                "versions.yml:md5,87b33423229868e02b051435945b8838"
+            ]
+        ],
+        "timestamp": "2026-11-17T10:03:02.808098994",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    }
+}
