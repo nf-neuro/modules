@@ -186,7 +186,7 @@ output:
   - image_warped_masked:
       type: file
       description: |
-        Channel containing moving images warped to fixed space.
+        Channel containing moving images masked and warped to fixed space.
       structure:
         - meta:
             type: map
@@ -331,7 +331,7 @@ output:
       type: file
       description: |
         ONLY PROVIDED BY REGISTRATION_EASYREG. Channel containing the SynthSeg v2 (non-robust)
-        segmentation + parcellation in fixed space (floating in Easyreg naming convention).
+        segmentation + parcellation in moving space (floating in Easyreg naming convention).
       structure:
         - meta:
             type: map

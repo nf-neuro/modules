@@ -39,6 +39,7 @@ workflow REGISTRATION {
 
         // Merge options with defaults from meta.yml
         UTILS_OPTIONS("${moduleDir}/meta.yml", options, true)
+        ch_versions = ch_versions.mix(UTILS_OPTIONS.out.versions.first())
         options = UTILS_OPTIONS.out.options.value
 
         if ( options.method !in ["ants", "easyreg", "synthmorph"] ) {
@@ -58,19 +59,32 @@ workflow REGISTRATION {
         ch_moving_image_ready = ch_moving_image
         ch_fixed_metric_ready = ch_metric
         if ( options.masking_strategy == "apriori" || options.masking_strategy == "both" ) {
-            MASK_FIXED_IMAGE ( ch_fixed_image.join(ch_fixed_mask) )
-            ch_fixed_image_ready = ch_fixed_image.join(MASK_FIXED_IMAGE.out.image, remainder: true)
-                                    .map({ meta, orig, masked -> [meta, masked?: orig] })
+            // Give a distinct id (unique output name), keep original meta in cache to rejoin after
+            MASK_FIXED_IMAGE (
+                ch_fixed_image.join(ch_fixed_mask)
+                    .map{ meta, image, mask -> [meta + [id: "${meta.id}_fixed_image", cache: meta], image, mask] }
+            )
+            ch_fixed_image_ready = ch_fixed_image
+                .join(MASK_FIXED_IMAGE.out.image.map{ meta, masked -> [meta.cache, masked] }, remainder: true)
+                .map({ meta, orig, masked -> [meta, masked?: orig] })
             ch_versions = ch_versions.mix(MASK_FIXED_IMAGE.out.versions.first())
 
-            MASK_FIXED_METRIC ( ch_metric.join(ch_fixed_mask) )
-            ch_fixed_metric_ready = ch_metric.join(MASK_FIXED_METRIC.out.image, remainder: true)
-                                        .map({ meta, orig, masked -> [meta, masked?: orig] })
+            MASK_FIXED_METRIC (
+                ch_metric.join(ch_fixed_mask)
+                    .map{ meta, image, mask -> [meta + [id: "${meta.id}_fixed_metric", cache: meta], image, mask] }
+            )
+            ch_fixed_metric_ready = ch_metric
+                .join(MASK_FIXED_METRIC.out.image.map{ meta, masked -> [meta.cache, masked] }, remainder: true)
+                .map({ meta, orig, masked -> [meta, masked?: orig] })
             ch_versions = ch_versions.mix(MASK_FIXED_METRIC.out.versions.first())
 
-            MASK_MOVING_IMAGE ( ch_moving_image.join(ch_moving_mask) )
-            ch_moving_image_ready = ch_moving_image.join(MASK_MOVING_IMAGE.out.image, remainder: true)
-                                    .map({ meta, orig, masked -> [meta, masked?: orig] })
+            MASK_MOVING_IMAGE (
+                ch_moving_image.join(ch_moving_mask)
+                    .map{ meta, image, mask -> [meta + [id: "${meta.id}_moving_image", cache: meta], image, mask] }
+            )
+            ch_moving_image_ready = ch_moving_image
+                .join(MASK_MOVING_IMAGE.out.image.map{ meta, masked -> [meta.cache, masked] }, remainder: true)
+                .map({ meta, orig, masked -> [meta, masked?: orig] })
             ch_versions = ch_versions.mix(MASK_MOVING_IMAGE.out.versions.first())
         }
 
@@ -93,48 +107,51 @@ workflow REGISTRATION {
             REGISTRATION_EASYREG ( ch_register )
             ch_versions = ch_versions.mix(REGISTRATION_EASYREG.out.versions.first())
 
-            DEFORM2DISP_FORWARD ( REGISTRATION_EASYREG.out.forward_warp )
+            // Give a distinct id (unique output name), keep original meta in cache to rejoin after
+            DEFORM2DISP_FORWARD (
+                REGISTRATION_EASYREG.out.forward_warp
+                    .map{ meta, warp -> [meta + [id: "${meta.id}_forward", cache: meta], warp] }
+            )
             ch_versions = ch_versions.mix(DEFORM2DISP_FORWARD.out.versions.first())
 
-            DEFORM2DISP_BACKWARD ( REGISTRATION_EASYREG.out.backward_warp )
-
+            DEFORM2DISP_BACKWARD (
+                REGISTRATION_EASYREG.out.backward_warp
+                    .map{ meta, warp -> [meta + [id: "${meta.id}_backward", cache: meta], warp] }
+            )
+            ch_versions = ch_versions.mix(DEFORM2DISP_BACKWARD.out.versions.first())
             ch_convert_easyreg_forward_warp = DEFORM2DISP_FORWARD.out.transformation
-                .map{ meta, transform -> [meta, [tag: "forward_warp"], transform] }
+                .map{ meta, transform -> [meta.cache, [tag: "forward_warp"], transform] }
             ch_convert_easyreg_backward_warp = DEFORM2DISP_BACKWARD.out.transformation
-                .map{ meta, transform -> [meta, [tag: "backward_warp"], transform] }
+                .map{ meta, transform -> [meta.cache, [tag: "backward_warp"], transform] }
 
+            // EasyReg only outputs warps (RAS displacement fields). Warps are defined on
+            // their source space : moving for the forward warp, fixed for the backward warp.
             ch_convert_easyreg = ch_convert_easyreg_forward_warp
                 .mix(ch_convert_easyreg_backward_warp)
                 .combine(ch_fixed_image, by: 0)
                 .combine(ch_moving_image, by: 0)
                 .map{ meta, tag, transform, fixed, moving ->
-                    def extension = transform.name.tokenize('.')[1..-1].join(".")
-                    def is_forward = transform.name.contains("forward")
-                    def references = is_forward ? [moving, fixed] : [fixed, moving]
+                    def src_geom = tag.tag == "forward_warp" ? moving : fixed
                     return [
-                        meta + tag + [cache: meta],
+                        meta + tag + [id: "${meta.id}_${tag.tag}", cache: meta],
                         transform,
-                        extension == "lta" ? "lta" : "ras",
+                        "ras",
                         "itk",
-                        extension == "lta" ? references[1] : references[0],
-                        extension == "lta" ? references[0] : references[1],
+                        src_geom,
+                        [],
                     ]}
                 .combine(ch_freesurfer_license)
 
             CONVERT_EASYREG ( ch_convert_easyreg )
             ch_versions = ch_versions.mix(CONVERT_EASYREG.out.versions.first())
 
-            // Un-mix conversion outputs using the tags. Save indexes for output sorting
+            // Un-mix conversion outputs using the tags
             ch_conversion_easyreg_outputs = CONVERT_EASYREG.out.transformation
                 .branch{ meta, transform ->
                     forward_warp: meta.tag == "forward_warp"
                         return [meta.cache, transform]
                     backward_warp: meta.tag == "backward_warp"
                         return [meta.cache, transform]
-                    forward_image_transform: meta.tag == "forward_image_transform"
-                        return [meta.cache, [idx: meta.idx, trans: transform]]
-                    backward_image_transform: meta.tag == "backward_image_transform"
-                        return [meta.cache, [idx: meta.idx, trans: transform]]
                 }
 
             // ** Set compulsory outputs ** //
@@ -150,8 +167,8 @@ workflow REGISTRATION {
             out_backward_image_transform =
                 ch_conversion_easyreg_outputs.backward_warp
                 .map { meta, transform -> [meta, [transform]] }
-            out_forward_tractogram_transform = ch_conversion_easyreg_outputs.backward_warp
-            out_backward_tractogram_transform = ch_conversion_easyreg_outputs.forward_warp
+            out_forward_tractogram_transform = out_backward_image_transform
+            out_backward_tractogram_transform = out_forward_image_transform
 
             // ** Set optional outputs. ** //
             // If segmentations are not provided as inputs,
@@ -200,7 +217,7 @@ workflow REGISTRATION {
                     def is_forward = transform.name.contains("forward")
                     def references = is_forward ? [moving, fixed] : [fixed, moving]
                     return [
-                        meta + tag + [cache: meta],
+                        meta + tag + [id: "${meta.id}_${tag.tag}", cache: meta],
                         transform,
                         extension == "lta" ? "lta" : "ras",
                         "itk",
@@ -372,7 +389,7 @@ workflow REGISTRATION {
         forward_tractogram_transform    = out_forward_tractogram_transform  // channel: [ val(meta), [ <forward-warp>, <forward-affine> ] ]
         backward_tractogram_transform   = out_backward_tractogram_transform // channel: [ val(meta), [ <forward-warp>, <forward-affine> ] ]
         // Segmentations
-        segmentation                    = out_segmentation                  // channel: [ val(meta), segmentation ]
+        moving_segmentation             = out_segmentation                  // channel: [ val(meta), segmentation ]
         fixed_segmentation              = out_fixed_segmentation              // channel: [ val(meta), fixed-segmentation ]
 
         mqc                             = ch_mqc                            // channel: [ *mqc.*, ... ]
