@@ -32,13 +32,29 @@
             "test__wmh_mask.nii.gz",
             "test__shivai_report.pdf",
             [
-                "versions.yml:md5,49061175a8ce9bbeb5a117d79f107f74"
+                "versions.yml:md5,4406d2fc6861e979d6abf5bcf0e006ad"
             ]
         ],
-        "timestamp": "2026-11-20T16:57:28.705142285",
+        "timestamp": "2026-11-24T16:34:01.686064909",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.10.5"
+            "nextflow": "26.10.7"
+        }
+    },
+    "segmentation - shivai - wmh - pvs - lacune": {
+        "content": [
+            "test__pvs_mask.nii.gz",
+            "test__wmh_mask.nii.gz",
+            "test__lac_mask.nii.gz",
+            "test__shivai_report.pdf",
+            [
+                "versions.yml:md5,4406d2fc6861e979d6abf5bcf0e006ad"
+            ]
+        ],
+        "timestamp": "2026-11-24T16:55:10.047770049",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
         }
     }
 }

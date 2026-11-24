@@ -1,11 +1,15 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: segmentation_shivai
 description: >
-  Runs SHiVAi to detect and map small vessel disease biomarkers in
-  brain MRI, including perivascular spaces (PVS), white matter
-  hyperintensities (WMH), cerebral microbleeds (CMB), and lacunes (LAC).
-  Optionally produces a brain mask and a PDF QC report.
-  See https://github.com/pboutinaud/SHiVAi for full documentation.
+  Runs SHiVAi (v2.2.0, container sf-lesionflow-shivai_2.2.0.sif) to detect
+  and map small vessel disease biomarkers in brain MRI, including perivascular
+  spaces (PVS, T1 v5 / T1+FLAIR v4), white matter hyperintensities (WMH,
+  T1+FLAIR v5), cerebral microbleeds (CMB, SWI v5), and lacunes (LAC,
+  T1+FLAIR v0). See https://github.com/pboutinaud/SHiVAi for full documentation.
+  NOTE: the SHiVAi model weights bundled in /opt/shivai/models are released under
+  the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+  License (CC BY-NC-SA 4.0) and may not be used for commercial purposes.
+
 keywords:
   - neural network
   - artificial intelligence
@@ -17,14 +21,8 @@ keywords:
   - white matter hyperintensities
   - cerebral microbleeds
   - lacunes
-tools:
-  - Freesurfer:
-      description: |
-        Open source neuroimaging toolkit for processing, analyzing, and visualizing human brain MR images.
-      homepage: https://surfer.nmr.mgh.harvard.edu/
-      doi: 10.1016/j.neuroimage.2012.01.021
-      identifier: ""
 
+tools:
   - SHiVAi:
       description: |
         Deep learning pipeline for detection and quantification of small vessel
@@ -42,19 +40,21 @@ input:
     - t1:
         type: file
         description: T1-weighted anatomical image.
-        pattern: "*.{nii,nii.gz}"
+        pattern: "*.{nii.gz}"
         ontologies:
           - edam: http://edamontology.org/format_4001
     - flair:
         type: file
         description: FLAIR image. Can be null if not available.
-        pattern: "*.{nii,nii.gz}"
+        pattern: "*.{nii.gz}"
+        mandatory: false
         ontologies:
           - edam: http://edamontology.org/format_4001
     - swi:
         type: file
         description: SWI image for microbleed detection. Can be null if not available.
-        pattern: "*.{nii,nii.gz}"
+        pattern: "*.{nii.gz}"
+        mandatory: false
         ontologies:
           - edam: http://edamontology.org/format_4001
 
@@ -156,52 +156,56 @@ args:
       default: "0.01 0.01 0.01"
 
 output:
-  pvs_mask:
+  pvs_dseg:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__pvs_mask.nii.gz":
+      - "*_seg-pvs_*.nii.gz":
           type: file
           description: Perivascular spaces segmentation label mask.
-          pattern: "*__pvs_mask.nii.gz"
+          pattern: "*_seg-pvs_*.nii.gz"
+          mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001
-  wmh_mask:
+  wmh_dseg:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__wmh_mask.nii.gz":
+      - "*_seg-wmh_*.nii.gz":
           type: file
           description: White matter hyperintensity segmentation label mask.
-          pattern: "*__wmh_mask.nii.gz"
+          pattern: "*_seg-wmh_*.nii.gz"
+          mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001
-  cmb_mask:
+  cmb_dseg:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__cmb_mask.nii.gz":
+      - "*_seg-cmb_*.nii.gz":
           type: file
           description: Cerebral microbleed segmentation label mask.
-          pattern: "*__cmb_mask.nii.gz"
+          pattern: "*_seg-cmb_*.nii.gz"
+          mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001
-  lac_mask:
+  lac_dseg:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__lac_mask.nii.gz":
+      - "*_seg-lac_*.nii.gz":
           type: file
           description: Lacune segmentation label mask.
-          pattern: "*__lac_mask.nii.gz"
+          pattern: "*_seg-lac_*.nii.gz"
+          mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001
   report:
@@ -214,6 +218,7 @@ output:
           type: file
           description: QC report PDF summarizing segmentation results.
           pattern: "*__shivai_report.pdf"
+          mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_3508 # PDF
   versions:
@@ -226,3 +231,5 @@ output:
 
 authors:
   - "@ThoumyreStanislas"
+maintainers:
+  - "@scilus"

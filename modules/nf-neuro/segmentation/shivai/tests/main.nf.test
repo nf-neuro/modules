@@ -1,4 +1,3 @@
-
 nextflow_process {
 
     name "Test Process SEGMENTATION_SHIVAI"
@@ -30,13 +29,12 @@ nextflow_process {
     test("segmentation - shivai - wmh") {
 
         when {
-            config "./nextflow.config"
             process {
                 """
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
+                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true),
                         file("\${test_data_directory}/FLAIR.nii.gz", checkIfExists: true),
                         []
                     ]
@@ -57,7 +55,7 @@ nextflow_process {
         }
     }
 
-    test("segmentation - shivai - wmh - pvs -lacune") {
+    test("segmentation - shivai - wmh - pvs - lacune") {
 
         when {
             config "./nextflow_all.config"
@@ -66,7 +64,7 @@ nextflow_process {
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
+                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true),
                         file("\${test_data_directory}/FLAIR.nii.gz", checkIfExists: true),
                         []
                     ]
@@ -89,16 +87,17 @@ nextflow_process {
         }
     }
 
-   test("segmentation - shiva - stub") {
+    test("segmentation - shivai - stub") {
         tag "stub"
         options "-stub-run"
         when {
+            config "./nextflow_all.config"
             process {
                 """
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
+                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true),
                         file("\${test_data_directory}/FLAIR.nii.gz", checkIfExists: true),
                         []
                     ]
@@ -110,7 +109,13 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out.versions).match() }
+                { assert snapshot(
+                    file(process.out.pvs_mask.get(0).get(1)).name,
+                    file(process.out.wmh_mask.get(0).get(1)).name,
+                    file(process.out.lac_mask.get(0).get(1)).name,
+                    file(process.out.report.get(0).get(1)).name,
+                    process.out.versions
+                ).match() }
             )
         }
     }
