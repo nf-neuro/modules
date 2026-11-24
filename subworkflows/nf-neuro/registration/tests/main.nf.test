@@ -576,7 +576,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.failed },
-                { assert workflow.errorMessage.contains("Unsupported registration method 'unknown'.") }
+                { assert workflow.stdout.any { it.contains("Unsupported registration method 'unknown'.") } }
             )
         }
     }
@@ -601,7 +601,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.failed },
-                { assert workflow.errorMessage.contains("Unsupported masking strategy 'unknown'.") }
+                { assert workflow.stdout.any { it.contains("Unsupported masking strategy 'unknown'.") } }
             )
         }
     }
@@ -627,7 +627,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.failed },
-                { assert workflow.errorMessage.contains("The internal masking strategy is not compatible with the easyreg or synthmorph registration methods.") }
+                { assert workflow.stdout.any { it.contains("The internal masking strategy is not compatible with the easyreg or synthmorph registration methods.") } }
             )
         }
     }
@@ -653,7 +653,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.failed },
-                { assert workflow.errorMessage.contains("The both masking strategy is not compatible with the easyreg or synthmorph registration methods.") }
+                { assert workflow.stdout.any { it.contains("The both masking strategy is not compatible with the easyreg or synthmorph registration methods.") } }
             )
         }
     }
@@ -678,7 +678,7 @@ nextflow_workflow {
         then {
             assertAll(
                 { assert workflow.failed },
-                { assert workflow.errorMessage.contains("A FreeSurfer license (ch_freesurfer_license) is required with method 'synthmorph'.") }
+                { assert workflow.stdout.any { it.contains("A FreeSurfer license (ch_freesurfer_license) is required with method 'synthmorph'.") } }
             )
         }
     }
