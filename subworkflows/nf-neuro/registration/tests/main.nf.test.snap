@@ -109,11 +109,11 @@
                 ]
             }
         ],
-        "timestamp": "2026-10-29T11:03:40.4688134",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        }
+        },
+        "timestamp": "2026-11-24T14:39:30.22847072"
     },
     "registration - ANTs - SyNQuick - internal - two masks": {
         "content": [
@@ -215,11 +215,11 @@
                 ]
             }
         ],
-        "timestamp": "2026-10-29T11:04:11.864299295",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        }
+        },
+        "timestamp": "2026-11-24T14:40:25.620730617"
     },
     "registration - ANTs - SyNQuick - apriori - two masks": {
         "content": [
@@ -341,11 +341,11 @@
                 ]
             }
         ],
-        "timestamp": "2026-10-29T11:03:58.812815098",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        }
+        },
+        "timestamp": "2026-11-24T14:40:03.386392093"
     },
     "registration - easyreg - none - no mask": {
         "content": [
@@ -379,7 +379,7 @@
                         {
                             "id": "test"
                         },
-                        "test_warped_reference_segmentation.nii.gz"
+                        "test_fixed_segmentation.nii.gz"
                     ]
                 ],
                 "fixed_warped": [
@@ -422,26 +422,27 @@
                         "test_t1_with_skull_warped.nii.gz"
                     ]
                 ],
-                "segmentation": [
+                "moving_segmentation": [
                     [
                         {
                             "id": "test"
                         },
-                        "test_warped_segmentation.nii.gz"
+                        "test_moving_segmentation.nii.gz"
                     ]
                 ],
                 "versions": [
                     "versions.yml:md5,3f38c911476c605480c02e484fcf6e9f",
+                    "versions.yml:md5,7cfdc1af4e14d3b93491fe5725c1b21f",
                     "versions.yml:md5,8a090f2936c874e1083111d21fe0a56d",
                     "versions.yml:md5,c932ccf0939130ae0cb46c2182810f45"
                 ]
             }
         ],
-        "timestamp": "2026-11-23T16:48:16.455786745",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.10.7"
-        }
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-11-24T14:41:14.255072449"
     },
     "registration - easyreg - apriori - two masks": {
         "content": [
@@ -475,13 +476,7 @@
                         {
                             "id": "test"
                         },
-                        "source-WB_modality-t1_mask-skull_segmentation.nii.gz"
-                    ],
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "test_warped_reference_segmentation.nii.gz"
+                        "source-template_modality-t1_algo-synthseg_segmentation.nii.gz"
                     ]
                 ],
                 "fixed_warped": [
@@ -540,24 +535,19 @@
                         "test_moving_image_masked_warped.nii.gz"
                     ]
                 ],
-                "segmentation": [
+                "moving_segmentation": [
                     [
                         {
                             "id": "test"
                         },
-                        "source-template_modality-t1_algo-synthseg_segmentation.nii.gz"
-                    ],
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "test_warped_segmentation.nii.gz"
+                        "source-WB_modality-t1_mask-skull_segmentation.nii.gz"
                     ]
                 ],
                 "versions": [
                     "versions.yml:md5,2ccd5abf931050d2e7d10740d964dc56",
                     "versions.yml:md5,3764dd2f067db355da3536c1b0c94619",
                     "versions.yml:md5,3f38c911476c605480c02e484fcf6e9f",
+                    "versions.yml:md5,7cfdc1af4e14d3b93491fe5725c1b21f",
                     "versions.yml:md5,8a090f2936c874e1083111d21fe0a56d",
                     "versions.yml:md5,8d90eba5eb0cfe9c82c7280c1b6e66a8",
                     "versions.yml:md5,8f4cb1a55910da303007d7c2202e62f0",
@@ -565,11 +555,11 @@
                 ]
             }
         ],
-        "timestamp": "2026-11-23T16:48:36.38976718",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.10.7"
-        }
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-11-24T14:41:41.872596743"
     },
     "registration - Synthmorph - apriori - two masks": {
         "content": [
@@ -668,11 +658,11 @@
                 ]
             }
         ],
-        "timestamp": "2026-11-23T16:48:53.720123746",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.10.7"
-        }
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-11-24T14:42:05.648981367"
     },
     "registration - ANTs - Anat to DWI": {
         "content": [
@@ -785,11 +775,11 @@
                 ]
             }
         ],
-        "timestamp": "2026-10-29T11:03:22.678150917",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        }
+        },
+        "timestamp": "2026-11-24T14:38:57.986289978"
     },
     "registration - ANTs - SyNQuick - both - two masks": {
         "content": [
@@ -911,10 +901,10 @@
                 ]
             }
         ],
-        "timestamp": "2026-10-29T11:04:30.761626093",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        }
+        },
+        "timestamp": "2026-11-24T14:40:53.979070925"
     }
 }

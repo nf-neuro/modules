@@ -171,10 +171,10 @@ workflow REGISTRATION {
             out_backward_tractogram_transform = out_forward_image_transform
 
             // ** Set optional outputs. ** //
-            // If segmentations are not provided as inputs,
-            // easyreg will outputs synthseg segmentations
-            out_segmentation = ch_segmentation.mix( REGISTRATION_EASYREG.out.segmentation_warped )
-            out_fixed_segmentation = ch_moving_segmentation.mix( REGISTRATION_EASYREG.out.fixed_segmentation_warped )
+            // If segmentations are not provided as inputs, easyreg outputs synthseg segmentations,
+            // each in its own image space (fixed: --ref_seg, moving: --flo_seg)
+            out_fixed_segmentation = ch_segmentation.mix( REGISTRATION_EASYREG.out.fixed_segmentation )
+            out_moving_segmentation = ch_moving_segmentation.mix( REGISTRATION_EASYREG.out.moving_segmentation )
         }
         else if ( options.method == "synthmorph" ) {
             // ** Registration using synthmorph ** //
@@ -262,7 +262,7 @@ workflow REGISTRATION {
             out_forward_tractogram_transform = out_backward_image_transform
             out_backward_tractogram_transform = out_forward_image_transform
             // ** and optional outputs. ** //
-            out_segmentation = channel.empty()
+            out_moving_segmentation = channel.empty()
             out_fixed_segmentation = channel.empty()
         }
         else {
@@ -271,10 +271,15 @@ workflow REGISTRATION {
             //  Steps :
             //   - join [ meta, fixed, moving ]
             //   - join [ meta, fixed, moving, metric | null ]
-            //   - map  [ meta, fixed, moving, metric | [] ]
+            //   If masking_strategy is "internal" or "both" :
+            //     - join [ meta, fixed, moving, metric | null, fixed_mask | null ]
+            //     - join [ meta, fixed, moving, metric | null, fixed_mask | null, moving_mask | null ]
+            //     - map  [ meta, fixed, moving, metric | [], fixed_mask | [], moving_mask | [] ]
+            //   Otherwise :
+            //     - map  [ meta, fixed, moving, metric | [], [], [] ]
             // Branches :
-            //   - anat_to_dwi : has a metric at index 3
-            //   - ants_syn    : doesn't have a metric at index 3 ( [] or null )
+            //   - anat_to_dwi : has a metric at index 3 -> [ meta, fixed, moving, metric, fixed_mask | [], moving_mask | [] ]
+            //   - ants_syn    : doesn't have a metric at index 3 ( [] or null ) -> [ meta, fixed, moving, fixed_mask | [], moving_mask | [] ]
             ch_register = ch_fixed_image_ready
                 .join(ch_moving_image_ready)
                 .join(ch_fixed_metric_ready, remainder: true)
@@ -329,7 +334,7 @@ workflow REGISTRATION {
             out_backward_tractogram_transform = out_backward_tractogram_transform.mix(REGISTRATION_ANTS.out.backward_tractogram_transform)
 
             // **and optional outputs **//
-            out_segmentation = channel.empty()
+            out_moving_segmentation = channel.empty()
             out_fixed_segmentation = channel.empty()
         }
 
@@ -389,8 +394,8 @@ workflow REGISTRATION {
         forward_tractogram_transform    = out_forward_tractogram_transform  // channel: [ val(meta), [ <forward-warp>, <forward-affine> ] ]
         backward_tractogram_transform   = out_backward_tractogram_transform // channel: [ val(meta), [ <forward-warp>, <forward-affine> ] ]
         // Segmentations
-        moving_segmentation             = out_segmentation                  // channel: [ val(meta), segmentation ]
-        fixed_segmentation              = out_fixed_segmentation              // channel: [ val(meta), fixed-segmentation ]
+        fixed_segmentation              = out_fixed_segmentation            // channel: [ val(meta), fixed-segmentation ]
+        moving_segmentation             = out_moving_segmentation           // channel: [ val(meta), moving-segmentation ]
 
         mqc                             = ch_mqc                            // channel: [ *mqc.*, ... ]
         versions                        = ch_versions                       // channel: [ versions.yml ]

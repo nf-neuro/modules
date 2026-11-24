@@ -24,10 +24,11 @@ description: |
     module: REGISTRATION_SYNTHMORPH
 
     Run SynthMorph any-to-any modality registration. By default, the algorithm is configured to
-    run a chain of affin+deformable transformations, making it suitable for use with most modules
+    run a chain of affine+deformable transformations, making it suitable for use with most modules
     and subworkflows like BUNDLE_SEG.
 
-    NOTE: the output affine transformation file is in .lta format and needs to be converted to .mat to be used with ANTs using the REGISTRATION_CONVERT module.
+    NOTE: SynthMorph transforms are converted to ITK format internally (CONVERT_SYNTHMORPH),
+    so they can be used directly with ANTs-based modules.
 
   - ANTs (SyN+SyN Quick): params.method = "ants"
 
@@ -122,16 +123,43 @@ input:
   - ch_segmentation:
       type: file
       description: |
-        FOR USE WITH SYNTHMORPH REGISTRATION ONLY. The input channel containing the SynthSeg v2 (non-robust)
-        segmentation + parcellation in fixed image space (reference in Easyreg naming convention) image.
+        ONLY USED WITH EASYREG REGISTRATION. The input channel containing the SynthSeg v2 (non-robust)
+        segmentation + parcellation in fixed image space (reference in Easyreg naming convention).
+        If not provided, EasyReg computes it.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - segmentation:
+            type: file
+            description: Segmentation image file in fixed space.
       pattern: "*.{nii,nii.gz}"
       mandatory: false
   - ch_moving_segmentation:
       type: file
       description: |
-        FOR USE WITH SYNTHMORPH REGISTRATION ONLY. The input channel containing the SynthSeg v2 (non-robust)
-        segmentation + parcellation in moving image space (floating in Easyreg naming convention) image.
+        ONLY USED WITH EASYREG REGISTRATION. The input channel containing the SynthSeg v2 (non-robust)
+        segmentation + parcellation in moving image space (floating in Easyreg naming convention).
+        If not provided, EasyReg computes it.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - segmentation:
+            type: file
+            description: Segmentation image file in moving space.
       pattern: "*.{nii,nii.gz}"
+      mandatory: false
+  - ch_freesurfer_license:
+      type: file
+      description: |
+        The input channel containing the Freesurfer license file. Required when options.method
+        is "easyreg" or "synthmorph" (used to convert their transforms to ITK format).
+      structure:
+        - license:
+            type: file
+            description: Freesurfer license file.
+      pattern: "*.txt"
       mandatory: false
   - options:
       type: map
@@ -220,7 +248,7 @@ output:
         - forward_affine:
             type: file
             description: Forward affine transformation file.
-      pattern: "*__forward*.{lta,mat}"
+      pattern: "*_forward*.{mat,txt}"
       mandatory: false
   - forward_warp:
       type: file
@@ -233,7 +261,7 @@ output:
         - forward_warp:
             type: file
             description: Forward warp deformation field.
-      pattern: "*__forward*.{nii,nii.gz}"
+      pattern: "*_forward*.{nii,nii.gz}"
       mandatory: false
   - backward_warp:
       type: file
@@ -246,7 +274,7 @@ output:
         - backward_warp:
             type: file
             description: Backward warp deformation field.
-      pattern: "*__backward*.{nii,nii.gz}"
+      pattern: "*_backward*.{nii,nii.gz}"
       mandatory: false
   - backward_affine:
       type: file
@@ -259,7 +287,7 @@ output:
         - backward_affine:
             type: file
             description: Backward affine transformation file.
-      pattern: "*__backward*.{lta,mat}"
+      pattern: "*_backward*.{mat,txt}"
       mandatory: false
   - forward_image_transform:
       type: list
@@ -273,7 +301,7 @@ output:
         - transforms:
             type: file
             description: List of forward transformation files.
-      pattern: "*__forward*.{nii,nii.gz,mat,lta}"
+      pattern: "*_forward*.{nii,nii.gz,mat,txt}"
   - backward_image_transform:
       type: list
       description: |
@@ -286,7 +314,7 @@ output:
         - transforms:
             type: file
             description: List of backward transformation files.
-      pattern: "*__backward*.{nii,nii.gz,mat,lta}"
+      pattern: "*_backward*.{nii,nii.gz,mat,txt}"
   - forward_tractogram_transform:
       type: list
       description: |
@@ -299,7 +327,7 @@ output:
         - transforms:
             type: file
             description: List of transformation files for tractograms.
-      pattern: "*__backward*.{nii,nii.gz,mat,lta}"
+      pattern: "*_backward*.{nii,nii.gz,mat,txt}"
   - backward_tractogram_transform:
       type: list
       description: |
@@ -312,7 +340,7 @@ output:
         - transforms:
             type: file
             description: List of transformation files for tractograms.
-      pattern: "*__forward*.{nii,nii.gz,mat,lta}"
+      pattern: "*_forward*.{nii,nii.gz,mat,txt}"
   - fixed_segmentation:
       type: file
       description: |

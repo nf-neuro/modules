@@ -98,9 +98,8 @@ nextflow_workflow {
                 ).match() },
                 { assert workflow.out
                     .findAll{ channel -> !channel.key.isInteger() }
-                    .every{ channel -> ["ref_warped",
-                                        "segmentation",
-                                        "ref_segmentation"].contains(channel.key)
+                    .every{ channel -> ["fixed_segmentation",
+                                        "moving_segmentation"].contains(channel.key)
                         ? channel.value.size() == 0
                         : channel.value.every{ subject -> subject instanceof ArrayList
                             ? subject.every()
@@ -159,9 +158,8 @@ nextflow_workflow {
                 ).match() },
                 { assert workflow.out
                     .findAll{ channel -> !channel.key.isInteger() }
-                    .every{ channel -> ["ref_warped",
-                                        "segmentation",
-                                        "ref_segmentation"].contains(channel.key)
+                    .every{ channel -> ["fixed_segmentation",
+                                        "moving_segmentation"].contains(channel.key)
                         ? channel.value.size() == 0
                         : channel.value.every{ subject -> subject instanceof ArrayList
                             ? subject.every()
@@ -225,9 +223,8 @@ nextflow_workflow {
                 ).match() },
                 { assert workflow.out
                     .findAll{ channel -> !channel.key.isInteger() }
-                    .every{ channel -> ["ref_warped",
-                                        "segmentation",
-                                        "ref_segmentation"].contains(channel.key)
+                    .every{ channel -> ["fixed_segmentation",
+                                        "moving_segmentation"].contains(channel.key)
                         ? channel.value.size() == 0
                         : channel.value.every{ subject -> subject instanceof ArrayList
                             ? subject.every()
@@ -291,9 +288,8 @@ nextflow_workflow {
                 ).match() },
                 { assert workflow.out
                     .findAll{ channel -> !channel.key.isInteger() }
-                    .every{ channel -> ["ref_warped",
-                                        "segmentation",
-                                        "ref_segmentation"].contains(channel.key)
+                    .every{ channel -> ["fixed_segmentation",
+                                        "moving_segmentation"].contains(channel.key)
                         ? channel.value.size() == 0
                         : channel.value.every{ subject -> subject instanceof ArrayList
                             ? subject.every()
@@ -355,9 +351,8 @@ nextflow_workflow {
                 ).match() },
                 { assert workflow.out
                     .findAll{ channel -> !channel.key.isInteger() }
-                    .every{ channel -> ["ref_warped",
-                                        "segmentation",
-                                        "ref_segmentation"].contains(channel.key)
+                    .every{ channel -> ["fixed_segmentation",
+                                        "moving_segmentation"].contains(channel.key)
                         ? channel.value.size() == 0
                         : channel.value.every{ subject -> subject instanceof ArrayList
                             ? subject.every()
@@ -547,13 +542,114 @@ nextflow_workflow {
                 ).match() },
                 { assert workflow.out
                     .findAll{ channel -> !channel.key.isInteger() }
-                    .every{ channel -> ["ref_warped",
-                                        "segmentation",
-                                        "ref_segmentation"].contains(channel.key)
+                    .every{ channel -> ["fixed_segmentation",
+                                        "moving_segmentation"].contains(channel.key)
                         ? channel.value.size() == 0
                         : channel.value.every{ subject -> subject instanceof ArrayList
                             ? subject.every()
                             : subject } } }
+            )
+        }
+    }
+
+    test("registration - error - unsupported method") {
+        tag "registration_validation"
+        when {
+            workflow {
+                """
+                input[0] = channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
+                input[8] = [ "method": "unknown" ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert workflow.errorMessage.contains("Unsupported registration method 'unknown'.") }
+            )
+        }
+    }
+
+    test("registration - error - unsupported masking strategy") {
+        tag "registration_validation"
+        when {
+            workflow {
+                """
+                input[0] = channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
+                input[8] = [ "masking_strategy": "unknown" ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert workflow.errorMessage.contains("Unsupported masking strategy 'unknown'.") }
+            )
+        }
+    }
+
+    test("registration - error - internal masking with synthmorph") {
+        tag "registration_validation"
+        when {
+            workflow {
+                """
+                input[0] = channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
+                input[8] = [ "masking_strategy": "internal",
+                            "method": "synthmorph" ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert workflow.errorMessage.contains("The internal masking strategy is not compatible with the easyreg or synthmorph registration methods.") }
+            )
+        }
+    }
+
+    test("registration - error - both masking with easyreg") {
+        tag "registration_validation"
+        when {
+            workflow {
+                """
+                input[0] = channel.empty()
+                input[1] = channel.empty()
+                input[2] = channel.empty()
+                input[3] = channel.empty()
+                input[4] = channel.empty()
+                input[5] = channel.empty()
+                input[6] = channel.empty()
+                input[7] = channel.empty()
+                input[8] = [ "masking_strategy": "both",
+                            "method": "easyreg" ]
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert workflow.errorMessage.contains("The both masking strategy is not compatible with the easyreg or synthmorph registration methods.") }
             )
         }
     }
