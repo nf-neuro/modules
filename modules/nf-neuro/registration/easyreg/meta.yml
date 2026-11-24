@@ -120,33 +120,33 @@ output:
           mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
-  segmentation_warped:
+  fixed_segmentation:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1', single_end:false ]`
-      - "*_warped_segmentation.nii.gz":
+      - "*_fixed_segmentation.nii.gz":
           type: file
           description: |
-            SynthSeg v2 (non-robust) segmentation + parcellation on the warped image.
-            Will produce image only if not passed as input.
-          pattern: "*_warped_segmentation.nii.gz"
+            SynthSeg v2 (non-robust) segmentation + parcellation of the fixed (reference) image,
+            in fixed space. Only produced if fixed_segmentation is not passed as input.
+          pattern: "*_fixed_segmentation.nii.gz"
           mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
-  fixed_segmentation_warped:
+  moving_segmentation:
     - - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1', single_end:false ]`
-      - "*_warped_reference_segmentation.nii.gz":
+      - "*_moving_segmentation.nii.gz":
           type: file
           description: |
-            SynthSeg v2 (non-robust) segmentation + parcellation on the reference image.
-            Will produce image only if not passed as input.
-          pattern: "*_warped_reference_segmentation.nii.gz"
+            SynthSeg v2 (non-robust) segmentation + parcellation of the moving (floating) image,
+            in moving space. Only produced if moving_segmentation is not passed as input.
+          pattern: "*_moving_segmentation.nii.gz"
           mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format

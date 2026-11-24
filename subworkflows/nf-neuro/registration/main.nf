@@ -66,8 +66,10 @@ workflow REGISTRATION {
             // ** Set optional outputs. ** //
             // If segmentations are not provided as inputs,
             // easyreg will outputs synthseg segmentations
-            out_segmentation = ch_segmentation.mix( REGISTRATION_EASYREG.out.segmentation_warped )
-            out_ref_segmentation = ch_moving_segmentation.mix( REGISTRATION_EASYREG.out.fixed_segmentation_warped )
+            // ch_moving_segmentation is passed as easyreg's fixed (reference) segmentation and
+            // ch_segmentation as its moving (floating) one : pair each input with its easyreg output.
+            out_segmentation = ch_segmentation.mix( REGISTRATION_EASYREG.out.moving_segmentation )
+            out_ref_segmentation = ch_moving_segmentation.mix( REGISTRATION_EASYREG.out.fixed_segmentation )
         }
         else if ( options.run_synthmorph ) {
             // ** Registration using synthmorph ** //
