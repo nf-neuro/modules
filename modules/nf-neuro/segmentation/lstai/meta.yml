@@ -58,12 +58,12 @@ args:
         anatomical annotation and per-region lesion statistics).
       default: false
   - threshold:
-      type: number
+      type: float
       description: Threshold applied to the ensemble's lesion probability map to produce
         the binary mask.
       default: 0.5
   - lesion_threshold:
-      type: number
+      type: integer
       description: Minimum lesion size in mm^3. Connected components smaller than this
         are dropped from the binary mask.
       default: 0
@@ -79,8 +79,8 @@ args:
       default: false
   - single_thread:
       type: boolean
-      description: If true, LST-AI (and its internal tools, through OMP_NUM_THREADS
-        and ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS) runs single-threaded. By default,
+      description: If true, LST-AI (and its internal tools, through OMP_NUM_THREADS,
+        MKL_NUM_THREADS, OPENBLAS_NUM_THREADS and ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS) runs single-threaded. By default,
         all CPUs allocated to the task are used.
       default: false
 output:
@@ -90,24 +90,10 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__space-flair_seg-lst_lesion_mask.nii.gz":
+      - "*__space-flair_label-WMlesion_desc-lst_mask.nii.gz":
           type: file
           description: Binary lesion mask in FLAIR space, produced by LST-AI.
-          pattern: "*__space-flair_seg-lst_lesion_mask.nii.gz"
-          ontologies:
-            - edam: http://edamontology.org/format_4001 # NIFTI format
-  lesion_mask_annotated:
-    - - meta:
-          type: map
-          description: |
-            Groovy Map containing sample information
-            e.g. `[ id:'test', single_end:false ]`
-      - "*__space-flair_seg-lst_annotated_lesion_mask.nii.gz":
-          type: file
-          description: Anatomically annotated lesion mask in FLAIR space, produced by LST-AI.
-            Not produced when task.ext.segment_only is set.
-          mandatory: false
-          pattern: "*__space-flair_seg-lst_annotated_lesion_mask.nii.gz"
+          pattern: "*__space-flair_label-WMlesion_desc-lst_mask.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
   lesion_stats:
@@ -116,14 +102,28 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__raw_lesion_stats.csv":
+      - "*__mask_lesion_stats.csv":
           type: file
           description: CSV file containing per-lesion statistics (volume, number, etc.)
             for the binary lesion mask.
-          pattern: "*__raw_lesion_stats.csv"
+          pattern: "*__mask_lesion_stats.csv"
           ontologies:
             - edam: http://edamontology.org/format_3752 # CSV
-  lesion_stats_annotated:
+  lesion_dseg:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__space-flair_label-WMlesion_desc-lst_dseg.nii.gz":
+          type: file
+          description: Anatomically annotated lesion segmentation (dseg) in FLAIR space, produced by LST-AI.
+            Not produced when task.ext.segment_only is set.
+          mandatory: false
+          pattern: "*__space-flair_label-WMlesion_desc-lst_dseg.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  lesion_stats_dseg:
     - - meta:
           type: map
           description: |

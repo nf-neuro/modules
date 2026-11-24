@@ -1,6 +1,7 @@
 process SEGMENTATION_LSTAI {
     tag "$meta.id"
     label 'process_high'
+    label 'process_high_memory'
 
     container "${ task.ext.gpu ?
         "jqmcginnis/lst-ai:v2.0.0rc1" :
@@ -11,11 +12,11 @@ process SEGMENTATION_LSTAI {
     tuple val(meta), path(t1), path(flair)
 
     output:
-    tuple val(meta), path("*__space-flair_seg-lst_lesion_mask.nii.gz")          , emit: lesion_mask
-    tuple val(meta), path("*__space-flair_seg-lst_annotated_lesion_mask.nii.gz"), emit: lesion_mask_annotated, optional: true
-    tuple val(meta), path("*__raw_lesion_stats.csv")                            , emit: lesion_stats
-    tuple val(meta), path("*__annotated_lesion_stats.csv")                      , emit: lesion_stats_annotated, optional: true
-    path "versions.yml"                                                         , emit: versions
+    tuple val(meta), path("*__space-flair_label-WMlesion_desc-lst_mask.nii.gz"), emit: lesion_mask
+    tuple val(meta), path("*__mask_lesion_stats.csv")                          , emit: lesion_stats
+    tuple val(meta), path("*__space-flair_label-WMlesion_desc-lst_dseg.nii.gz"), emit: lesion_dseg, optional: true
+    tuple val(meta), path("*__annotated_lesion_stats.csv")                     , emit: lesion_stats_dseg, optional: true
+    path "versions.yml"                                                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -33,6 +34,8 @@ process SEGMENTATION_LSTAI {
 
     """
     export OMP_NUM_THREADS=$nthreads
+    export MKL_NUM_THREADS=$nthreads
+    export OPENBLAS_NUM_THREADS=$nthreads
     export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=$nthreads
 
     lst \
@@ -49,11 +52,11 @@ process SEGMENTATION_LSTAI {
         $segment_only \
         $fast_mode
 
-    mv lst_output/space-flair_seg-lst.nii.gz ${prefix}__space-flair_seg-lst_lesion_mask.nii.gz
-    mv lst_output/lesion_stats.csv ${prefix}__raw_lesion_stats.csv
+    mv lst_output/space-flair_seg-lst.nii.gz ${prefix}__space-flair_label-WMlesion_desc-lst_mask.nii.gz
+    mv lst_output/lesion_stats.csv ${prefix}__mask_lesion_stats.csv
 
     if [[ -f lst_output/space-flair_desc-annotated_seg-lst.nii.gz ]]; then
-        mv lst_output/space-flair_desc-annotated_seg-lst.nii.gz ${prefix}__space-flair_seg-lst_annotated_lesion_mask.nii.gz
+        mv lst_output/space-flair_desc-annotated_seg-lst.nii.gz ${prefix}__space-flair_label-WMlesion_desc-lst_dseg.nii.gz
         mv lst_output/annotated_lesion_stats.csv ${prefix}__annotated_lesion_stats.csv
     fi
 
@@ -71,10 +74,10 @@ process SEGMENTATION_LSTAI {
     """
     lst -h
 
-    touch ${prefix}__space-flair_seg-lst_lesion_mask.nii.gz
-    touch ${prefix}__raw_lesion_stats.csv
+    touch ${prefix}__space-flair_label-WMlesion_desc-lst_mask.nii.gz
+    touch ${prefix}__mask_lesion_stats.csv
     if [[ "${task.ext.segment_only ?: false}" != "true" ]]; then
-        touch ${prefix}__space-flair_seg-lst_annotated_lesion_mask.nii.gz
+        touch ${prefix}__space-flair_label-WMlesion_desc-lst_dseg.nii.gz
         touch ${prefix}__annotated_lesion_stats.csv
     fi
 

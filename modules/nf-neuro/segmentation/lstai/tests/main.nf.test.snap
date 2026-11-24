@@ -1,9 +1,9 @@
 {
     "segmentation - lstai - stub": {
         "content": [
-            "test__space-flair_seg-lst_lesion_mask.nii.gz",
-            "test__space-flair_seg-lst_annotated_lesion_mask.nii.gz",
-            "test__raw_lesion_stats.csv",
+            "test__space-flair_label-WMlesion_desc-lst_mask.nii.gz",
+            "test__space-flair_label-WMlesion_desc-lst_dseg.nii.gz",
+            "test__mask_lesion_stats.csv",
             "test__annotated_lesion_stats.csv",
             [
                 "versions.yml:md5,87b33423229868e02b051435945b8838"
@@ -15,17 +15,15 @@
             "nextflow": "25.10.6"
         }
     },
-    "segmentation - lstai - gpu - stub": {
+    "segmentation - lstai - segment_only - stub": {
         "content": [
-            "test__space-flair_seg-lst_lesion_mask.nii.gz",
-            "test__space-flair_seg-lst_annotated_lesion_mask.nii.gz",
-            "test__raw_lesion_stats.csv",
-            "test__annotated_lesion_stats.csv",
+            "test__space-flair_label-WMlesion_desc-lst_mask.nii.gz",
+            "test__mask_lesion_stats.csv",
             [
                 "versions.yml:md5,87b33423229868e02b051435945b8838"
             ]
         ],
-        "timestamp": "2026-11-17T10:05:08.484416516",
+        "timestamp": "2026-11-24T12:41:22.359201312",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.10.6"
@@ -33,9 +31,9 @@
     },
     "segmentation - lstai": {
         "content": [
-            "test__space-flair_seg-lst_lesion_mask.nii.gz",
-            "test__space-flair_seg-lst_annotated_lesion_mask.nii.gz",
-            "test__raw_lesion_stats.csv",
+            "test__space-flair_label-WMlesion_desc-lst_mask.nii.gz",
+            "test__space-flair_label-WMlesion_desc-lst_dseg.nii.gz",
+            "test__mask_lesion_stats.csv",
             "test__annotated_lesion_stats.csv",
             [
                 "versions.yml:md5,87b33423229868e02b051435945b8838"
@@ -49,13 +47,13 @@
     },
     "segmentation - lstai - segment_only": {
         "content": [
-            "test__space-flair_seg-lst_lesion_mask.nii.gz",
-            "test__raw_lesion_stats.csv",
+            "test__space-flair_label-WMlesion_desc-lst_mask.nii.gz",
+            "test__mask_lesion_stats.csv",
             [
                 "versions.yml:md5,87b33423229868e02b051435945b8838"
             ]
         ],
-        "timestamp": "2026-11-17T10:03:02.808098994",
+        "timestamp": "2026-11-24T12:41:10.730693886",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.10.6"

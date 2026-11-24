@@ -46,9 +46,9 @@ nextflow_process {
                 { assert process.success },
                 { assert snapshot(
                     file(process.out.lesion_mask.get(0).get(1)).name,
-                    file(process.out.lesion_mask_annotated.get(0).get(1)).name,
+                    file(process.out.lesion_dseg.get(0).get(1)).name,
                     file(process.out.lesion_stats.get(0).get(1)).name,
-                    file(process.out.lesion_stats_annotated.get(0).get(1)).name,
+                    file(process.out.lesion_stats_dseg.get(0).get(1)).name,
                     process.out.versions
                 ).match() }
             )
@@ -75,8 +75,8 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
-                { assert process.out.lesion_mask_annotated.size() == 0 },
-                { assert process.out.lesion_stats_annotated.size() == 0 },
+                { assert process.out.lesion_dseg.size() == 0 },
+                { assert process.out.lesion_stats_dseg.size() == 0 },
                 { assert snapshot(
                     file(process.out.lesion_mask.get(0).get(1)).name,
                     file(process.out.lesion_stats.get(0).get(1)).name,
@@ -108,19 +108,18 @@ nextflow_process {
                 { assert process.success },
                 { assert snapshot(
                     file(process.out.lesion_mask.get(0).get(1)).name,
-                    file(process.out.lesion_mask_annotated.get(0).get(1)).name,
+                    file(process.out.lesion_dseg.get(0).get(1)).name,
                     file(process.out.lesion_stats.get(0).get(1)).name,
-                    file(process.out.lesion_stats_annotated.get(0).get(1)).name,
+                    file(process.out.lesion_stats_dseg.get(0).get(1)).name,
                     process.out.versions
                 ).match() }
             )
         }
     }
 
-    test("segmentation - lstai - gpu - stub") {
+    test("segmentation - lstai - segment_only - stub") {
         tag "stub"
-        tag "gpu"
-        config "./nextflow_gpu.config"
+        config "./nextflow_segment_only.config"
         options "-stub-run"
         when {
             process {
@@ -139,11 +138,11 @@ nextflow_process {
         then {
             assertAll(
                 { assert process.success },
+                { assert process.out.lesion_dseg.size() == 0 },
+                { assert process.out.lesion_stats_dseg.size() == 0 },
                 { assert snapshot(
                     file(process.out.lesion_mask.get(0).get(1)).name,
-                    file(process.out.lesion_mask_annotated.get(0).get(1)).name,
                     file(process.out.lesion_stats.get(0).get(1)).name,
-                    file(process.out.lesion_stats_annotated.get(0).get(1)).name,
                     process.out.versions
                 ).match() }
             )
