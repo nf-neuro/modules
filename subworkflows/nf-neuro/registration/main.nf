@@ -16,11 +16,12 @@ include { REGISTRATION_ANTSAPPLYTRANSFORMS as WARP_IMAGE_TO_MOVING } from '../..
 workflow REGISTRATION {
 
     // The subworkflow requires at least ch_fixed_image and ch_moving_image as inputs to
-    // properly perform the registration. Supplying a ch_metric will select
-    // the REGISTRATION_ANATTODWI module meanwhile NOT supplying a ch_metric
-    // will select the REGISTRATION_ANTS (SyN or SyNQuick) module. Alternatively,
-    // NOT supplying ch_metric and activating alternative module flag with select
-    // REGISTRATION_EASYREG or REGISTRATION_SYNTHMORPH
+    // properly perform the registration. The registration method is selected with
+    // options.method :
+    //   - "ants" (default) : supplying a ch_metric selects the REGISTRATION_ANATTODWI module,
+    //     NOT supplying a ch_metric selects the REGISTRATION_ANTS (SyN or SyNQuick) module.
+    //   - "easyreg"        : REGISTRATION_EASYREG (requires ch_freesurfer_license).
+    //   - "synthmorph"     : REGISTRATION_SYNTHMORPH (requires ch_freesurfer_license).
 
     take:
         ch_fixed_image                  // channel: [ val(meta), fixed_image ]
@@ -88,8 +89,6 @@ workflow REGISTRATION {
             ch_versions = ch_versions.mix(MASK_MOVING_IMAGE.out.versions.first())
         }
 
-
-
         if ( options.method == "easyreg" ) {
             // ** Registration using Easyreg ** //
             // Result : [ meta, fixed, moving, fixed_segmentation | [], moving_segmentation | [] ]
@@ -103,6 +102,10 @@ workflow REGISTRATION {
                 .join(ch_segmentation, remainder: true)
                 .join(ch_moving_segmentation, remainder: true)
                 .map{ it[0..1] + [it[2] ?: [], it[3] ?: [], it[4] ?: []] }
+
+            // The FreeSurfer license is required to convert the transforms : fail loudly if missing
+            ch_license = ch_freesurfer_license
+                .ifEmpty { error "A FreeSurfer license (ch_freesurfer_license) is required with method '${options.method}'." }
 
             REGISTRATION_EASYREG ( ch_register )
             ch_versions = ch_versions.mix(REGISTRATION_EASYREG.out.versions.first())
@@ -140,7 +143,7 @@ workflow REGISTRATION {
                         src_geom,
                         [],
                     ]}
-                .combine(ch_freesurfer_license)
+                .combine(ch_license)
 
             CONVERT_EASYREG ( ch_convert_easyreg )
             ch_versions = ch_versions.mix(CONVERT_EASYREG.out.versions.first())
@@ -181,6 +184,10 @@ workflow REGISTRATION {
             ch_register = ch_fixed_image_ready
                 .join(ch_moving_image_ready)
 
+            // The FreeSurfer license is required to convert the transforms : fail loudly if missing
+            ch_license = ch_freesurfer_license
+                .ifEmpty { error "A FreeSurfer license (ch_freesurfer_license) is required with method '${options.method}'." }
+
             REGISTRATION_SYNTHMORPH ( ch_register )
             ch_versions = ch_versions.mix(REGISTRATION_SYNTHMORPH.out.versions.first())
 
@@ -214,7 +221,7 @@ workflow REGISTRATION {
                 .combine(ch_moving_image, by: 0)
                 .map{ meta, tag, transform, fixed, moving ->
                     def extension = transform.name.tokenize('.')[1..-1].join(".")
-                    def is_forward = transform.name.contains("forward")
+                    def is_forward = tag.tag.startsWith("forward")
                     def references = is_forward ? [moving, fixed] : [fixed, moving]
                     return [
                         meta + tag + [id: "${meta.id}_${tag.tag}", cache: meta],
@@ -224,7 +231,7 @@ workflow REGISTRATION {
                         extension == "lta" ? references[1] : references[0],
                         extension == "lta" ? references[0] : references[1],
                     ]}
-                .combine(ch_freesurfer_license)
+                .combine(ch_license)
 
             CONVERT_SYNTHMORPH ( ch_convert_synthmorph )
             ch_versions = ch_versions.mix(CONVERT_SYNTHMORPH.out.versions.first())
@@ -391,7 +398,7 @@ workflow REGISTRATION {
         // Combined transforms
         forward_image_transform         = out_forward_image_transform       // channel: [ val(meta), [ <forward-warp>, <forward-affine> ] ]
         backward_image_transform        = out_backward_image_transform      // channel: [ val(meta), [ <backward-affine>, <backward-warp> ] ]
-        forward_tractogram_transform    = out_forward_tractogram_transform  // channel: [ val(meta), [ <forward-warp>, <forward-affine> ] ]
+        forward_tractogram_transform    = out_forward_tractogram_transform  // channel: [ val(meta), [ <backward-affine>, <backward-warp> ] ]
         backward_tractogram_transform   = out_backward_tractogram_transform // channel: [ val(meta), [ <forward-warp>, <forward-affine> ] ]
         // Segmentations
         fixed_segmentation              = out_fixed_segmentation            // channel: [ val(meta), fixed-segmentation ]
