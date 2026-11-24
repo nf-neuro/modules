@@ -14,8 +14,8 @@ process REGISTRATION_EASYREG {
     tuple val(meta), path("*_warped_reference.nii.gz")              , emit: fixed_warped
     tuple val(meta), path("*_forward0_warp.nii.gz")                 , emit: forward_warp, optional: true
     tuple val(meta), path("*_backward0_warp.nii.gz")                , emit: backward_warp, optional: true
-    tuple val(meta), path("*_warped_segmentation.nii.gz")           , emit: segmentation_warped, optional: true
-    tuple val(meta), path("*_warped_reference_segmentation.nii.gz") , emit: fixed_segmentation_warped, optional: true
+    tuple val(meta), path("*_fixed_segmentation.nii.gz")            , emit: fixed_segmentation, optional: true
+    tuple val(meta), path("*_moving_segmentation.nii.gz")           , emit: moving_segmentation, optional: true
     path "versions.yml"                                             , emit: versions
 
     when:
@@ -26,8 +26,9 @@ process REGISTRATION_EASYREG {
     def suffix = task.ext.suffix ? "${task.ext.suffix}_warped" : "warped"
     def affine_only = task.ext.affine_only ? "--affine_only " : ""
     def nthreads = task.ext.single_thread ? 1 : task.cpus
-    fixed_segmentation = "--ref_seg ${fixed_segmentation ?: "${prefix}_${suffix}_segmentation.nii.gz" }"
-    moving_segmentation = "--flo_seg ${moving_segmentation ?: "${prefix}_${suffix}_reference_segmentation.nii.gz" }"
+    // SynthSeg segmentations are computed by EasyReg only when not provided, in their own image space
+    fixed_segmentation = "--ref_seg ${fixed_segmentation ?: "${prefix}_fixed_segmentation.nii.gz" }"
+    moving_segmentation = "--flo_seg ${moving_segmentation ?: "${prefix}_moving_segmentation.nii.gz" }"
     """
     export OMP_NUM_THREADS=${task.ext.single_thread ? 1 : task.cpus}
 
@@ -65,8 +66,8 @@ process REGISTRATION_EASYREG {
 
     touch ${prefix}_\${moving_id}_${suffix}.nii.gz
     touch ${prefix}_${suffix}_reference.nii.gz
-    touch ${prefix}_${suffix}_segmentation.nii.gz
-    touch ${prefix}_${suffix}_reference_segmentation.nii.gz
+    ${fixed_segmentation ? "" : "touch ${prefix}_fixed_segmentation.nii.gz"}
+    ${moving_segmentation ? "" : "touch ${prefix}_moving_segmentation.nii.gz"}
     touch ${prefix}_forward0_warp.nii.gz
     touch ${prefix}_backward0_warp.nii.gz
 

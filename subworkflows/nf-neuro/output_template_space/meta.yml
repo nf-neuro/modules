@@ -106,7 +106,7 @@ input:
   - ch_freesurfer_license:
       type: file
       description: |
-        ONLY USED WITH SYNTHMORPH REGISTRATION. The input channel containing the Freesurfer license file.
+        ONLY USED WITH SYNTHMORPH AND EASYREG REGISTRATION. The input channel containing the Freesurfer license file.
       structure:
         - meta:
             type: map
