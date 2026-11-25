@@ -246,7 +246,7 @@ nextflow_workflow {
                 input[5] = ch_split_test_data.freesurfer.map{
                     test_data_directory -> file("\${test_data_directory}/license.txt")
                 }
-                input[6] = [ "run_synthmorph": true,
+                input[6] = [ "method": "synthmorph",
                             "template": "MNI152NLin2009bSym",
                             "templateflow_home": "$launchDir/templateflow_home" ]
                 """
