@@ -66,6 +66,53 @@ def fetch_iit_atlas_tdi(bundleMapsUrl, dest, thresholds) {
     return output_dir + "bundle_maps/IIT_bundles"
 }
 
+// Fetch the IIT GM Desikan parcellation atlas
+def fetch_iit_gm_desikan_atlas(atlasUrl, dest) {
+    def outFile = new File("$dest/IIT_GM_Desikan_atlas.nii.gz")
+    if (!outFile.exists()) {
+        download_file(atlasUrl, outFile.absolutePath)
+    }
+    return outFile
+}
+
+// The IIT GM LUT is distributed as a tab-separated TXT (index R G B name).
+// STATS_ROIVOLUMES and STATS_METRICSINROI both expect a JSON {index: name} map.
+def convert_lut_txt_to_json(File lutFile, File jsonFile) {
+    def lutMap = [:]
+    lutFile.eachLine { line ->
+        def trimmed = line.trim()
+        if (trimmed && !trimmed.startsWith('#')) {
+            def parts = trimmed.split(/\s+/, 5)
+            if (parts.size() == 5) {
+                lutMap[parts[0]] = parts[4].replaceAll('"', '').trim()
+            }
+        }
+    }
+    jsonFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(lutMap))
+}
+
+def fetch_and_convert_iit_gm_lut(lutUrl, dest) {
+    def lutFile  = new File("$dest/LUT_GM_Desikan_0to1.txt")
+    def jsonFile = new File("$dest/IIT_GM_Desikan_lut.json")
+    if (!jsonFile.exists()) {
+        if (!lutFile.exists()) {
+            download_file(lutUrl, lutFile.absolutePath)
+        }
+        convert_lut_txt_to_json(lutFile, jsonFile)
+    }
+    return jsonFile
+}
+
+// Convert a user-provided local TXT LUT to JSON, so offline/HPC runs need no download.
+def convert_local_iit_gm_lut(localTxtPath, dest) {
+    def lutFile  = new File(localTxtPath)
+    def jsonFile = new File("$dest/IIT_GM_Desikan_lut.json")
+    if (!jsonFile.exists()) {
+        convert_lut_txt_to_json(lutFile, jsonFile)
+    }
+    return jsonFile
+}
+
 def get_tdi_thresholds() {
     // Those thresholds were recommended by the authors of the IIT atlas
     // to generate the bundle masks from the track density images.
@@ -220,8 +267,45 @@ workflow ATLAS_IIT {
                 })
         }
 
+        // Fetch the IIT GM Desikan parcellation atlas and its LUT (only when requested)
+        ch_gm_atlas = channel.empty()
+        ch_gm_lut   = channel.empty()
+
+        if (options.fetch_gm_desikan) {
+            def gm_dest = "${workflow.workDir}/atlas_iit/gm"
+            new File(gm_dest).mkdirs()
+
+            if (options.atlas_iit_gm_atlas) {
+                ch_gm_atlas = channel.fromPath(options.atlas_iit_gm_atlas, checkIfExists: true)
+            }
+            else {
+                def gm_atlas_file = fetch_iit_gm_desikan_atlas(
+                    "https://www.nitrc.org/frs/download.php/11328/IIT_GM_Desikan_atlas.nii.gz",
+                    gm_dest
+                )
+                ch_gm_atlas = channel.fromPath(gm_atlas_file.absolutePath, checkIfExists: true)
+            }
+
+            if (options.atlas_iit_gm_lut) {
+                // Accept either the raw NITRC TXT (converted locally) or a ready-made JSON
+                def gm_lut_file = options.atlas_iit_gm_lut.endsWith(".txt")
+                    ? convert_local_iit_gm_lut(options.atlas_iit_gm_lut, gm_dest).absolutePath
+                    : options.atlas_iit_gm_lut
+                ch_gm_lut = channel.fromPath(gm_lut_file, checkIfExists: true)
+            }
+            else {
+                def gm_lut_file = fetch_and_convert_iit_gm_lut(
+                    "https://www.nitrc.org/frs/download.php/11343/LUT_GM_Desikan_0to1.txt",
+                    gm_dest
+                )
+                ch_gm_lut = channel.fromPath(gm_lut_file.absolutePath, checkIfExists: true)
+            }
+        }
+
     emit:
-        b0 = ch_b0
-        bundles = ch_bundles
+        b0       = ch_b0
+        bundles  = ch_bundles
+        gm_atlas = ch_gm_atlas
+        gm_lut   = ch_gm_lut
         versions = ch_versions
 }

@@ -20,6 +20,7 @@ components:
   - atlas_iit
   - registration/ants
   - stats/metricsinroi
+  - stats/roivolumes
   - registration/antsapplytransforms
   - utils_options
 input:
@@ -55,6 +56,46 @@ input:
       pattern: "*.nii.gz"
       ontologies:
         - edam: http://edamontology.org/format_4001 # NIFTI format
+  - ch_registered_atlas:
+      type: file
+      description: |
+        Atlas already registered into each subject's space, supplied by the caller instead of
+        being downloaded and registered by this subworkflow. Only read when
+        `use_registered_atlas` is 'true'; pass `channel.empty()` otherwise.
+
+        Each entry carries both possible ROI representations, and either may be empty:
+        a list of individual ROI mask files, and a single labelmap image paired with its
+        Look-Up Table. Entries whose mask list is empty are skipped for the mask-based
+        statistics, and entries missing either the labelmap or the LUT are skipped for the
+        labelmap-based statistics.
+
+        Supplying this instead of `use_atlas_iit` lets the caller choose its own registration
+        strategy, reuse a transform computed earlier in the pipeline, or work from an atlas
+        this subworkflow does not know how to fetch.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - rois:
+            type: file
+            description: |
+              List of ROI mask files in the subject's space, one file per ROI. Pass [] to
+              compute labelmap statistics only.
+        - labelmap:
+            type: file
+            description: |
+              Single labelmap image in the subject's space, whose integer voxel values
+              identify regions. Pass [] to compute mask statistics only.
+        - labelmap_lut:
+            type: file
+            description: |
+              JSON Look-Up Table mapping the labelmap's integer indices to region names.
+              Required whenever `labelmap` is provided.
+      pattern: "*.{nii.gz,json}"
+      mandatory: false
+      ontologies:
+        - edam: http://edamontology.org/format_4001 # NIFTI format
+        - edam: http://edamontology.org/format_3464 # JSON format
   - options:
       type: map
       description: Map of options for the subworkflow.
@@ -63,6 +104,35 @@ input:
           type: boolean
           description: If 'true', the IIT Human Brain Atlas will be used for ROI metrics extraction.
           default: false
+        use_registered_atlas:
+          type: boolean
+          description: |
+            If 'true', the atlas is taken from the `ch_registered_atlas` input, already in each
+            subject's space. No atlas is downloaded and no registration is performed. Mutually
+            exclusive with `use_atlas_iit`; exactly one of the two must be enabled.
+          default: false
+        roi_sources:
+          type: list
+          description: |
+            How the ROIs are represented. `masks` means one image file per ROI (the IIT WM
+            bundles, or the mask list of `ch_registered_atlas`); `labelmap` means a single
+            image whose integer voxel values identify regions, paired with a Look-Up Table
+            (the IIT GM Desikan parcellation, or the labelmap of `ch_registered_atlas`).
+
+            Accepts either or both. Only the representations listed here are warped into
+            subject space and fed to the statistics, so leaving one out skips its work
+            entirely. Orthogonal to `roi_outputs`: any combination of the two is valid.
+          default: ["masks"]
+        roi_outputs:
+          type: list
+          description: |
+            What to compute for every representation named in `roi_sources`. `metrics` runs
+            stats/metricsinroi to extract the mean and standard deviation of each input metric
+            map; `volumes` runs stats/roivolumes to count voxels and convert them to mm3.
+
+            Accepts either or both. Orthogonal to `roi_sources`: any combination of the two
+            is valid.
+          default: ["metrics"]
         atlas_iit_b0:
           type: string
           description: Path to a Mean B0 map of the IIT Human Brain Atlas. This input will be used instead of downloading the Mean B0 map if `use_atlas_iit` is set to 'true'.
@@ -75,52 +145,143 @@ input:
           type: boolean
           description: If 'true', the IIT bundle masks will be thresholded to create binary masks before extracting the metrics.
           default: false
+        atlas_iit_gm_atlas:
+          type: string
+          description: Path to the IIT GM Desikan atlas (IIT_GM_Desikan_atlas.nii.gz). This input will be used instead of downloading the atlas when `roi_sources` includes 'labelmap'.
+          default: null
+        atlas_iit_gm_lut:
+          type: string
+          description: Path to the IIT GM Desikan Look-Up Table. Accepts either a pre-converted JSON file or the raw tab-separated TXT distributed by NITRC (LUT_GM_Desikan_0to1.txt). This input will be used instead of downloading the LUT when `roi_sources` includes 'labelmap'.
+          default: null
       mandatory: true
 output:
-  - json:
-      type: file
-      description: List of binary bundle masks.
-      structure:
-        - meta:
-            type: map
-            description: Metadata map.
-        - img:
-            type: file
-            description: List of binary bundle masks in the subject's DWI space.
-      pattern: "*.nii.gz"
-      ontologies:
-        - edam: http://edamontology.org/format_4001 # NIFTI format
-  - stats_tab_mean:
+  - mask_stats_json:
       type: file
       description: |
-        Structured tabular (TSV or CSV) file holding MEAN metrics
-        values for each bundle mask. The tabular file has the following
-        column structure: (sample, roi, metric1, metric2, ..., metricN).
+        Per-ROI metrics statistics over the individual masks, as JSON. Empty unless
+        `roi_sources` includes 'masks' and `roi_outputs` includes 'metrics'.
       structure:
         - meta:
             type: map
             description: Metadata map.
-        - tab_mean:
+        - mask_stats_json:
             type: file
-            description: Mean statistics table file.
+            description: JSON statistics file for the individual ROI masks.
+      pattern: "*.json"
+      ontologies:
+        - edam: http://edamontology.org/format_3464 # JSON format
+  - mask_stats_tab_mean:
+      type: file
+      description: |
+        Structured tabular (TSV or CSV) file holding MEAN metrics values for each
+        individual ROI mask. The tabular file has the following column structure:
+        (sample, roi, metric1, metric2, ..., metricN). Empty unless `roi_sources`
+        includes 'masks' and `roi_outputs` includes 'metrics'.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - mask_tab_mean:
+            type: file
+            description: Mean statistics table file for the individual ROI masks.
       pattern: "*_desc-mean_*.{csv,tsv}"
       ontologies: []
-  - stats_tab_std:
+  - mask_stats_tab_std:
       type: file
       description: |
-        Structured tabular (TSV or CSV) file holding STANDARD
-        DEVIATION metrics values for each bundle mask. The
-        tabular file has the following column structure:
-        (sample, roi, metric1, metric2, ..., metricN).
+        Structured tabular (TSV or CSV) file holding STANDARD DEVIATION metrics values
+        for each individual ROI mask. The tabular file has the following column
+        structure: (sample, roi, metric1, metric2, ..., metricN). Empty unless
+        `roi_sources` includes 'masks' and `roi_outputs` includes 'metrics'.
       structure:
         - meta:
             type: map
             description: Metadata map.
-        - tab_std:
+        - mask_tab_std:
             type: file
-            description: Standard deviation statistics table file.
+            description: Standard deviation statistics table file for the individual ROI masks.
       pattern: "*_desc-std_*.{csv,tsv}"
       ontologies: []
+  - mask_volumes:
+      type: file
+      description: |
+        CSV holding the voxel count and volume (mm3) of each individual ROI mask, in the
+        subject's DWI space -- the IIT WM bundles under `use_atlas_iit`, or the masks
+        supplied through `ch_registered_atlas` under `use_registered_atlas`. Empty unless
+        `roi_sources` includes 'masks' and `roi_outputs` includes 'volumes'.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - mask_volumes:
+            type: file
+            description: Individual ROI mask volumes table.
+      pattern: "*_volumes.csv"
+      ontologies:
+        - edam: http://edamontology.org/format_3752 # CSV format
+  - labelmap_stats_json:
+      type: file
+      description: |
+        Per-region metrics statistics over the labelmap, as JSON. Empty unless
+        `roi_sources` includes 'labelmap' and `roi_outputs` includes 'metrics'.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - labelmap_stats_json:
+            type: file
+            description: JSON statistics file for the labelmap regions.
+      pattern: "*.json"
+      ontologies:
+        - edam: http://edamontology.org/format_3464 # JSON format
+  - labelmap_stats_tab_mean:
+      type: file
+      description: |
+        Structured tabular (TSV or CSV) file holding MEAN metrics values for each
+        labelmap region. Empty unless `roi_sources` includes 'labelmap' and
+        `roi_outputs` includes 'metrics'.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - labelmap_tab_mean:
+            type: file
+            description: Mean statistics table file for the labelmap regions.
+      pattern: "*_desc-mean_*.{csv,tsv}"
+      ontologies: []
+  - labelmap_stats_tab_std:
+      type: file
+      description: |
+        Structured tabular (TSV or CSV) file holding STANDARD DEVIATION metrics values
+        for each labelmap region. Empty unless `roi_sources` includes 'labelmap' and
+        `roi_outputs` includes 'metrics'.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - labelmap_tab_std:
+            type: file
+            description: Standard deviation statistics table file for the labelmap regions.
+      pattern: "*_desc-std_*.{csv,tsv}"
+      ontologies: []
+  - labelmap_volumes:
+      type: file
+      description: |
+        CSV holding the voxel count and volume (mm3) of each labelmap region, in the
+        subject's DWI space -- the IIT GM Desikan regions under `use_atlas_iit`, or the
+        regions of the labelmap supplied through `ch_registered_atlas` under
+        `use_registered_atlas`. Empty unless `roi_sources` includes 'labelmap' and
+        `roi_outputs` includes 'volumes'.
+      structure:
+        - meta:
+            type: map
+            description: Metadata map.
+        - labelmap_volumes:
+            type: file
+            description: Labelmap region volumes table.
+      pattern: "*_volumes.csv"
+      ontologies:
+        - edam: http://edamontology.org/format_3752 # CSV format
   - versions:
       type: file
       description: |

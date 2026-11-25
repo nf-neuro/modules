@@ -1,0 +1,107 @@
+{
+    "stats - roi volumes - labels mode": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_volumes.csv:md5,f734baac77015682e53adafefbe09940"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,849ae3467d1ff56248e9388878ac2b48"
+                ],
+                "versions": [
+                    "versions.yml:md5,849ae3467d1ff56248e9388878ac2b48"
+                ],
+                "volumes": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_volumes.csv:md5,f734baac77015682e53adafefbe09940"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-08-22T16:46:55.123632653",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    },
+    "stats - roi volumes - atlas labelmap mode": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_atlas-brainnetome_volumes.csv:md5,61a5dde7b09b773e34508cc479d1dfd5"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,849ae3467d1ff56248e9388878ac2b48"
+                ],
+                "versions": [
+                    "versions.yml:md5,849ae3467d1ff56248e9388878ac2b48"
+                ],
+                "volumes": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_atlas-brainnetome_volumes.csv:md5,61a5dde7b09b773e34508cc479d1dfd5"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-08-22T16:46:59.22838886",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    },
+    "stats - roi volumes - stub-run": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_volumes.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,5f4cc6ba9cd16c9dc450e14ad64ae246"
+                ],
+                "versions": [
+                    "versions.yml:md5,5f4cc6ba9cd16c9dc450e14ad64ae246"
+                ],
+                "volumes": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": false
+                        },
+                        "test_volumes.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-08-22T14:22:19.887529693",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    }
+}
