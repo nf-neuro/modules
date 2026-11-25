@@ -5,15 +5,15 @@ process SEGMENTATION_SHIVAI {
     container 'stanislasthoumyre/shivai:2.0.0'
 
     input:
-        tuple val(meta), path(t1), path(flair), path(swi)
+    tuple val(meta), path(t1), path(flair), path(swi)
 
     output:
-        tuple val(meta), path("*_seg-pvs_*.nii.gz")   , emit: pvs_dseg  , optional: true
-        tuple val(meta), path("*_seg-wmh_*.nii.gz")   , emit: wmh_dseg  , optional: true
-        tuple val(meta), path("*_seg-cmb_*.nii.gz")   , emit: cmb_dseg  , optional: true
-        tuple val(meta), path("*_seg-lac_*.nii.gz")   , emit: lac_dseg  , optional: true
-        tuple val(meta), path("*__shivai_report.pdf") , emit: report    , optional: true
-        path "versions.yml"                           , emit: versions
+    tuple val(meta), path("*__space-*_seg-pvs_desc-shivai_dseg.nii.gz"), emit: pvs_dseg, optional: true
+    tuple val(meta), path("*__space-*_seg-wmh_desc-shivai_dseg.nii.gz"), emit: wmh_dseg, optional: true
+    tuple val(meta), path("*__space-*_seg-cmb_desc-shivai_dseg.nii.gz"), emit: cmb_dseg, optional: true
+    tuple val(meta), path("*__space-*_seg-lac_desc-shivai_dseg.nii.gz"), emit: lac_dseg, optional: true
+    tuple val(meta), path("*__shivai_report.pdf")                      , emit: report  , optional: true
+    path "versions.yml"                                                , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -92,21 +92,19 @@ process SEGMENTATION_SHIVAI {
         $voxels_size \
         $voxels_tolerance
 
-    find shiva_out/results/segmentations/pvs_segmentation/${prefix} \\
-        -name "*labelled*pvs.nii.gz" \\
-        -exec cp {} ${prefix}_space-FLAIR_seg-pvs_desc-shivai_dseg.nii.gz \\; 2>/dev/null || true
+    for seg in pvs wmh lac; do
+        seg_dir="shiva_out/results/segmentations/\${seg}_segmentation*/${prefix}"
+        if [[ -f "\${seg_dir}/labelled_\${seg}_flair-native-space.nii.gz" ]]; then
+            cp "\${seg_dir}/labelled_\${seg}_flair-native-space.nii.gz" "${prefix}__space-flair_seg-\${seg}_desc-shivai_dseg.nii.gz"
+        elif [[ -f "\${seg_dir}/labelled_\${seg}_t1-native-space.nii.gz" ]]; then
+            cp "\${seg_dir}/labelled_\${seg}_t1-native-space.nii.gz" "${prefix}__space-t1_seg-\${seg}_desc-shivai_dseg.nii.gz"
+        fi
+    done
 
-    find shiva_out/results/segmentations/wmh_segmentation/${prefix} \\
-        -name "*labelled*wmh.nii.gz" \\
-        -exec cp {} ${prefix}_space-FLAIR_seg-wmh_desc-shivai_dseg.nii.gz  \\; 2>/dev/null || true
-
-    find shiva_out/results/segmentations/cmb_segmentation_swi-space/${prefix} \\
-        -name "*labelled*cmb.nii.gz" \\
-        -exec cp {} ${prefix}_space-swi_seg-cmb_desc-shivai_dseg.nii.gz  \\; 2>/dev/null || true
-
-    find shiva_out/results/segmentations/lac_segmentation/${prefix} \\
-        -name "*labelled*lac.nii.gz" \\
-        -exec cp {} ${prefix}_space-FLAIR_seg-lac_desc-shivai_dseg.nii.gz  \\; 2>/dev/null || true
+    cmb_file="shiva_out/results/segmentations/cmb_segmentation_swi-space/${prefix}/labelled_cmb_swi-native-space.nii.gz"
+    if [[ -f "\${cmb_file}" ]]; then
+        cp "\${cmb_file}" "${prefix}__space-swi_seg-cmb_desc-shivai_dseg.nii.gz"
+    fi
 
     find shiva_out/results/report/${prefix} \\
         -name "*.pdf" \\
@@ -131,19 +129,24 @@ process SEGMENTATION_SHIVAI {
     shiva -h
 
     if [[ "$prediction" == "all" || "$prediction" == *PVS* ]] && [[ -f "$flair" ]]; then
-        touch ${prefix}_space-FLAIR_seg-pvs_desc-shivai_dseg.nii.gz
+        touch ${prefix}__space-FLAIR_seg-pvs_desc-shivai_dseg.nii.gz
+    anat_space="t1"
+    if [[ -f "$flair" ]] && [[ "${task.ext.prereg_flair ?: false}" != "true" ]]; then
+        anat_space="flair"
+    fi
+
+    if [[ "$prediction" == "all" || "$prediction" == *PVS* ]]; then
+        touch ${prefix}__space-\${anat_space}_seg-pvs_desc-shivai_dseg.nii.gz
     fi
     if [[ "$prediction" == "all" || "$prediction" == *WMH* ]] && [[ -f "$flair" ]]; then
-        touch ${prefix}_space-FLAIR_seg-wmh_desc-shivai_dseg.nii.gz
+        touch ${prefix}__space-\${anat_space}_seg-wmh_desc-shivai_dseg.nii.gz
     fi
     if [[ "$prediction" == "all" || "$prediction" == *CMB* ]] && [[ -f "$swi" ]]; then
-        touch ${prefix}_space-swi_seg-cmb_desc-shivai_dseg.nii.gz
+        touch ${prefix}__space-swi_seg-cmb_desc-shivai_dseg.nii.gz
     fi
     if [[ "$prediction" == "all" || "$prediction" == *LAC* ]] && [[ -f "$flair" ]]; then
-        touch ${prefix}_space-FLAIR_seg-lac_desc-shivai_dseg.nii.gz
+        touch ${prefix}__space-\${anat_space}_seg-lac_desc-shivai_dseg.nii.gz
     fi
-    touch ${prefix}__shivai_report.pdf
-
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         shivai: \$(shiva --version 2>/dev/null | grep -oE '^[0-9]+(\\.[0-9]+)+\$' | tail -n 1)

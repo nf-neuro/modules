@@ -47,7 +47,7 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    file(process.out.wmh_mask.get(0).get(1)).name,
+                    file(process.out.wmh_dseg.get(0).get(1)).name,
                     file(process.out.report.get(0).get(1)).name,
                     process.out.versions
                 ).match() }
@@ -77,9 +77,9 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    file(process.out.pvs_mask.get(0).get(1)).name,
-                    file(process.out.wmh_mask.get(0).get(1)).name,
-                    file(process.out.lac_mask.get(0).get(1)).name,
+                    file(process.out.pvs_dseg.get(0).get(1)).name,
+                    file(process.out.wmh_dseg.get(0).get(1)).name,
+                    file(process.out.lac_dseg.get(0).get(1)).name,
                     file(process.out.report.get(0).get(1)).name,
                     process.out.versions
                 ).match() }
@@ -110,9 +110,9 @@ nextflow_process {
             assertAll(
                 { assert process.success },
                 { assert snapshot(
-                    file(process.out.pvs_mask.get(0).get(1)).name,
-                    file(process.out.wmh_mask.get(0).get(1)).name,
-                    file(process.out.lac_mask.get(0).get(1)).name,
+                    file(process.out.pvs_dseg.get(0).get(1)).name,
+                    file(process.out.wmh_dseg.get(0).get(1)).name,
+                    file(process.out.lac_dseg.get(0).get(1)).name,
                     file(process.out.report.get(0).get(1)).name,
                     process.out.versions
                 ).match() }

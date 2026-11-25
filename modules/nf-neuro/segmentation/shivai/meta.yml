@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: segmentation_shivai
 description: >
-  Runs SHiVAi (v2.2.0, container sf-lesionflow-shivai_2.2.0.sif) to detect
+  Runs SHiVAi (container stanislasthoumyre/shivai:2.0.0) to detect
   and map small vessel disease biomarkers in brain MRI, including perivascular
   spaces (PVS, T1 v5 / T1+FLAIR v4), white matter hyperintensities (WMH,
   T1+FLAIR v5), cerebral microbleeds (CMB, SWI v5), and lacunes (LAC,
@@ -40,20 +40,20 @@ input:
     - t1:
         type: file
         description: T1-weighted anatomical image.
-        pattern: "*.{nii.gz}"
+        pattern: "*.nii.gz"
         ontologies:
           - edam: http://edamontology.org/format_4001
     - flair:
         type: file
         description: FLAIR image. Can be null if not available.
-        pattern: "*.{nii.gz}"
+        pattern: "*.nii.gz"
         mandatory: false
         ontologies:
           - edam: http://edamontology.org/format_4001
     - swi:
         type: file
         description: SWI image for microbleed detection. Can be null if not available.
-        pattern: "*.{nii.gz}"
+        pattern: "*.nii.gz"
         mandatory: false
         ontologies:
           - edam: http://edamontology.org/format_4001
@@ -77,7 +77,7 @@ args:
   - use_cpu:
       type: boolean
       description: Force inference on CPU even if a GPU is available.
-      default: false
+      default: true
   - inverse_t2:
       type: boolean
       description: Invert T2/FLAIR intensities before processing.
@@ -98,10 +98,13 @@ args:
       type: boolean
       description: Run postprocessing steps only, skip inference.
       default: false
+  - single_thread:
+      type: boolean
+      description: If true, forces single-threaded execution (1 thread).
+      default: false
   - ai_threads:
       type: integer
-      description: Number of threads for AI inference.
-      default: 8
+      description: Number of threads for AI inference (defaults to task.cpus when unset).
   - percentile:
       type: float
       description: Percentile used for image intensity normalization.
