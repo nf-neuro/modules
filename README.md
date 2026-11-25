@@ -5,24 +5,15 @@
   <img src="docs/images/nf-neuro_logo_dark.png#gh-dark-mode-only" alt="Sublime's custom image"/>
 </p>
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg?labelColor=000000)](https://www.nextflow.io/)
-[![Imports: nf-core](https://img.shields.io/badge/nf--core-nf?label=import&style=flat&labelColor=ef8336&color=24B064)](https://pycqa.github.io/nf-core/)
-[![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
-[![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
+Process **neuroimaging** at-scale, using state-of-the-art models and reconstructions, in cloud and hpc ready pipelines.
 
 # [Learn more on the nf-neuro website !](https://nf-neuro.github.io)
 
-Welcome to the [nf-neuro](https://nf-neuro.github.io) project ! An **_open-source_
-[Nextflow](https://nextflow.io) modules and workflows repository for neuroimaging** maintained by the
-[SCIL team](https://scil-documentation.readthedocs.io/en/latest/). Our goal is to **provide
-_Nextflow DSL2_ optimized processing modules and workflows tailored to neuroimaging data**.
+[nf-neuro](https://nf-neuro.github.io) is more than pipelines. It's a **complete ecosystem for modern, scalable processing for neuroimaging**.
 
-**[nf-neuro](https://nf-neuro.github.io) aligns with the [nf-core](https://nf-co.re) framework
-to streamline the development of neuroimaging pipelines !**
-
-- Extensive [guidelines](https://nf-co.re/docs/guidelines/components/overview) for the development of
-  processing modules and workflows
-- Well-designed and thorough [tutorials](https://nf-co.re/docs/tutorials/nf-core_components/components)
+- [Library](https://nf-neuro.github.io/api) of reusable pipeline components
+- Extensive [guidelines](https://nf-neuro.github.io/contribute/setup) for the development of pipeline components
+- Well-designed pipeline development [tutorials](https://nf-neuro.github.io/pipeline/1-setup)
   with **step-by-step walkthroughs**
 - Convenient [distribution tools](https://github.com/nf-core/tools) to install and upgrade pipeline
   components with ease
