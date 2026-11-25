@@ -22,15 +22,9 @@ EOF
 echo "✅ GitHub Actions testing environment setup complete!"
 echo "Run 'ga-test' to see available testing commands."
 
-# Setup for NF-CORE linting sub-dependencies
-echo "⚙️ Setting up linting and testing sub-dependencies..."
-npm install -g --save-dev --save-exact prettier
-npm install -g --save-dev editorconfig
-npm install -g --save-dev editorconfig-checker@6
-
 # Install nf-test
-curl -fsSL https://code.askimed.com/install/nf-test | bash -s ${NFTEST_VERSION}
-mv nf-test /usr/local/bin/.
+curl -fsSL https://get.nf-test.com | bash -s "${NFTEST_VERSION}"
+sudo mv nf-test /usr/local/bin/.
 
 # Change container bind mounts ownership
 echo "🔑 Adjusting permissions for container bind mounts..."
