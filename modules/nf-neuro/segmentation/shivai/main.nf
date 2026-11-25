@@ -130,6 +130,8 @@ process SEGMENTATION_SHIVAI {
 
     if [[ "$prediction" == "all" || "$prediction" == *PVS* ]] && [[ -f "$flair" ]]; then
         touch ${prefix}__space-FLAIR_seg-pvs_desc-shivai_dseg.nii.gz
+    fi
+
     anat_space="t1"
     if [[ -f "$flair" ]] && [[ "${task.ext.prereg_flair ?: false}" != "true" ]]; then
         anat_space="flair"
