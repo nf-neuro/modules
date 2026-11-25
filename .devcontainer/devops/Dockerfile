@@ -1,4 +1,4 @@
-FROM python:3.13-slim-bookworm
+FROM python:3.12-slim-bookworm
 
 ARG NFTEST_VERSION
 ARG POETRY_VERSION
@@ -45,6 +45,13 @@ RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_MAJOR}.x | bash - &&\
     chown yeoman:yeoman /generated && \
     mkdir -p -m 0775 /usr/local/lib/node_modules && \
     chown -R root:nodeusers /usr/local/lib/node_modules
+
+# Install global npm tools in /usr/local and pre-download the editorconfig-checker binary
+# (editorconfig-checker calls chmod on its binary at runtime, so USER_UID must own it)
+RUN npm install -g --prefix /usr/local --save-exact prettier && \
+    npm install -g --prefix /usr/local editorconfig editorconfig-checker@6 && \
+    /usr/local/bin/editorconfig-checker --version && \
+    chown -R ${USER_UID}:nodeusers /usr/local/lib/node_modules/editorconfig-checker
 
 # Create neuro user inside the container
 #  - in group neuro and nodeusers

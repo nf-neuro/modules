@@ -47,7 +47,7 @@ ENV PATH="/workspace/.venv/bin:/home/ubuntu/.local/bin:${PATH}"
 ENV NXF_APPTAINER_CACHEDIR=/home/ubuntu/.cache/apptainer
 
 RUN mkdir -p .local/bin \
-    && curl -fsSL https://code.askimed.com/install/nf-test | bash -s ${NFTEST_VERSION} \
+    && curl -fsSL https://get.nf-test.com | bash -s "${NFTEST_VERSION}" \
     && mv nf-test /home/ubuntu/.local/bin/nf-test \
     && chmod u+x /home/ubuntu/.local/bin/nf-test \
     && uv tool install "poetry==1.8.*"
