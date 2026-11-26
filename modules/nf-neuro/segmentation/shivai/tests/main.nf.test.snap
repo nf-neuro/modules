@@ -1,0 +1,48 @@
+{
+    "segmentation - shivai - wmh": {
+        "content": [
+            "test__space-flair_seg-wmh_desc-shivai_dseg.nii.gz",
+            "test__shivai_report.pdf",
+            [
+                "versions.yml:md5,4406d2fc6861e979d6abf5bcf0e006ad"
+            ]
+        ],
+        "timestamp": "2026-11-26T18:41:37.485437948",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
+        }
+    },
+    "segmentation - shivai - stub": {
+        "content": [
+            "test__space-flair_seg-pvs_desc-shivai_dseg.nii.gz",
+            "test__space-flair_seg-wmh_desc-shivai_dseg.nii.gz",
+            "test__space-flair_seg-lac_desc-shivai_dseg.nii.gz",
+            "test__shivai_report.pdf",
+            [
+                "versions.yml:md5,4406d2fc6861e979d6abf5bcf0e006ad"
+            ]
+        ],
+        "timestamp": "2026-11-26T16:13:38.380967394",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
+        }
+    },
+    "segmentation - shivai - wmh - pvs - lacune": {
+        "content": [
+            "test__space-flair_seg-pvs_desc-shivai_dseg.nii.gz",
+            "test__space-flair_seg-wmh_desc-shivai_dseg.nii.gz",
+            "test__space-flair_seg-lac_desc-shivai_dseg.nii.gz",
+            "test__shivai_report.pdf",
+            [
+                "versions.yml:md5,4406d2fc6861e979d6abf5bcf0e006ad"
+            ]
+        ],
+        "timestamp": "2026-11-26T19:02:29.133666805",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.7"
+        }
+    }
+}
