@@ -50,10 +50,23 @@ workflow ANATOMICAL_SEGMENTATION {
 
         else {
             // ** FSL fast segmentation ** //
+            ch_image_type = ch_image.map{ it ->
+                if ( it[1].lowerCase().contains("t1w") || it[1].lowerCase().contains("t1") ) {
+                    return [it[0], 1]
+                } else if ( it[1].lowerCase().contains("t2w") || it[1].lowerCase().contains("t2") ) {
+                    return [it[0], 2]
+                } else if ( it[1].lowerCase().contains("pdw") || it[1].lowerCase().contains("pd") ) {
+                    return [it[0], 3]
+                } else {
+                    log.info "Image type not found, defaulting to T1w."
+                    return [it[0], 1]
+                }
+            }
             SEGMENTATION_FASTSEG (
                 ch_image
                     .join(ch_lesion, remainder: true)
                     .map{ it[0..1] + [it[2] ?: []] }
+                    .join(ch_image_type)
             )
             ch_versions = ch_versions.mix(SEGMENTATION_FASTSEG.out.versions.first())
 
