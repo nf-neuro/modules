@@ -58,9 +58,9 @@ input:
         description:
           The path to your FreeSurfer license. To get one, go to https://surfer.nmr.mgh.harvard.edu/registration.html.
           Optional. If you have already set your license as prescribed by Freesurfer
-          (copied to a .license file in your $FREESURFER_HOME), this is not required.
+          (copied to a .license file in your $FREESURFER_HOME).
         pattern: "*.txt"
-        mandatory: false
+        mandatory: true
         ontologies: []
 args:
   - lesion_mask_pattern:
