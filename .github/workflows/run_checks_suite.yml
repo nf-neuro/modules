@@ -196,6 +196,8 @@ jobs:
           - runner: nf-neuro-docker-large
             path: modules/nf-neuro/segmentation/synthseg
           - runner: nf-neuro-docker-large
+            path: modules/nf-neuro/segmentation/lstai
+          - runner: nf-neuro-docker-large
             path: modules/nf-neuro/betcrop/synthstrip
           - runner: nf-neuro-docker-large
             path: modules/nf-neuro/registration/synthmorph
