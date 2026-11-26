@@ -11,29 +11,65 @@
                 "versions.yml:md5,f716b51dc7e93b4d88f1af6fd6717936"
             ]
         ],
+        "timestamp": "2026-02-26T22:34:42.907830394",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-26T22:34:42.907830394"
+        }
     },
-    "segmentation - fastseg": {
+    "segmentation - fastseg - T1w": {
         "content": [
-            "test__mask_wm.nii.gz:md5:header,cb2d88714675fc7d8c450de4db5227c6,data,08b5c8665f0a07c182eb63f045d01855",
-            "test__mask_gm.nii.gz:md5:header,cb2d88714675fc7d8c450de4db5227c6,data,d713974dbe87760182112e10f96a7f82",
-            "test__mask_csf.nii.gz:md5:header,cb2d88714675fc7d8c450de4db5227c6,data,29599fab55e3ee75318cef36563684a4",
-            "test__map_wm.nii.gz:md5:header,58dc3623694060dace951ba8073d5e01,data,62a268dbc74814d62ed9f9596b5a72e5",
-            "test__map_gm.nii.gz:md5:header,58dc3623694060dace951ba8073d5e01,data,420e7664f81a5899f7007f71c08f28d8",
-            "test__map_csf.nii.gz:md5:header,58dc3623694060dace951ba8073d5e01,data,2bde307c6dae36a5fc00eba7a2ca7933",
+            "test__mask_wm.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,5bb44bb7bf208a8de8af09f90357f696",
+            "test__mask_gm.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,7c0345468b274e33cee23421ada1192f",
+            "test__mask_csf.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,f255e0fa7d5add78542df11368d96b63",
+            "test__map_wm.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,eb4cdfd91bc812040bc0bec4816c25c4",
+            "test__map_gm.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,97058526ba0307005eb01a6131e47d19",
+            "test__map_csf.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,11999515abfc182f99bbc955efb22d1f",
             [
                 "versions.yml:md5,f716b51dc7e93b4d88f1af6fd6717936"
             ]
         ],
+        "timestamp": "2026-11-26T14:32:39.029226",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-26T22:34:23.402871037"
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.5"
+        }
+    },
+    "segmentation - fastseg - T2w": {
+        "content": [
+            "test__mask_wm.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,57de01a6a9e4d14cb943974f96dd78ac",
+            "test__mask_gm.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,50142f33eb5bf5047b17929cc2b47b18",
+            "test__mask_csf.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,9b1c0e3e7f4a037727a0ccb009e8d0ad",
+            "test__map_wm.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,e78450487dadbe9f46ab557686faf960",
+            "test__map_gm.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,9ba19a89d8f0c667ef0a1052f3975a20",
+            "test__map_csf.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,613317a2f46fe11ebf361e89ed0f7f12",
+            [
+                "versions.yml:md5,f716b51dc7e93b4d88f1af6fd6717936"
+            ]
+        ],
+        "timestamp": "2026-11-26T14:31:38.021163",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.5"
+        }
+    },
+    "segmentation - fastseg - PDw": {
+        "content": [
+            "test__mask_wm.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,114696894c328f3cc9540ba9a6727c32",
+            "test__mask_gm.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,2bfaa2e61b14037af7729e2642faaee2",
+            "test__mask_csf.nii.gz:md5:header,bddac91e8e58919b759f9c19ac966727,data,8c1aa2cdaaa0db08d19adcd930b1a1d2",
+            "test__map_wm.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,ea91887382c7589fcc7c668fd4ef8383",
+            "test__map_gm.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,50dfa7e43009735bec9c8289821e6009",
+            "test__map_csf.nii.gz:md5:header,e8cd5ddb6833445392a31c0a7a2d383e,data,b1f3359d13244e729376afe338c5a234",
+            [
+                "versions.yml:md5,f716b51dc7e93b4d88f1af6fd6717936"
+            ]
+        ],
+        "timestamp": "2026-11-26T14:29:30.975243",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.10.5"
+        }
     },
     "segmentation - fastseg - stub-run": {
         "content": [
@@ -41,10 +77,10 @@
                 "versions.yml:md5,f716b51dc7e93b4d88f1af6fd6717936"
             ]
         ],
+        "timestamp": "2026-02-26T22:34:47.447280364",
         "meta": {
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-26T22:34:47.447280364"
+        }
     }
 }
