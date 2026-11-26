@@ -1,10 +1,14 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: segmentation_fastseg
-description: Perform Brain Tissues Segmentation using FSL fast on a T1 image. Optionally,
-  a binary mask of lesion can be add to correct the white matter mask.
+description: Perform brain tissue segmentation using FSL FAST on a T1, T2, or PD image.
+  Optionally, a binary lesion mask can be added to correct the white matter mask.
+  WM, GM, and CSF outputs are taken from the FAST class whose intensity matches
+  that tissue for the given image type and number of classes.
 keywords:
   - Segmentation
   - T1
+  - T2
+  - PD
   - Tissues
 tools:
   - FSL:
@@ -25,7 +29,9 @@ input:
           e.g. `[ id:'test', single_end:false ]`
     - image:
         type: file
-        description: Nifti T1 volume to segment into tissue maps.
+        description: |
+          NIfTI anatomical volume to segment into tissue maps. Contrast must
+          match image_type (T1, T2, or PD).
         pattern: "*.{nii,nii.gz}"
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
@@ -36,11 +42,90 @@ input:
         pattern: "*.{nii,nii.gz}"
         ontologies:
           - edam: http://edamontology.org/format_4001 # NIFTI format
+    - image_type:
+        type: integer
+        description: |
+          FAST image type passed to `fast -t`. 1 is T1-weighted, 2 is
+          T2-weighted, and 3 is proton density. Tissue order follows
+          intensity: T1 is CSF < GM < WM, while T2 and PD are WM < GM < CSF.
+        choices:
+          - 1
+          - 2
+          - 3
+        default: 1
 args:
   - single_thread:
       type: boolean
       description: If true, the command will be run in single-threaded mode. By default, the command will use multiple threads based on the number of CPUs allocated to the task.
       default: false
+  - nb_class:
+      type: integer
+      description: |
+        Number of tissue classes passed to `fast -n`. Allowed values are 2, 3,
+        and 4. FAST class indices (the `_seg_N` / `_pve_N` suffix) are assigned
+        to WM, GM, and CSF as follows.
+
+        T1 (image_type 1): n=2 uses class 1 for both WM and GM and class 0 for
+        CSF. n=3 and n=4 use class 2 for WM, class 1 for GM, and class 0 for
+        CSF. With n=4 the brightest class (3) is not mapped and not outputted.
+
+        T2 (image_type 2): n=2 uses class 0 for both WM and GM and class 1 for
+        CSF. n=3 uses class 0 for WM, class 1 for GM, and class 2 for CSF.
+        n=4 uses class 1 for WM, class 2 for GM, and class 3 for CSF. Class 0
+        is dark non-brain tissue that is not outputted.
+
+        PD (image_type 3): n=2 uses class 0 for WM and class 1 for both GM and
+        CSF. n=3 uses class 0 for WM, class 1 for GM, and class 2 for CSF.
+        n=4 uses class 1 for WM, class 2 for GM, and class 3 for CSF. Class 0
+        is dark non-brain tissue that is not outputted.
+
+        When two tissues share a class, that class will be copied to both outputs.
+      default: 3
+      choices:
+        - 2
+        - 3
+        - 4
+  - nb_iter:
+      type: integer
+      description: |
+        Number of main-loop iterations during bias-field removal.
+      default: 4
+  - low_pass:
+      type: integer
+      description: |
+        Bias field smoothing extent (FWHM) in mm.
+      default: 20
+  - fhard:
+      type: float
+      description: |
+        Initial segmentation spatial smoothness (during bias field estimation).
+      default: 0.02
+  - hyper:
+      type: float
+      description: |
+        Segmentation spatial smoothness.
+      default: 0.1
+  - nobias:
+      type: boolean
+      description: |
+        Do not remove bias field.
+      default: false
+  - init:
+      type: integer
+      description: |
+        Number of segmentation-initialisation iterations.
+      default: 15
+  - mixel:
+      type: float
+      description: |
+        Spatial smoothness for mixeltype.
+      default: 0.3
+  - fixed:
+      type: integer
+      description: |
+        Number of main-loop iterations after bias-field removal.
+      default: 4
+
 output:
   wm_mask:
     - - meta:
