@@ -50,8 +50,8 @@ process RECONST_DTIMETRICS {
     def b0_thr_extract_b0 = task.ext.b0_thr_extract_b0 ?: 10
     def b0_threshold = task.ext.b0_thr_extract_b0 ? "--b0_threshold $task.ext.b0_thr_extract_b0" : ""
     def allowed_methods = ["WLS", "LS", "NLLS", "restore"]
-    if ( task.ext.method && !allowed_methods.contains(task.ext.method) ) {
-        error "Invalid tensor fit method '${task.ext.method}'. Allowed methods are: ${allowed_methods.join(", ")}."
+    if ( task.ext.method && !allowed_methods.contains(task.ext.method.toString()) ) {
+        error "Invalid tensor fit method '${task.ext.method}'. Allowed methods are: ${allowed_methods.join(', ')}."
     }
     def method = task.ext.method ? "--method ${task.ext.method}" : ""
     def dti_shells = task.ext.dti_shells ?: "\$(cut -d ' ' --output-delimiter=\$'\\n' -f 1- $bval | awk -F' ' '{v=int(\$1)}{if(v<=$max_dti_shell_value|| v<=$b0_thr_extract_b0)print v}' | sort | uniq)"

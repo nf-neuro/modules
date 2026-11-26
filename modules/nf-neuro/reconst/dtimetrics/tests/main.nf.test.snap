@@ -13,12 +13,12 @@
     },
     "reconst - dtimetrics_with_b0mask": {
         "content": [
-            "test__fa.nii.gz:md5:header,c9e720b9a8acfe45a617e6486ebb8de0,data,d78d949523ebac425aaf6a9096e0c562",
+            "test__fa.nii.gz:md5:header,c9e720b9a8acfe45a617e6486ebb8de0,data,4bb983e8f09f4446780b9954528a5895",
             [
                 "versions.yml:md5,7380412a4574fb8f7b6543d445bc813d"
             ]
         ],
-        "timestamp": "2026-11-26T09:16:53.586254",
+        "timestamp": "2026-11-26T16:40:09.37308",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.10.5"
