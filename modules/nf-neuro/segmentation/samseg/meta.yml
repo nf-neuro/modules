@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "segmentation_samseg"
+description: Segment white matter lesions from a T1w and FLAIR image pair using
+  FreeSurfer SAMSEG (Sequence Adaptive Multimodal SEGmentation) in lesion mode.
+  SAMSEG jointly performs a whole-brain segmentation and a lesion segmentation,
+  using a probabilistic atlas and a generative model that adapts to the input contrasts.
+  Produces a binary lesion mask, the lesion posterior probability map and the full
+  SAMSEG segmentation, all in the space of the T1w image. The T1w and FLAIR images
+  must be co-registered. Note that tests using SAMSEG are non-reproducible.
+keywords:
+  - segmentation
+  - lesion
+  - FLAIR
+  - T1w
+  - Freesurfer
+  - Bayesian
+tools:
+  - Freesurfer:
+      description: |
+        Open source neuroimaging toolkit for processing, analyzing, and visualizing human brain MR images.
+      homepage: https://surfer.nmr.mgh.harvard.edu/
+      documentation: https://surfer.nmr.mgh.harvard.edu/fswiki/Samseg
+      doi: 10.1016/j.neuroimage.2012.01.021
+      identifier: ""
+  - SAMSEG:
+      description: |
+        Sequence Adaptive Multimodal SEGmentation, a robust whole-brain segmentation
+        tool, with a lesion segmentation extension for multiple sclerosis lesions.
+      homepage: https://surfer.nmr.mgh.harvard.edu/fswiki/Samseg
+      documentation: https://surfer.nmr.mgh.harvard.edu/fswiki/Samseg
+      doi: 10.1016/j.neuroimage.2020.117471
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'test', single_end:false ]`
+    - t1:
+        type: file
+        description: Nifti T1w volume, not skull-stripped. Used as the first input contrast
+          of SAMSEG, all outputs are produced in its space.
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - flair:
+        type: file
+        description: Nifti FLAIR volume, not skull-stripped, co-registered to the T1w volume.
+          Used as the second input contrast of SAMSEG.
+        pattern: "*.{nii,nii.gz}"
+        mandatory: true
+        ontologies:
+          - edam: http://edamontology.org/format_4001 # NIFTI format
+    - fs_license:
+        type: file
+        description:
+          The path to your FreeSurfer license. To get one, go to https://surfer.nmr.mgh.harvard.edu/registration.html.
+          Optional. If you have already set your license as prescribed by Freesurfer
+          (copied to a .license file in your $FREESURFER_HOME), this is not required.
+        pattern: "*.txt"
+        mandatory: false
+        ontologies: []
+args:
+  - lesion_mask_pattern:
+      type: string
+      description: |
+        Intensity constraints applied to each input contrast (T1w, then FLAIR) for a voxel
+        to be considered as lesion, relative to the white matter intensity. 0 means no
+        constraint, 1 means the lesion must be brighter than white matter and -1 means it
+        must be darker. The default "0 1" requires lesions to be hyperintense on FLAIR.
+      default: "0 1"
+  - threshold:
+      type: float
+      description: Threshold applied to the lesion posterior probability to produce the
+        final lesion segmentation.
+      default: 0.3
+  - random_seed:
+      type: integer
+      description: Random seed used by SAMSEG for the stochastic lesion sampling.
+      default: 12345
+  - single_thread:
+      type: boolean
+      description: If true, the command will be run in single-threaded mode. By default,
+        the command will use multiple threads based on the number of CPUs allocated to the task.
+      default: false
+output:
+  lesion_mask:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__space-t1_label-WMlesion_desc-samseg_mask.nii.gz":
+          type: file
+          description: Binary lesion mask (label 99 of the SAMSEG segmentation), in T1w space.
+          pattern: "*__space-t1_label-WMlesion_desc-samseg_mask.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  lesion_probseg:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__space-t1_seg-WMlesion_desc-samseg_probseg.nii.gz":
+          type: file
+          description: Lesion posterior probability map, in T1w space.
+          pattern: "*__space-t1_seg-WMlesion_desc-samseg_probseg.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  samseg_dseg:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__space-t1_desc-samseg_dseg.nii.gz":
+          type: file
+          description: Whole-brain SAMSEG segmentation (FreeSurfer lookup table labels,
+            lesions as label 99), in T1w space.
+          pattern: "*__space-t1_desc-samseg_dseg.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
+  versions:
+    - versions.yml:
+        type: file
+        description: File containing software versions
+        pattern: versions.yml
+        ontologies:
+          - edam: http://edamontology.org/format_3750 # YAML
+authors:
+  - "@Manonedde"
+maintainers:
+  - "@Manonedde"

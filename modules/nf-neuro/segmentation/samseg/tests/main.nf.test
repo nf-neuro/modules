@@ -1,0 +1,159 @@
+nextflow_process {
+
+    name "Test Process SEGMENTATION_SAMSEG"
+    script "../main.nf"
+    process "SEGMENTATION_SAMSEG"
+    config "./nextflow.config"
+
+    tag "modules"
+    tag "modules_nfneuro"
+    tag "segmentation"
+    tag "segmentation/samseg"
+
+    tag "subworkflows"
+    tag "subworkflows/load_test_data"
+
+    setup {
+        run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
+            script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
+            process {
+                """
+                input[0] = channel.from( [ "lesion.zip", "freesurfer.zip" ] )
+                input[1] = "test.load-test-data"
+                """
+            }
+        }
+    }
+
+// ** Assertion only uses file names since SAMSEG lesion segmentation relies on a stochastic ** //
+// ** sampling (MCMC) and multithreaded computations, which make outputs non-reproducible.    ** //
+
+    test("segmentation - samseg") {
+
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        lesion: it.simpleName == "lesion"
+                        freesurfer: it.simpleName == "freesurfer"
+                    }
+                ch_anat = ch_split_test_data.lesion.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true),
+                        file("\${test_data_directory}/FLAIR.nii.gz", checkIfExists: true)
+                    ]
+                }
+                ch_license = ch_split_test_data.freesurfer.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/license.txt", checkIfExists: true)
+                    ]
+                }
+                input[0] = ch_anat
+                    .join(ch_license)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    file(process.out.lesion_mask.get(0).get(1)).name,
+                    file(process.out.lesion_probseg.get(0).get(1)).name,
+                    file(process.out.samseg_dseg.get(0).get(1)).name,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("segmentation - samseg - options") {
+        config "./nextflow_options.config"
+
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        lesion: it.simpleName == "lesion"
+                        freesurfer: it.simpleName == "freesurfer"
+                    }
+                ch_anat = ch_split_test_data.lesion.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true),
+                        file("\${test_data_directory}/FLAIR.nii.gz", checkIfExists: true)
+                    ]
+                }
+                ch_license = ch_split_test_data.freesurfer.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/license.txt", checkIfExists: true)
+                    ]
+                }
+                input[0] = ch_anat
+                    .join(ch_license)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    file(process.out.lesion_mask.get(0).get(1)).name,
+                    file(process.out.lesion_probseg.get(0).get(1)).name,
+                    file(process.out.samseg_dseg.get(0).get(1)).name,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+
+    test("segmentation - samseg - stub-run") {
+        tag "stub"
+        options "-stub-run"
+
+        when {
+            process {
+                """
+                ch_split_test_data = LOAD_DATA.out.test_data_directory
+                    .branch{
+                        lesion: it.simpleName == "lesion"
+                        freesurfer: it.simpleName == "freesurfer"
+                    }
+                ch_anat = ch_split_test_data.lesion.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true),
+                        file("\${test_data_directory}/FLAIR.nii.gz", checkIfExists: true)
+                    ]
+                }
+                ch_license = ch_split_test_data.freesurfer.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/license.txt", checkIfExists: true)
+                    ]
+                }
+                input[0] = ch_anat
+                    .join(ch_license)
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    file(process.out.lesion_mask.get(0).get(1)).name,
+                    file(process.out.lesion_probseg.get(0).get(1)).name,
+                    file(process.out.samseg_dseg.get(0).get(1)).name,
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+}
