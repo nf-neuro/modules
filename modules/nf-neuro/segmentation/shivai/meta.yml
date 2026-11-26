@@ -165,10 +165,10 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*_seg-pvs_*.nii.gz":
+      - "*__space-*_seg-pvs_desc-shivai_dseg.nii.gz":
           type: file
           description: Perivascular spaces segmentation label mask.
-          pattern: "*_seg-pvs_*.nii.gz"
+          pattern: "*__space-*_seg-pvs_desc-shivai_dseg.nii.gz"
           mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001
@@ -178,10 +178,10 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*_seg-wmh_*.nii.gz":
+      - "*__space-*_seg-wmh_desc-shivai_dseg.nii.gz":
           type: file
           description: White matter hyperintensity segmentation label mask.
-          pattern: "*_seg-wmh_*.nii.gz"
+          pattern: "*__space-*_seg-wmh_desc-shivai_dseg.nii.gz"
           mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001
@@ -191,10 +191,10 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*_seg-cmb_*.nii.gz":
+      - "*__space-*_seg-cmb_desc-shivai_dseg.nii.gz":
           type: file
           description: Cerebral microbleed segmentation label mask.
-          pattern: "*_seg-cmb_*.nii.gz"
+          pattern: "*__space-*_seg-cmb_desc-shivai_dseg.nii.gz"
           mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001
@@ -204,10 +204,10 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*_seg-lac_*.nii.gz":
+      - "*__space-*_seg-lac_desc-shivai_dseg.nii.gz":
           type: file
           description: Lacune segmentation label mask.
-          pattern: "*_seg-lac_*.nii.gz"
+          pattern: "*__space-*_seg-lac_desc-shivai_dseg.nii.gz"
           mandatory: false
           ontologies:
             - edam: http://edamontology.org/format_4001

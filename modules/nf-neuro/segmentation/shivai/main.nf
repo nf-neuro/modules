@@ -1,6 +1,6 @@
 process SEGMENTATION_SHIVAI {
     tag "$meta.id"
-    label 'process_high'
+    label 'process_medium'
 
     container 'stanislasthoumyre/shivai:2.0.0'
 
@@ -93,7 +93,7 @@ process SEGMENTATION_SHIVAI {
         $voxels_tolerance
 
     for seg in pvs wmh lac; do
-        seg_dir="shiva_out/results/segmentations/\${seg}_segmentation*/${prefix}"
+        seg_dir="shiva_out/results/segmentations/\${seg}_segmentation/${prefix}"
         if [[ -f "\${seg_dir}/labelled_\${seg}_flair-native-space.nii.gz" ]]; then
             cp "\${seg_dir}/labelled_\${seg}_flair-native-space.nii.gz" "${prefix}__space-flair_seg-\${seg}_desc-shivai_dseg.nii.gz"
         elif [[ -f "\${seg_dir}/labelled_\${seg}_t1-native-space.nii.gz" ]]; then
@@ -128,10 +128,6 @@ process SEGMENTATION_SHIVAI {
 
     shiva -h
 
-    if [[ "$prediction" == "all" || "$prediction" == *PVS* ]] && [[ -f "$flair" ]]; then
-        touch ${prefix}__space-FLAIR_seg-pvs_desc-shivai_dseg.nii.gz
-    fi
-
     anat_space="t1"
     if [[ -f "$flair" ]] && [[ "${task.ext.prereg_flair ?: false}" != "true" ]]; then
         anat_space="flair"
@@ -149,6 +145,9 @@ process SEGMENTATION_SHIVAI {
     if [[ "$prediction" == "all" || "$prediction" == *LAC* ]] && [[ -f "$flair" ]]; then
         touch ${prefix}__space-\${anat_space}_seg-lac_desc-shivai_dseg.nii.gz
     fi
+
+    touch ${prefix}__shivai_report.pdf
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         shivai: \$(shiva --version 2>/dev/null | grep -oE '^[0-9]+(\\.[0-9]+)+\$' | tail -n 1)
