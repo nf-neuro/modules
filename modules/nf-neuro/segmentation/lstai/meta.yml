@@ -96,6 +96,19 @@ output:
           pattern: "*__space-flair_label-WMlesion_desc-lst_mask.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
+  lesion_probseg:
+    - - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'test', single_end:false ]`
+      - "*__space-flair_seg-WMlesion_desc-lst_probseg.nii.gz":
+          type: file
+          description: Lesion probability map of the LST-AI ensemble network (joint
+            probability of the three models, before thresholding), in FLAIR space.
+          pattern: "*__space-flair_seg-WMlesion_desc-lst_probseg.nii.gz"
+          ontologies:
+            - edam: http://edamontology.org/format_4001 # NIFTI format
   lesion_stats:
     - - meta:
           type: map
@@ -115,12 +128,12 @@ output:
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'test', single_end:false ]`
-      - "*__space-flair_label-WMlesion_desc-lst_dseg.nii.gz":
+      - "*__space-flair_seg-WMlesion_desc-lst_dseg.nii.gz":
           type: file
           description: Anatomically annotated lesion segmentation (dseg) in FLAIR space, produced by LST-AI.
             Not produced when task.ext.segment_only is set.
           mandatory: false
-          pattern: "*__space-flair_label-WMlesion_desc-lst_dseg.nii.gz"
+          pattern: "*__space-flair_seg-WMlesion_desc-lst_dseg.nii.gz"
           ontologies:
             - edam: http://edamontology.org/format_4001 # NIFTI format
   lesion_stats_dseg:
