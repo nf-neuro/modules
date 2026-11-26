@@ -1,0 +1,47 @@
+{
+    "segmentation - samseg": {
+        "content": [
+            "test__space-t1_label-WMlesion_desc-samseg_mask.nii.gz",
+            "test__space-t1_seg-WMlesion_desc-samseg_probseg.nii.gz",
+            "test__space-t1_desc-samseg_dseg.nii.gz",
+            [
+                "versions.yml:md5,15057446f717886ea4796e4c6ed6fcae"
+            ]
+        ],
+        "timestamp": "2026-11-26T08:38:47.76242071",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    },
+    "segmentation - samseg - options": {
+        "content": [
+            "test_options__space-t1_label-WMlesion_desc-samseg_mask.nii.gz",
+            "test_options__space-t1_seg-WMlesion_desc-samseg_probseg.nii.gz",
+            "test_options__space-t1_desc-samseg_dseg.nii.gz",
+            [
+                "versions.yml:md5,15057446f717886ea4796e4c6ed6fcae"
+            ]
+        ],
+        "timestamp": "2026-11-26T08:49:56.696465868",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    },
+    "segmentation - samseg - stub-run": {
+        "content": [
+            "test__space-t1_label-WMlesion_desc-samseg_mask.nii.gz",
+            "test__space-t1_seg-WMlesion_desc-samseg_probseg.nii.gz",
+            "test__space-t1_desc-samseg_dseg.nii.gz",
+            [
+                "versions.yml:md5,15057446f717886ea4796e4c6ed6fcae"
+            ]
+        ],
+        "timestamp": "2026-11-26T08:23:45.276960358",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.6"
+        }
+    }
+}
