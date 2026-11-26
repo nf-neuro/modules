@@ -31,7 +31,12 @@ args:
       default: 0
   - method:
       type: string
-      description: "Method to use for tensor fitting."
+      description: "Method to use for tensor fitting (WLS: weighted least squares, LS: ordinary least squares, NLLS: non-linear least squares, restore: RESTORE robust tensor fitting)."
+      choices:
+        - WLS
+        - LS
+        - NLLS
+        - restore
       default: "WLS"
   - dti_shells:
       type: string
