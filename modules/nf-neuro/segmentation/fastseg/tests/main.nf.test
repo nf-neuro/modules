@@ -17,7 +17,7 @@ nextflow_process {
             script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
             process {
                 """
-                input[0] = channel.from( [ "T1w.zip" ] )
+                input[0] = channel.from( [ "mni_152_templateflow.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
@@ -29,20 +29,14 @@ nextflow_process {
         when {
             process {
                 """
-                //input[0] = LOAD_DATA.out.test_data_directory.map{
-                //    test_data_directory -> [
-                //        [ id:'test', single_end:false ], // meta map
-                //        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
-                //        [],
-                //        1
-                //    ]
-                //}
-                input[0] = [
-                    [ id:'test', single_end:false ], // meta map
-                    file("/Users/anthonygagnon/Downloads/tpl-MNI152Lin_space-MNI_res-02_T2w.nii", checkIfExists: true),
-                    [],
-                    2
-                ]
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T2w.nii.gz", checkIfExists: true,),
+                        [],
+                        2
+                    ]
+                }
                 """
             }
         }
@@ -67,20 +61,14 @@ nextflow_process {
         when {
             process {
                 """
-                //input[0] = LOAD_DATA.out.test_data_directory.map{
-                //    test_data_directory -> [
-                //        [ id:'test', single_end:false ], // meta map
-                //        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
-                //        [],
-                //        1
-                //    ]
-                //}
-                input[0] = [
-                    [ id:'test', single_end:false ], // meta map
-                    file("/Users/anthonygagnon/Downloads/tpl-MNI152Lin_space-MNI_res-02_T1w.nii", checkIfExists: true,),
-                    [],
-                    1
-                ]
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T1w.nii.gz", checkIfExists: true,),
+                        [],
+                        1
+                    ]
+                }
                 """
             }
         }
@@ -105,20 +93,14 @@ nextflow_process {
         when {
             process {
                 """
-                //input[0] = LOAD_DATA.out.test_data_directory.map{
-                //    test_data_directory -> [
-                //        [ id:'test', single_end:false ], // meta map
-                //        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
-                //        [],
-                //        1
-                //    ]
-                //}
-                input[0] = [
-                    [ id:'test', single_end:false ], // meta map
-                    file("/Users/anthonygagnon/Downloads/tpl-MNI152Lin_space-MNI_res-02_PDw.nii", checkIfExists: true,),
-                    [],
-                    3
-                ]
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_PDw.nii.gz", checkIfExists: true,),
+                        [],
+                        3
+                    ]
+                }
                 """
             }
         }
@@ -146,8 +128,8 @@ nextflow_process {
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
-                        file("\${test_data_directory}/T1w_mask.nii.gz", checkIfExists: true),
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T1w.nii.gz", checkIfExists: true,),
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_brainmask.nii.gz", checkIfExists: true),
                         1
                     ]
                 }
@@ -179,7 +161,7 @@ nextflow_process {
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T1w.nii.gz", checkIfExists: true,),
                         [],
                         1
                     ]
