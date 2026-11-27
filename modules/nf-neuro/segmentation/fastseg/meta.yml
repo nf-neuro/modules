@@ -63,20 +63,21 @@ args:
       description: |
         Number of tissue classes passed to `fast -n`. Allowed values are 2, 3,
         and 4. FAST class indices (the `_seg_N` / `_pve_N` suffix) are assigned
-        to WM, GM, and CSF as follows.
+        to WM, GM, and CSF as follows:
 
         T1 (image_type 1): n=2 uses class 1 for both WM and GM and class 0 for
-        CSF. n=3 and n=4 use class 2 for WM, class 1 for GM, and class 0 for
-        CSF. With n=4 the brightest class (3) is not mapped and not outputted.
+        CSF. n=2 uses class 2 for WM, class 1 for GM, and class 0 for
+        CSF. n=4 uses class 3 for WM, class 2 for GM and class 0 for CSF. The
+        class 1 is not mapped and not outputted.
 
-        T2 (image_type 2): n=2 uses class 0 for both WM and GM and class 1 for
-        CSF. n=3 uses class 0 for WM, class 1 for GM, and class 2 for CSF.
-        n=4 uses class 1 for WM, class 2 for GM, and class 3 for CSF. Class 0
+        T2 (image_type 2): n=2 uses class 1 for both WM and class 1 for
+        CSF and GM. n=3 uses class 2 for WM, class 0 for GM, and class 1 for CSF.
+        n=4 uses class 3 for WM, class 1 for GM, and class 2 for CSF. Class 0
         is dark non-brain tissue that is not outputted.
 
         PD (image_type 3): n=2 uses class 0 for WM and class 1 for both GM and
-        CSF. n=3 uses class 0 for WM, class 1 for GM, and class 2 for CSF.
-        n=4 uses class 1 for WM, class 2 for GM, and class 3 for CSF. Class 0
+        CSF. n=3 uses class 1 for WM, class 2 for GM, and class 0 for CSF.
+        n=4 uses class 1 for WM, class 2 for GM, and class 0 for CSF. Class 3
         is dark non-brain tissue that is not outputted.
 
         When two tissues share a class, that class will be copied to both outputs.
