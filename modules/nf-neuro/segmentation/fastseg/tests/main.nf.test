@@ -3,7 +3,6 @@ nextflow_process {
     name "Test Process SEGMENTATION_FASTSEG"
     script "../main.nf"
     process "SEGMENTATION_FASTSEG"
-    config "./nextflow.config"
 
     tag "modules"
     tag "modules_nfneuro"
@@ -13,29 +12,93 @@ nextflow_process {
     tag "subworkflows"
     tag "subworkflows/load_test_data"
 
-    config "./nextflow.config"
-
     setup {
         run("LOAD_TEST_DATA", alias: "LOAD_DATA") {
             script "../../../../../subworkflows/nf-neuro/load_test_data/main.nf"
             process {
                 """
-                input[0] = channel.from( [ "T1w.zip" ] )
+                input[0] = channel.from( [ "mni_152_templateflow.zip" ] )
                 input[1] = "test.load-test-data"
                 """
             }
         }
     }
 
-    test("segmentation - fastseg") {
+    test("segmentation - fastseg - T2w") {
+        config "./nextflow_t2w.config"
         when {
             process {
                 """
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
-                        []
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T2w.nii.gz", checkIfExists: true,),
+                        [],
+                        2
+                    ]
+                }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    niftiMD5SUM(process.out.wm_mask.get(0).get(1)),
+                    niftiMD5SUM(process.out.gm_mask.get(0).get(1)),
+                    niftiMD5SUM(process.out.csf_mask.get(0).get(1)),
+                    niftiMD5SUM(process.out.wm_map.get(0).get(1)),
+                    niftiMD5SUM(process.out.gm_map.get(0).get(1)),
+                    niftiMD5SUM(process.out.csf_map.get(0).get(1)),
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+    test("segmentation - fastseg - T1w") {
+        config "./nextflow_t1w.config"
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T1w.nii.gz", checkIfExists: true,),
+                        [],
+                        1
+                    ]
+                }
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(
+                    niftiMD5SUM(process.out.wm_mask.get(0).get(1)),
+                    niftiMD5SUM(process.out.gm_mask.get(0).get(1)),
+                    niftiMD5SUM(process.out.csf_mask.get(0).get(1)),
+                    niftiMD5SUM(process.out.wm_map.get(0).get(1)),
+                    niftiMD5SUM(process.out.gm_map.get(0).get(1)),
+                    niftiMD5SUM(process.out.csf_map.get(0).get(1)),
+                    process.out.versions
+                ).match() }
+            )
+        }
+    }
+    test("segmentation - fastseg - PDw") {
+        config "./nextflow_pdw.config"
+        when {
+            process {
+                """
+                input[0] = LOAD_DATA.out.test_data_directory.map{
+                    test_data_directory -> [
+                        [ id:'test', single_end:false ], // meta map
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_PDw.nii.gz", checkIfExists: true,),
+                        [],
+                        3
                     ]
                 }
                 """
@@ -58,14 +121,16 @@ nextflow_process {
         }
     }
     test("segmentation - fastseg - lesion") {
+        config "./nextflow_t1w.config"
         when {
             process {
                 """
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
-                        file("\${test_data_directory}/T1w_mask.nii.gz", checkIfExists: true)
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T1w.nii.gz", checkIfExists: true,),
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_brainmask.nii.gz", checkIfExists: true),
+                        1
                     ]
                 }
                 """
@@ -96,8 +161,9 @@ nextflow_process {
                 input[0] = LOAD_DATA.out.test_data_directory.map{
                     test_data_directory -> [
                         [ id:'test', single_end:false ], // meta map
-                        file("\${test_data_directory}/T1w.nii.gz", checkIfExists: true,),
-                        []
+                        file("\${test_data_directory}/tpl-MNI152Lin_space-MNI_res-02_desc-brain_T1w.nii.gz", checkIfExists: true,),
+                        [],
+                        1
                     ]
                 }
                 """
