@@ -29,6 +29,15 @@ args:
       type: integer
       description: "Threshold for the b0 mask."
       default: 0
+  - method:
+      type: string
+      description: "Method to use for tensor fitting (WLS: weighted least squares, LS: ordinary least squares, NLLS: non-linear least squares, restore: RESTORE robust tensor fitting)."
+      choices:
+        - WLS
+        - LS
+        - NLLS
+        - restore
+      default: "WLS"
   - dti_shells:
       type: string
       description: "List of b-values to use for the DTI computation."

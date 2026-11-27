@@ -49,6 +49,11 @@ process RECONST_DTIMETRICS {
     def max_dti_shell_value = task.ext.max_dti_shell_value ?: 1500
     def b0_thr_extract_b0 = task.ext.b0_thr_extract_b0 ?: 10
     def b0_threshold = task.ext.b0_thr_extract_b0 ? "--b0_threshold $task.ext.b0_thr_extract_b0" : ""
+    def allowed_methods = ["WLS", "LS", "NLLS", "restore"]
+    if ( task.ext.method && !allowed_methods.contains(task.ext.method.toString()) ) {
+        error "Invalid tensor fit method '${task.ext.method}'. Allowed methods are: ${allowed_methods.join(', ')}."
+    }
+    def method = task.ext.method ? "--method ${task.ext.method}" : ""
     def dti_shells = task.ext.dti_shells ?: "\$(cut -d ' ' --output-delimiter=\$'\\n' -f 1- $bval | awk -F' ' '{v=int(\$1)}{if(v<=$max_dti_shell_value|| v<=$b0_thr_extract_b0)print v}' | sort | uniq)"
     def run_qc = task.ext.run_qc ?: false
 
@@ -76,7 +81,7 @@ process RECONST_DTIMETRICS {
                 $dwi_shell_tolerance -f
 
     scil_dti_metrics dwi_dti_shells.nii.gz bval_dti_shells bvec_dti_shells \
-        --not_all $args $b0_threshold -f
+        --not_all $args $b0_threshold $method -f
 
     ransac_metrics=\$(echo "$args" | awk '{for(i=1; i<NF; i++) if (\$i ~ /^--(ad|rd|md)\$/) print \$(i+1)}')
     for metrics in \${ransac_metrics};
